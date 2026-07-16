@@ -1,0 +1,1331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#17458F">
+<meta name="description" content="A six part survey that maps where your time and energy really go across 16 areas of life, charts your life portfolio, and builds a 30, 60, 90 day action plan.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="WLLL 168">
+</head>
+<body><!-- Copyright 2026 George M Fournier, MBA version 7.16.2026 -->
+<title>Work, Life, Laugh &amp; Love | 168</title>
+<style>
+  :root {
+    color-scheme: light;
+    /* Rotary brand */
+    --royal: #17458F;      /* Rotary Royal Blue, PMS 286C */
+    --azure: #0067C8;      /* Rotary Azure, PMS 2175C */
+    --gold: #F7A81B;       /* Rotary Gold, PMS 130C */
+    --gold-wash: rgba(247,168,27,0.42);
+
+    --page: #f8f9fb;
+    --surface: #ffffff;
+    --ink: #1c1f26;
+    --ink-2: #4d5566;
+    --muted: #808898;
+    --grid: #e3e6ec;
+    --baseline: #c4c9d4;
+    --border: rgba(23,69,143,0.14);
+    --accent: var(--azure);
+    --accent-ink: #17458F;
+    --head-ink: var(--royal);
+    --band: var(--royal);
+    --band-ink: #ffffff;
+    --good: #009739;
+    --good-text: #00702b;
+    --critical: #E02927;
+    /* Six Strategic Life Areas — Rotary palette */
+    --s1: #0067C8;  /* Azure — Relationships */
+    --s2: #F7A81B;  /* Gold — Body, mind & spirituality */
+    --s3: #D41367;  /* Cranberry — Community & society */
+    --s4: #009739;  /* Grass — Job, learning & finances */
+    --s5: #901F93;  /* Violet — Interests & entertainment */
+    --s6: #00ADBB;  /* Turquoise — Personal care */
+    --quad-wash: rgba(0,103,200,0.05);
+    --shadow: 0 1px 3px rgba(23,69,143,0.08);
+    --serif: Georgia, "Times New Roman", serif;
+    --sans: "Open Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --page: #101318;
+      --surface: #1a1f27;
+      --ink: #f2f4f8;
+      --ink-2: #c0c6d2;
+      --muted: #8b93a3;
+      --grid: #2b313c;
+      --baseline: #3c4350;
+      --border: rgba(255,255,255,0.12);
+      --accent: #4D9BEA;
+      --accent-ink: #8fc0f5;
+      --head-ink: #a8c6f0;
+      --band: #17458F;
+      --band-ink: #ffffff;
+      --good: #2fae5e;
+      --good-text: #4cc57a;
+      --critical: #f16f6d;
+      --s1: #4D9BEA;
+      --s2: #F7A81B;
+      --s3: #E85D9A;
+      --s4: #2fae5e;
+      --s5: #B570C9;
+      --s6: #2BC5D4;
+      --gold-wash: rgba(247,168,27,0.32);
+      --quad-wash: rgba(77,155,234,0.08);
+      --shadow: none;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #101318;
+    --surface: #1a1f27;
+    --ink: #f2f4f8;
+    --ink-2: #c0c6d2;
+    --muted: #8b93a3;
+    --grid: #2b313c;
+    --baseline: #3c4350;
+    --border: rgba(255,255,255,0.12);
+    --accent: #4D9BEA;
+    --accent-ink: #8fc0f5;
+    --head-ink: #a8c6f0;
+    --band: #17458F;
+    --band-ink: #ffffff;
+    --good: #2fae5e;
+    --good-text: #4cc57a;
+    --critical: #f16f6d;
+    --s1: #4D9BEA;
+    --s2: #F7A81B;
+    --s3: #E85D9A;
+    --s4: #2fae5e;
+    --s5: #B570C9;
+    --s6: #2BC5D4;
+    --gold-wash: rgba(247,168,27,0.32);
+    --quad-wash: rgba(77,155,234,0.08);
+    --shadow: none;
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --page: #f8f9fb;
+    --surface: #ffffff;
+    --ink: #1c1f26;
+    --ink-2: #4d5566;
+    --muted: #808898;
+    --grid: #e3e6ec;
+    --baseline: #c4c9d4;
+    --border: rgba(23,69,143,0.14);
+    --accent: #0067C8;
+    --accent-ink: #17458F;
+    --head-ink: #17458F;
+    --band: #17458F;
+    --band-ink: #ffffff;
+    --good: #009739;
+    --good-text: #00702b;
+    --critical: #E02927;
+    --s1: #0067C8;
+    --s2: #F7A81B;
+    --s3: #D41367;
+    --s4: #009739;
+    --s5: #901F93;
+    --s6: #00ADBB;
+    --gold-wash: rgba(247,168,27,0.42);
+    --quad-wash: rgba(0,103,200,0.05);
+    --shadow: 0 1px 3px rgba(23,69,143,0.08);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.55;
+    margin: 0;
+    padding: 0 20px 96px;
+  }
+  .wrap { max-width: 1020px; margin: 0 auto; }
+
+  /* ---------- Masthead ---------- */
+  header.masthead {
+    background: var(--band); color: var(--band-ink);
+    border-radius: 16px; margin-top: 28px;
+    padding: clamp(28px, 5vw, 52px) clamp(24px, 5vw, 56px);
+    border-bottom: 6px solid var(--gold);
+  }
+  .eyebrow {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--gold); margin: 0 0 12px;
+  }
+  h1 {
+    font-family: var(--sans);
+    font-size: clamp(30px, 5.5vw, 48px); line-height: 1.1; margin: 0 0 16px;
+    font-weight: 700; letter-spacing: -0.01em; text-wrap: balance;
+  }
+  .lede { font-size: 16.5px; max-width: 62ch; margin: 0; color: rgba(255,255,255,0.92); }
+  .lede .hl-gold { color: var(--gold); font-weight: 700; }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  button {
+    font: inherit; font-size: 14px; font-weight: 700;
+    border: 1px solid var(--border); border-radius: 999px;
+    background: var(--surface); color: var(--accent-ink);
+    padding: 9px 18px; cursor: pointer; box-shadow: var(--shadow);
+  }
+  button:hover { border-color: var(--accent); }
+  button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, a:focus-visible {
+    outline: 2px solid var(--gold); outline-offset: 2px;
+  }
+  .masthead button { border-color: rgba(255,255,255,0.35); background: transparent; color: #fff; box-shadow: none; }
+  .masthead button:hover { border-color: var(--gold); color: var(--gold); }
+  .masthead button.primary { background: var(--gold); border-color: var(--gold); color: var(--royal); }
+  .masthead button.primary:hover { color: var(--royal); filter: brightness(1.05); }
+  .masthead .video-link {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-size: 15px; font-weight: 700;
+    background: var(--gold); color: var(--royal);
+    border: 1px solid var(--gold); border-radius: 999px;
+    padding: 10px 20px; text-decoration: none;
+  }
+  .masthead .video-link:hover { filter: brightness(1.05); color: var(--royal); }
+  .masthead .video-link .play {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--royal); color: var(--gold); font-size: 9px; padding-left: 2px;
+  }
+
+  /* ---------- 5-part stepper ---------- */
+  .stepper-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    box-shadow: var(--shadow); padding: 18px 22px; margin-top: 18px;
+  }
+  .stepper-title {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--head-ink); margin: 0 0 12px; text-align: center;
+  }
+  .stepper { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; padding: 0; margin: 0; list-style: none; }
+  .stepper li { display: flex; align-items: center; gap: 8px; }
+  .stepper a { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--ink-2); font-size: 13.5px; font-weight: 600; padding: 4px 6px; border-radius: 8px; }
+  .stepper a:hover { color: var(--accent-ink); }
+  .step-dot {
+    width: 28px; height: 28px; border-radius: 50%; flex: none;
+    background: var(--gold); color: var(--royal);
+    font-family: var(--sans); font-weight: 700; font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step-arrow { color: var(--muted); font-size: 13px; }
+
+  /* ---------- Main callout ---------- */
+  .callout {
+    margin-top: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 8px solid var(--gold);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: clamp(24px, 4vw, 40px) clamp(24px, 5vw, 48px);
+  }
+  .callout-eyebrow {
+    margin: 0 0 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent-ink);
+  }
+  .callout-head {
+    font-family: var(--sans); font-weight: 700;
+    font-size: clamp(24px, 4vw, 34px); line-height: 1.15; color: var(--head-ink);
+    margin: 0 0 18px; text-wrap: balance;
+  }
+  .callout p.callout-body { font-size: 16.5px; color: var(--ink-2); margin: 0 0 14px; max-width: 66ch; }
+  .callout p.callout-body:last-of-type { margin-bottom: 0; }
+  .callout .verse { color: var(--head-ink); font-style: italic; }
+  .callout-close {
+    font-family: var(--sans); font-size: clamp(19px, 2.6vw, 24px);
+    color: var(--head-ink); margin: 22px 0 0; line-height: 1.3;
+  }
+  .callout-close .start {
+    background: linear-gradient(transparent 55%, var(--gold-wash) 55%);
+    font-weight: 700; font-style: normal;
+  }
+  .date-row {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--grid);
+    font-weight: 700; color: var(--head-ink); font-size: 15px;
+  }
+  .date-row input[type="date"] {
+    font: inherit; font-size: 14px; font-weight: 400; color: var(--ink);
+    background: var(--page); border: 1px solid var(--border); border-radius: 8px;
+    padding: 7px 10px;
+  }
+  .date-confirm {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 600; color: var(--ink-2); cursor: pointer;
+  }
+  .date-confirm input { width: 17px; height: 17px; accent-color: var(--accent); cursor: pointer; }
+
+  /* ---------- Section bars: every part is headed by a blue bar ---------- */
+  .part-bar {
+    display: flex; align-items: center; gap: 18px;
+    background: var(--band); color: #fff;
+    border-radius: 12px; border-left: 8px solid var(--gold);
+    padding: 18px 24px; margin-bottom: 22px;
+  }
+  .part-bar .part-num {
+    flex: none; width: 54px; height: 54px; border-radius: 50%;
+    background: var(--gold); color: var(--royal);
+    font-family: var(--sans); font-size: 28px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .part-bar-text { min-width: 0; }
+  .part-bar .part-eyebrow {
+    margin: 0 0 2px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--gold);
+  }
+  .part-bar h2 { margin: 0; color: #fff; }
+  .part-bar h2 .hl { background: none; color: var(--gold); }
+  .part-lead { margin: 6px 0 0; font-size: 14px; color: rgba(255,255,255,0.9); }
+  @media (max-width: 620px) { .part-bar { align-items: flex-start; } }
+
+  /* ---------- Parts ---------- */
+  section { margin-top: 40px; scroll-margin-top: 70px; }
+  h2 {
+    font-family: var(--sans); font-size: clamp(23px, 3.4vw, 30px);
+    margin: 2px 0 0; color: var(--head-ink); letter-spacing: -0.005em; font-weight: 700;
+  }
+  h2 .hl { background: linear-gradient(transparent 58%, var(--gold-wash) 58%); }
+  .section-note { color: var(--ink-2); font-size: 15px; max-width: 68ch; margin: 12px 0 22px; }
+  .section-note b { color: var(--ink); }
+  h3.sub {
+    font-family: var(--sans); font-size: 19px; color: var(--head-ink); margin: 30px 0 8px;
+  }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px; box-shadow: var(--shadow);
+  }
+
+  /* Context questions */
+  .context-grid { display: grid; gap: 16px; }
+  @media (min-width: 780px) { .context-grid { grid-template-columns: 1fr 1fr 1fr; } }
+  .context-grid label { display: block; font-weight: 700; font-size: 14px; margin-bottom: 8px; color: var(--head-ink); }
+  textarea {
+    width: 100%; min-height: 110px; resize: vertical;
+    font: inherit; font-size: 14px; color: var(--ink);
+    background: var(--page); border: 1px solid var(--border); border-radius: 10px;
+    padding: 10px 12px;
+  }
+
+  /* Sticky hours meter */
+  .meter-bar {
+    position: sticky; top: 0; z-index: 30;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 10px 16px; margin: 0 0 18px;
+    display: flex; align-items: center; gap: 14px; box-shadow: var(--shadow);
+  }
+  .meter-track {
+    flex: 1; height: 10px; border-radius: 5px; background: var(--grid);
+    overflow: hidden; min-width: 80px;
+  }
+  .meter-fill { height: 100%; border-radius: 5px; background: var(--accent); width: 0%; }
+  .meter-fill.over { background: var(--critical); }
+  .meter-fill.exact { background: var(--good); }
+  .meter-label { font-size: 13px; color: var(--ink-2); white-space: nowrap; font-weight: 600; }
+  .meter-label strong { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+  /* Rating groups */
+  .area-block { margin-bottom: 22px; }
+  .area-head { display: flex; align-items: center; gap: 10px; margin: 0 0 10px 2px; }
+  .chip { width: 12px; height: 12px; border-radius: 3px; flex: none; }
+  .area-name {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--head-ink);
+  }
+  .slu-card { padding: 0; overflow: hidden; }
+  .slu-row {
+    display: grid; gap: 8px 20px; align-items: center;
+    grid-template-columns: minmax(160px, 1.2fr) 1fr 1fr 108px;
+    padding: 14px 18px;
+  }
+  .slu-row + .slu-row { border-top: 1px solid var(--grid); }
+  @media (max-width: 760px) {
+    .slu-row { grid-template-columns: 1fr 1fr; }
+    .slu-name-cell { grid-column: 1 / -1; }
+    .hours-cell { grid-column: 1 / -1; justify-self: start; }
+  }
+  .slu-name { font-weight: 700; font-size: 15px; }
+  .slu-hint { font-size: 12.5px; color: var(--muted); margin-top: 1px; }
+  .rating-cell { display: flex; flex-direction: column; gap: 2px; }
+  .rating-top { display: flex; justify-content: space-between; align-items: baseline; }
+  .rating-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .rating-value {
+    font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums;
+    color: var(--muted); min-width: 18px; text-align: right;
+  }
+  .rating-value.set { color: var(--accent-ink); }
+  input[type="range"] { width: 100%; accent-color: var(--accent); margin: 0; height: 22px; }
+  .hours-cell { display: flex; align-items: center; gap: 6px; }
+  input[type="number"] {
+    width: 72px; font: inherit; font-size: 14px; font-variant-numeric: tabular-nums;
+    color: var(--ink); background: var(--page);
+    border: 1px solid var(--border); border-radius: 8px; padding: 7px 9px;
+  }
+  .hours-unit { font-size: 12px; color: var(--muted); }
+
+  .confirm-row { display: flex; gap: 10px; align-items: flex-start; margin-top: 4px; font-size: 14px; color: var(--ink-2); }
+  .confirm-row input { margin-top: 3px; accent-color: var(--accent); }
+
+  /* Validation checks */
+  .checks { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .checks li { display: flex; gap: 10px; align-items: baseline; font-size: 14px; color: var(--ink-2); }
+  .check-mark { flex: none; font-weight: 700; font-size: 13px; width: 18px; text-align: center; }
+  .check-mark.pass { color: var(--good-text); }
+  .check-mark.fail { color: var(--critical); }
+  .check-mark.pending { color: var(--muted); }
+
+  /* Chart */
+  .chart-card { padding: 22px 22px 14px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 14px; }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--ink-2); font-weight: 600; }
+  .chart-holder { position: relative; }
+  .chart-holder svg { display: block; width: 100%; height: auto; }
+  .quad-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; fill: var(--muted); font-family: var(--sans); }
+  .axis-label { font-size: 12px; fill: var(--ink-2); font-weight: 700; font-family: var(--sans); }
+  .tick-label { font-size: 11px; fill: var(--muted); font-variant-numeric: tabular-nums; font-family: var(--sans); }
+  .bubble-label { font-size: 11px; fill: var(--ink-2); font-family: var(--sans); paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round; }
+  .bubble { cursor: pointer; }
+  .tooltip {
+    position: absolute; pointer-events: none; z-index: 40;
+    background: var(--royal); color: #fff;
+    border-radius: 8px; padding: 8px 11px; font-size: 12.5px; line-height: 1.45;
+    max-width: 230px; opacity: 0; transition: opacity 120ms;
+    border-bottom: 3px solid var(--gold);
+  }
+  @media (prefers-reduced-motion: reduce) { .tooltip { transition: none; } }
+  .tooltip b { font-size: 13px; color: var(--gold); }
+  .midpoint-row { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--ink-2); margin-top: 10px; flex-wrap: wrap; }
+  .midpoint-row input { width: 58px; }
+  .midpoint-row label { font-weight: 700; }
+  /* Part 6 summary */
+  .summary-card { font-size: 13.5px; }
+  .sum-title { font-size: 20px; font-weight: 700; color: var(--head-ink); }
+  .sum-date { color: var(--muted); font-size: 12.5px; margin-bottom: 4px; }
+  .sum-label {
+    font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent-ink); margin: 16px 0 6px;
+  }
+  .summary-card p { margin: 3px 0; }
+  .sum-table td, .sum-table th { padding: 6px 10px; font-size: 13px; }
+  .sum-timeline { display: grid; gap: 10px; margin-top: 4px; }
+  @media (min-width: 860px) { .sum-timeline { grid-template-columns: 1fr 1fr 1fr; } }
+  .sum-phase { border: 1px solid var(--grid); border-top: 4px solid var(--gold); border-radius: 8px; padding: 10px 12px; }
+  .sum-phase h4 { margin: 0 0 6px; font-size: 13px; color: var(--head-ink); }
+  .sum-by { display: block; font-size: 11.5px; font-weight: 700; color: var(--accent-ink); margin-top: 1px; }
+  .sum-phase ul { margin: 0; padding-left: 16px; }
+  .sum-phase li { margin: 3px 0; }
+  .sum-milestone { margin: 8px 0 0; font-weight: 700; color: var(--good-text); font-size: 12.5px; }
+  .sum-connect { margin-top: 14px; border-left: 4px solid var(--gold); padding-left: 12px; font-style: italic; color: var(--ink-2); }
+
+  @media print {
+    body { padding: 0 8px; background: #fff; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .toolbar { display: none !important; }
+    .meter-bar { position: static; }
+    .card, .part-bar, .callout, .stepper-card { box-shadow: none; }
+    .slu-row, .plan-card, .part-bar, .callout, .stepper-card, .chart-card { break-inside: avoid; }
+    section { margin-top: 28px; }
+    textarea { overflow: hidden; }
+    #part6 { break-before: page; }
+    .summary-card { break-inside: avoid; font-size: 12px; }
+    .sum-timeline { grid-template-columns: 1fr 1fr 1fr; }
+  }
+
+  .empty-note { text-align: center; padding: 48px 20px; color: var(--muted); font-size: 14.5px; }
+
+  /* Results table */
+  .table-scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+  th { font-size: 11.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--head-ink); font-weight: 700; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td .chip { display: inline-block; vertical-align: -1px; margin-right: 8px; }
+  .gap-pos { color: var(--good-text); font-weight: 700; }
+  .gap-neg { color: var(--critical); font-weight: 700; }
+  .quad-pill {
+    display: inline-block; font-size: 11.5px; font-weight: 700;
+    border: 1px solid var(--border); border-radius: 999px; padding: 2px 10px; color: var(--ink-2);
+  }
+  .quad-pill.gap-quad { border-color: var(--critical); color: var(--critical); }
+  .quad-pill.strength-quad { border-color: var(--good); color: var(--good-text); }
+
+  /* Priorities / action plan */
+  .plan-grid { display: grid; gap: 16px; }
+  @media (min-width: 860px) { .plan-grid { grid-template-columns: 1fr 1fr 1fr; } }
+  .plan-card { border-top: 5px solid var(--gold); }
+  .plan-card h3 { margin: 0 0 2px; font-family: var(--sans); font-size: 17px; color: var(--head-ink); display: flex; align-items: center; gap: 8px; }
+  .plan-meta { font-size: 12.5px; color: var(--muted); margin: 0 0 12px; font-variant-numeric: tabular-nums; }
+  .plan-field { margin-bottom: 10px; }
+  .plan-field label { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+  .plan-field input, .plan-field textarea { width: 100%; font: inherit; font-size: 13.5px; background: var(--page); border: 1px solid var(--border); border-radius: 8px; padding: 7px 9px; color: var(--ink); }
+  .plan-field textarea { min-height: 46px; }
+
+  footer { margin-top: 60px; font-size: 13px; color: var(--muted); max-width: 70ch; }
+  footer p { margin: 6px 0; }
+  .copyright { font-size: 11.5px; color: var(--muted); text-align: center; margin: 14px 0 0; }
+  .copyright.top { margin: 14px 0 0; }
+</style>
+
+<div class="wrap">
+  <p class="copyright top">Copyright 2026 George M Fournier, MBA version 7.16.2026</p>
+  <header class="masthead">
+    <p class="eyebrow">A six part survey · about 20 minutes</p>
+    <h1>Work, Life, Laugh &amp; Love | 168</h1>
+    <p class="lede">
+      This survey takes an honest look at where your time and energy really go across 16 areas of life.
+      In six parts, you will map your week, chart the results, decide what to change, and leave with
+      an action plan.
+      The exercise is based on Rainer Strack's Strategic Life Portfolio method.
+      As you answer, think of an average week over the past 12 months rather than just last week.
+    </p>
+    <div class="toolbar">
+      <a class="video-link" href="https://www.youtube.com/watch?v=dbiNhAZlXZk&amp;t=35s" target="_blank" rel="noopener noreferrer"><span class="play" aria-hidden="true">▶</span>Watch the Strategic Life Video</a>
+      <button id="btn-reset" type="button">Start over</button>
+    </div>
+  </header>
+
+  <section class="callout" id="callout">
+    <p class="callout-eyebrow">Before you begin</p>
+    <h2 class="callout-head">What does a great life mean to you?</h2>
+    <p class="callout-body">
+      Our goals and objectives change as we age. Some of us plan to attend college, start a family,
+      or launch a new business. Others focus on financial security and early retirement. Some seek a
+      relaxed family life or greater peace and tranquility. And some of us dream of owning big, shiny toys.
+    </p>
+    <p class="callout-body">
+      Failing to plan is planning for failure in business and in life. If we prepare our minds and bodies
+      for a task, even a small task, we can achieve it because we practice direction. Direction becomes
+      experience. In the bible, <span class="verse">so as we think, so to do we become</span>.
+    </p>
+    <p class="callout-body">
+      This exercise helps students of every age to examine personal priorities, life goals, and time
+      allocation across 16 strategic life factors. We can shift our
+      priorities in bad economic weather or personal tragedy. In the end, life happens. Plan. Be prepared.
+    </p>
+    <p class="callout-close">What does a great life mean to you? <span class="start">Start here.</span></p>
+    <div class="date-row">
+      <label for="start-date">To start, enter today's date:</label>
+      <input type="date" id="start-date">
+      <label class="date-confirm"><input type="checkbox" id="date-confirm"> Click to confirm</label>
+    </div>
+  </section>
+
+  <div class="stepper-card">
+    <p class="stepper-title">Here's the journey: six parts, start to finish</p>
+    <ol class="stepper">
+      <li><a href="#part1"><span class="step-dot">1</span>The big picture</a><span class="step-arrow" aria-hidden="true">→</span></li>
+      <li><a href="#part2"><span class="step-dot">2</span>Rate your life</a><span class="step-arrow" aria-hidden="true">→</span></li>
+      <li><a href="#part3"><span class="step-dot">3</span>Quick check</a><span class="step-arrow" aria-hidden="true">→</span></li>
+      <li><a href="#part4"><span class="step-dot">4</span>See your portfolio</a><span class="step-arrow" aria-hidden="true">→</span></li>
+      <li><a href="#part5"><span class="step-dot">5</span>Change 3 Things</a><span class="step-arrow" aria-hidden="true">→</span></li>
+      <li><a href="#part6"><span class="step-dot">6</span>Your action plan</a></li>
+    </ol>
+  </div>
+
+  <section id="part1">
+    <div class="part-bar">
+      <span class="part-num" aria-hidden="true">1</span>
+      <div class="part-bar-text">
+        <p class="part-eyebrow">Part 1</p>
+        <h2>Start with <span class="hl">the big picture</span></h2>
+        <p class="part-lead">Where it all begins. Your answers here point the way for everything that follows.</p>
+      </div>
+    </div>
+    <p class="section-note">
+      Let's start with three basic questions. Take your time. Your answers here become the lens
+      for everything that follows. There are no wrong answers and no scores.
+    </p>
+    <div class="card context-grid">
+      <div>
+        <label for="ctx-great">What does a great life mean to you?</label>
+        <textarea id="ctx-great" data-ctx="great" placeholder="In your own words…"></textarea>
+      </div>
+      <div>
+        <label for="ctx-purpose">What is your life purpose?</label>
+        <textarea id="ctx-purpose" data-ctx="purpose" placeholder="Why you do what you do…"></textarea>
+      </div>
+      <div>
+        <label for="ctx-vision">What should life look like in 3 to 5 years?</label>
+        <textarea id="ctx-vision" data-ctx="vision" placeholder="Paint the picture…"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <section id="part2">
+    <div class="part-bar">
+      <span class="part-num" aria-hidden="true">2</span>
+      <div class="part-bar-text">
+        <p class="part-eyebrow">Part 2</p>
+        <h2>Rate <span class="hl">the 16 areas of your life</span> in base 168</h2>
+        <p class="part-lead">Building on Part 1, rate each area of your life in TIME, IMPORTANCE &amp; SATISFACTION.</p>
+      </div>
+    </div>
+    <p class="section-note">
+      1) Time, 2) Importance &amp; 3) Satisfaction.
+      How much time in hours per 168 hour week (X / 168) do you spend on each area?
+      Sleep 8 hours a day? 8x7=56 hours per week. The bar adds your hours until you reach 168 hours.
+      Importance. How IMPORTANT is this area of your life on a scale from 1 to 10.
+      Satisfaction. How SATISFIED are you with this area of your life on a scale from 1 to 10?
+    </p>
+
+    <div class="meter-bar" aria-live="polite">
+      <span class="meter-label">Your week</span>
+      <div class="meter-track"><div class="meter-fill" id="meter-fill"></div></div>
+      <span class="meter-label"><strong id="meter-total">0</strong> / 168 h · <span id="meter-remain">168 h still to place</span></span>
+    </div>
+
+    <div id="rating-groups"></div>
+
+    <div class="confirm-row">
+      <input type="checkbox" id="no-doublecount">
+      <label for="no-doublecount">I gave each activity's hours to one area only, based on its main purpose. Nothing counted twice.</label>
+    </div>
+  </section>
+
+  <section id="part3">
+    <div class="part-bar">
+      <span class="part-num" aria-hidden="true">3</span>
+      <div class="part-bar-text">
+        <p class="part-eyebrow">Part 3</p>
+        <h2>A quick check <span class="hl">before we chart it</span></h2>
+        <p class="part-lead">Let's check. Do the hours add up to 168 hours per week? <b>Each slider has to move from its original position.</b></p>
+      </div>
+    </div>
+    <p class="section-note">
+      Let's make sure the numbers hold together. These checks update as you go.
+      When they're all green, your portfolio is ready to read.
+    </p>
+    <div class="card"><ul class="checks" id="checks-list"></ul></div>
+  </section>
+
+  <section id="part4">
+    <div class="part-bar">
+      <span class="part-num" aria-hidden="true">4</span>
+      <div class="part-bar-text">
+        <p class="part-eyebrow">Part 4</p>
+        <h2>See <span class="hl">your life portfolio</span></h2>
+        <p class="part-lead">With your Part 3 numbers confirmed, here's your whole life on a single chart.</p>
+      </div>
+    </div>
+    <p class="section-note">
+      <b>You can change your ratings and the graph changes.</b> The farther right a bubble appears on
+      the X-axis, the greater your <u>SATISFACTION</u>. The higher it appears on the Y-axis, the greater its
+      <u>IMPORTANCE</u>. The size of each bubble represents the number of hours you spend on that activity.
+      The upper left quadrant is where factors matter the most, but aren't getting the attention
+      they deserve.
+    </p>
+    <div class="card chart-card">
+      <div class="legend" id="legend"></div>
+      <div class="chart-holder" id="chart-holder">
+        <div class="empty-note" id="chart-empty">Rate at least one area in Part 2 (importance, satisfaction, and hours) and your portfolio appears right here.</div>
+        <div id="chart-svg"></div>
+        <div class="tooltip" id="tooltip"></div>
+      </div>
+      <div class="midpoint-row">
+        <label for="midpoint">Quadrant line</label>
+        <input type="number" id="midpoint" min="1" max="9" step="0.5" value="5">
+        <span>We draw the dividing line at 5 by default. Slide it if you like. Your choice is saved with your results.</span>
+      </div>
+    </div>
+
+    <h3 class="sub">The numbers behind the chart</h3>
+    <p class="section-note">
+      Three quick calculations to point you at what matters most. <b>Pressure</b> is importance ×
+      (10 minus satisfaction). The higher the score, the more that area is asking for your attention.
+      <b>Target hours</b> shows what your week would look like if time simply followed importance
+      (a compass, not a schedule). <b>Time gap</b> is target minus current: positive means an area may
+      be starved for time; negative means there may be hours to win back.
+    </p>
+    <div class="card">
+      <div class="table-scroll">
+        <table id="diag-table">
+          <thead>
+            <tr>
+              <th>Life area</th>
+              <th class="num">Importance</th>
+              <th class="num">Satisfaction</th>
+              <th class="num">Hours / wk</th>
+              <th>Quadrant</th>
+              <th class="num">Pressure</th>
+              <th class="num">Target h</th>
+              <th class="num">Time gap</th>
+            </tr>
+          </thead>
+          <tbody id="diag-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="part5">
+    <div class="part-bar">
+      <span class="part-num" aria-hidden="true">5</span>
+      <div class="part-bar-text">
+        <p class="part-eyebrow">Part 5</p>
+        <h2>Change <span class="hl">3 Things</span></h2>
+        <p class="part-lead">Turn what your portfolio reveals into three concrete changes.</p>
+      </div>
+    </div>
+    <p class="section-note">
+      We cannot fix everything at once. Three small steps in the right direction. These three areas
+      need your attention. For each one, commit to one concrete change. Ask yourself, can I actually
+      influence this? How will change affect the other areas of my life/week?
+      Here we begin to plan for change. Here we set direction.
+    </p>
+    <div class="plan-grid" id="plan-grid"></div>
+    <div class="confirm-row">
+      <input type="checkbox" id="part5-confirm">
+      <label for="part5-confirm"><b>Part 5 is complete.</b> My three changes are written down and I am ready to build my action plan.</label>
+    </div>
+  </section>
+
+  <section id="part6">
+    <div class="part-bar">
+      <span class="part-num" aria-hidden="true">6</span>
+      <div class="part-bar-text">
+        <p class="part-eyebrow">Part 6</p>
+        <h2>Your <span class="hl">ACTION PLAN</span></h2>
+        <p class="part-lead">Everything comes together: your Part 1 goals and your Part 5 priorities in one 30, 60, 90 day plan.</p>
+      </div>
+    </div>
+    <p class="section-note">
+      One clear and concise summary, no longer than one page. It shows how your Part 1 goals connect
+      to your Part 5 objectives, with a timeline of benchmarks and milestones for the next 30, 60 and
+      90 days. It updates as you refine your answers above.
+    </p>
+    <div id="summary-locked" class="card"><div class="empty-note">Confirm Part 5 is complete (the checkbox above) and your action plan appears here.</div></div>
+    <div id="summary-content"></div>
+  </section>
+
+  <footer>
+    <p>Based on Rainer Strack's Strategic Life Portfolio method, "Use Strategic Thinking to Create the Life You Want" (TED / Harvard Business Review). Answer for an average week over the previous 12 months.</p>
+    <p>Check back in about 90 days to see how your changes are working, and retake the whole survey once a year or after a big life change. Your answers stay in this browser only.</p>
+    <p class="copyright">Copyright 2026 George M Fournier, MBA version 7.16.2026</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var AREAS = [
+    { name: "Relationships",             colorVar: "--s1" },
+    { name: "Body, mind & spirituality", colorVar: "--s2" },
+    { name: "Community & society",       colorVar: "--s3" },
+    { name: "Job, learning & finances",  colorVar: "--s4" },
+    { name: "Interests & entertainment", colorVar: "--s5" },
+    { name: "Personal care",             colorVar: "--s6" }
+  ];
+
+  var SLUS = [
+    { id: "partner",   area: 0, name: "Significant other",          label: "Partner" },
+    { id: "family",    area: 0, name: "Family",                     label: "Family" },
+    { id: "friends",   area: 0, name: "Friendships",                label: "Friends" },
+    { id: "physical",  area: 1, name: "Physical health / sports",   label: "Physical health" },
+    { id: "mental",    area: 1, name: "Mental health / mindfulness",label: "Mental health" },
+    { id: "spirit",    area: 1, name: "Spirituality / faith",       label: "Spirituality" },
+    { id: "community", area: 2, name: "Community / citizenship",    label: "Community" },
+    { id: "society",   area: 2, name: "Societal engagement",        label: "Societal engagement" },
+    { id: "job",       area: 3, name: "Job / career",               label: "Job / career" },
+    { id: "learning",  area: 3, name: "Education / learning",       label: "Learning" },
+    { id: "finances",  area: 3, name: "Finances",                   label: "Finances" },
+    { id: "hobbies",   area: 4, name: "Hobbies / interests",        label: "Hobbies" },
+    { id: "online",    area: 4, name: "Online entertainment",       label: "Online entertainment" },
+    { id: "offline",   area: 4, name: "Offline entertainment",      label: "Offline entertainment" },
+    { id: "physio",    area: 5, name: "Physiological needs",        label: "Physiological needs", hint: "Sleeping, eating" },
+    { id: "adl",       area: 5, name: "Activities of daily living", label: "Daily living", hint: "Routine personal & household tasks" }
+  ];
+
+  var STORE_KEY = "slp-survey-v1";
+  var state = load();
+
+  function todayStr() {
+    var d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  }
+
+  function blankState() {
+    var s = { context: { great: "", purpose: "", vision: "" }, slu: {}, noDouble: false, midpoint: 5, plans: {}, startDate: "", dateConfirmed: false, part5Confirmed: false };
+    SLUS.forEach(function (u) { s.slu[u.id] = { imp: null, sat: null, hrs: null }; });
+    return s;
+  }
+  function load() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return blankState();
+      var parsed = JSON.parse(raw);
+      var s = blankState();
+      if (parsed.context) Object.keys(s.context).forEach(function (k) { if (typeof parsed.context[k] === "string") s.context[k] = parsed.context[k]; });
+      if (parsed.slu) SLUS.forEach(function (u) {
+        var p = parsed.slu[u.id];
+        if (p) s.slu[u.id] = { imp: numOrNull(p.imp), sat: numOrNull(p.sat), hrs: numOrNull(p.hrs) };
+      });
+      s.noDouble = !!parsed.noDouble;
+      if (typeof parsed.midpoint === "number") s.midpoint = parsed.midpoint;
+      if (parsed.plans && typeof parsed.plans === "object") s.plans = parsed.plans;
+      if (typeof parsed.startDate === "string") s.startDate = parsed.startDate;
+      s.dateConfirmed = !!parsed.dateConfirmed;
+      s.part5Confirmed = !!parsed.part5Confirmed;
+      return s;
+    } catch (e) { return blankState(); }
+  }
+  function numOrNull(v) { return (typeof v === "number" && isFinite(v)) ? v : null; }
+  function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {} }
+
+  function fmt(n, dp) {
+    if (n === null || n === undefined || !isFinite(n)) return "";
+    var f = n.toFixed(dp === undefined ? 1 : dp);
+    return f.replace(/\.0+$/, "").replace(/(\.\d*[1-9])0+$/, "$1");
+  }
+
+  /* ---------- Build rating UI ---------- */
+  var groupsEl = document.getElementById("rating-groups");
+  AREAS.forEach(function (area, ai) {
+    var block = document.createElement("div");
+    block.className = "area-block";
+    var head = document.createElement("div");
+    head.className = "area-head";
+    head.innerHTML = '<span class="chip" style="background:var(' + area.colorVar + ')"></span><span class="area-name">' + area.name + "</span>";
+    block.appendChild(head);
+
+    var card = document.createElement("div");
+    card.className = "card slu-card";
+    SLUS.filter(function (u) { return u.area === ai; }).forEach(function (u) {
+      var row = document.createElement("div");
+      row.className = "slu-row";
+      row.innerHTML =
+        '<div class="slu-name-cell"><div class="slu-name">' + u.name + "</div>" +
+          (u.hint ? '<div class="slu-hint">' + u.hint + "</div>" : "") + "</div>" +
+        ratingCell(u.id, "imp", "Importance") +
+        ratingCell(u.id, "sat", "Satisfaction") +
+        '<div class="hours-cell"><input type="number" min="0" max="168" step="0.5" inputmode="decimal" ' +
+          'id="hrs-' + u.id + '" data-slu="' + u.id + '" aria-label="Weekly hours: ' + u.name + '">' +
+          '<span class="hours-unit">h / wk</span></div>';
+      card.appendChild(row);
+    });
+    block.appendChild(card);
+    groupsEl.appendChild(block);
+  });
+
+  function ratingCell(id, kind, label) {
+    return '<div class="rating-cell">' +
+      '<div class="rating-top"><span class="rating-label">' + label + '</span>' +
+      '<span class="rating-value" id="val-' + kind + "-" + id + '"></span></div>' +
+      '<input type="range" min="0" max="10" step="1" value="5" id="' + kind + "-" + id + '" ' +
+      'data-slu="' + id + '" data-kind="' + kind + '" aria-label="' + label + " (0 to 10)" + '"></div>';
+  }
+
+  /* ---------- Wire inputs ---------- */
+  SLUS.forEach(function (u) {
+    ["imp", "sat"].forEach(function (kind) {
+      var el = document.getElementById(kind + "-" + u.id);
+      el.addEventListener("input", function () {
+        state.slu[u.id][kind] = Number(el.value);
+        save(); render();
+      });
+    });
+    var hrs = document.getElementById("hrs-" + u.id);
+    hrs.addEventListener("input", function () {
+      var v = hrs.value === "" ? null : Number(hrs.value);
+      if (v !== null && (!isFinite(v) || v < 0)) v = 0;
+      if (v !== null && v > 168) v = 168;
+      state.slu[u.id].hrs = v;
+      save(); render();
+    });
+  });
+
+  document.querySelectorAll("textarea[data-ctx]").forEach(function (ta) {
+    ta.addEventListener("input", function () {
+      state.context[ta.getAttribute("data-ctx")] = ta.value;
+      save(); renderChecks();
+    });
+  });
+
+  var noDouble = document.getElementById("no-doublecount");
+  noDouble.addEventListener("change", function () { state.noDouble = noDouble.checked; save(); renderChecks(); });
+
+  var startDateEl = document.getElementById("start-date");
+  var dateConfirmEl = document.getElementById("date-confirm");
+  startDateEl.addEventListener("input", function () {
+    state.startDate = startDateEl.value;
+    state.dateConfirmed = false;
+    dateConfirmEl.checked = false;
+    save(); renderChecks(); renderSummary();
+  });
+  dateConfirmEl.addEventListener("change", function () {
+    state.dateConfirmed = dateConfirmEl.checked;
+    save(); renderChecks(); renderSummary();
+  });
+
+  var part5ConfirmEl = document.getElementById("part5-confirm");
+  part5ConfirmEl.addEventListener("change", function () {
+    state.part5Confirmed = part5ConfirmEl.checked;
+    save(); renderSummary();
+  });
+
+  var midpointEl = document.getElementById("midpoint");
+  midpointEl.addEventListener("input", function () {
+    var v = Number(midpointEl.value);
+    if (isFinite(v) && v >= 1 && v <= 9) { state.midpoint = v; save(); render(); }
+  });
+
+  var resetBtn = document.getElementById("btn-reset");
+  var resetArmed = false, resetTimer = null;
+  resetBtn.addEventListener("click", function () {
+    if (!resetArmed) {
+      resetArmed = true;
+      resetBtn.textContent = "Click again to erase everything";
+      resetTimer = setTimeout(function () {
+        resetArmed = false;
+        resetBtn.textContent = "Start over";
+      }, 4000);
+      return;
+    }
+    clearTimeout(resetTimer);
+    resetArmed = false;
+    resetBtn.textContent = "Start over";
+    state = blankState();
+    try { localStorage.removeItem(STORE_KEY); } catch (e) {}
+    save();
+    syncInputs();
+    render();
+  });
+
+  /* expand textareas so long answers aren't clipped when the browser prints */
+  window.addEventListener("beforeprint", function () {
+    document.querySelectorAll("textarea").forEach(function (t) {
+      t.style.height = "auto";
+      t.style.height = Math.max(t.scrollHeight + 4, 60) + "px";
+    });
+  });
+
+  function syncInputs() {
+    SLUS.forEach(function (u) {
+      var d = state.slu[u.id];
+      document.getElementById("imp-" + u.id).value = d.imp === null ? 5 : d.imp;
+      document.getElementById("sat-" + u.id).value = d.sat === null ? 5 : d.sat;
+      document.getElementById("hrs-" + u.id).value = d.hrs === null ? "" : d.hrs;
+    });
+    Object.keys(state.context).forEach(function (k) {
+      document.querySelector('textarea[data-ctx="' + k + '"]').value = state.context[k];
+    });
+    noDouble.checked = state.noDouble;
+    midpointEl.value = state.midpoint;
+    if (!state.startDate) { state.startDate = todayStr(); save(); }
+    startDateEl.value = state.startDate;
+    dateConfirmEl.checked = state.dateConfirmed;
+    part5ConfirmEl.checked = state.part5Confirmed;
+  }
+
+  /* ---------- Derived data ---------- */
+  function completeUnits() {
+    return SLUS.filter(function (u) {
+      var d = state.slu[u.id];
+      return d.imp !== null && d.sat !== null && d.hrs !== null;
+    });
+  }
+  function totalHours() {
+    return SLUS.reduce(function (sum, u) { return sum + (state.slu[u.id].hrs || 0); }, 0);
+  }
+  function quadrant(imp, sat) {
+    var m = state.midpoint;
+    if (imp >= m && sat < m)  return { key: "gap",      name: "Priority gap",        note: "Dig into why, then act" };
+    if (imp >= m && sat >= m) return { key: "strength", name: "Strategic strength",  note: "Protect and sustain" };
+    if (imp < m && sat < m)   return { key: "low",      name: "Lower priority",      note: "Monitor, or let it go on purpose" };
+    return                           { key: "bonus",    name: "Nice to have",        note: "Keep it deliberately, or trim it if it eats time" };
+  }
+  function diagnostics() {
+    var units = completeUnits();
+    var sumImp = units.reduce(function (s, u) { return s + state.slu[u.id].imp; }, 0);
+    return units.map(function (u) {
+      var d = state.slu[u.id];
+      var target = sumImp > 0 ? 168 * d.imp / sumImp : null;
+      return {
+        unit: u, imp: d.imp, sat: d.sat, hrs: d.hrs,
+        quad: quadrant(d.imp, d.sat),
+        pressure: d.imp * (10 - d.sat),
+        target: target,
+        gap: target === null ? null : target - d.hrs
+      };
+    });
+  }
+
+  /* ---------- Render ---------- */
+  function render() {
+    renderValues();
+    renderMeter();
+    renderChecks();
+    renderChart();
+    renderTable();
+    renderPlan();
+    renderSummary();
+  }
+
+  function renderValues() {
+    SLUS.forEach(function (u) {
+      ["imp", "sat"].forEach(function (kind) {
+        var v = state.slu[u.id][kind];
+        var el = document.getElementById("val-" + kind + "-" + u.id);
+        el.textContent = v === null ? "" : v;
+        el.classList.toggle("set", v !== null);
+      });
+    });
+  }
+
+  function renderMeter() {
+    var total = totalHours();
+    var fill = document.getElementById("meter-fill");
+    var pct = Math.min(100, total / 168 * 100);
+    fill.style.width = pct + "%";
+    fill.classList.toggle("over", total > 170);
+    fill.classList.toggle("exact", Math.abs(total - 168) <= 2 && total > 0);
+    document.getElementById("meter-total").textContent = fmt(total);
+    var remainEl = document.getElementById("meter-remain");
+    var diff = 168 - total;
+    remainEl.textContent = diff > 0 ? fmt(diff) + " h still to place"
+      : diff < 0 ? fmt(-diff) + " h over, trim somewhere" : "your whole week is placed!";
+  }
+
+  function renderChecks() {
+    var units = completeUnits();
+    var total = totalHours();
+    var ratedAll = units.length === SLUS.length;
+    var anyHours = SLUS.some(function (u) { return state.slu[u.id].hrs !== null; });
+    var maxSingle = Math.max.apply(null, SLUS.map(function (u) { return state.slu[u.id].hrs || 0; }));
+    var ctxDone = state.context.great.trim() && state.context.purpose.trim() && state.context.vision.trim();
+
+    var checks = [
+      { ok: state.dateConfirmed, pending: false,
+        text: "Today's date entered and confirmed in the introduction" },
+      { ok: !!ctxDone, pending: !state.context.great && !state.context.purpose && !state.context.vision,
+        text: "You've answered the three big picture questions in Part 1" },
+      { ok: ratedAll, pending: units.length === 0,
+        text: "All 16 areas have importance, satisfaction, and hours (" + units.length + "/16 so far)" },
+      { ok: true, text: "Every rating sits between 0 and 10 (the sliders keep you honest)" },
+      { ok: anyHours && Math.abs(total - 168) <= 2, pending: !anyHours,
+        text: "Your hours add up to about 168 (currently " + fmt(total) + " h)" },
+      { ok: anyHours && maxSingle <= 100, pending: !anyHours,
+        text: "Your time estimates look reasonable (no single area above 100 h/wk)" },
+      { ok: state.noDouble, pending: false,
+        text: "Overlapping activities counted once, by main purpose (the checkbox at the end of Part 2)" }
+    ];
+
+    document.getElementById("checks-list").innerHTML = checks.map(function (c) {
+      var cls = c.pending ? "pending" : (c.ok ? "pass" : "fail");
+      var mark = c.pending ? "○" : (c.ok ? "✓" : "✕");
+      return '<li><span class="check-mark ' + cls + '" aria-hidden="true">' + mark + "</span><span>" + c.text +
+        (c.pending ? " (not started yet)" : "") + "</span></li>";
+    }).join("");
+  }
+
+  /* ---------- Chart ---------- */
+  function renderChart() {
+    var holder = document.getElementById("chart-svg");
+    var empty = document.getElementById("chart-empty");
+    var diags = diagnostics();
+    var legend = document.getElementById("legend");
+    legend.innerHTML = AREAS.map(function (a) {
+      return '<span class="legend-item"><span class="chip" style="background:var(' + a.colorVar + ')"></span>' + a.name + "</span>";
+    }).join("");
+
+    if (diags.length === 0) { holder.innerHTML = ""; empty.style.display = ""; return; }
+    empty.style.display = "none";
+
+    var W = 860, H = 620;
+    var m = { top: 34, right: 30, bottom: 58, left: 62 };
+    var iw = W - m.left - m.right, ih = H - m.top - m.bottom;
+    var x = function (sat) { return m.left + sat / 10 * iw; };
+    var y = function (imp) { return m.top + (1 - imp / 10) * ih; };
+    var mid = state.midpoint;
+
+    var maxHrs = Math.max.apply(null, diags.map(function (d) { return d.hrs; }));
+    var rOf = function (hrs) {
+      if (maxHrs <= 0) return 8;
+      return 8 + Math.sqrt(hrs / maxHrs) * 34;
+    };
+
+    var s = [];
+    s.push('<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Life portfolio bubble chart: satisfaction versus importance, bubble size is weekly hours">');
+
+    /* quadrant wash: the priority-gap corner */
+    s.push('<rect x="' + m.left + '" y="' + m.top + '" width="' + (x(mid) - m.left) + '" height="' + (y(mid) - m.top) + '" fill="var(--quad-wash)"/>');
+
+    /* gridlines every 2 */
+    for (var g = 0; g <= 10; g += 2) {
+      s.push('<line x1="' + x(g) + '" y1="' + m.top + '" x2="' + x(g) + '" y2="' + (m.top + ih) + '" stroke="var(--grid)" stroke-width="1"/>');
+      s.push('<line x1="' + m.left + '" y1="' + y(g) + '" x2="' + (m.left + iw) + '" y2="' + y(g) + '" stroke="var(--grid)" stroke-width="1"/>');
+      s.push('<text class="tick-label" x="' + x(g) + '" y="' + (m.top + ih + 18) + '" text-anchor="middle">' + g + "</text>");
+      s.push('<text class="tick-label" x="' + (m.left - 10) + '" y="' + (y(g) + 4) + '" text-anchor="end">' + g + "</text>");
+    }
+
+    /* midpoint dividers */
+    s.push('<line x1="' + x(mid) + '" y1="' + m.top + '" x2="' + x(mid) + '" y2="' + (m.top + ih) + '" stroke="var(--baseline)" stroke-width="1.5" stroke-dasharray="5 4"/>');
+    s.push('<line x1="' + m.left + '" y1="' + y(mid) + '" x2="' + (m.left + iw) + '" y2="' + y(mid) + '" stroke="var(--baseline)" stroke-width="1.5" stroke-dasharray="5 4"/>');
+
+    /* quadrant labels */
+    s.push('<text class="quad-label" x="' + (m.left + 8) + '" y="' + (m.top + 16) + '">Priority gap</text>');
+    s.push('<text class="quad-label" x="' + (m.left + iw - 8) + '" y="' + (m.top + 16) + '" text-anchor="end">Strategic strength</text>');
+    s.push('<text class="quad-label" x="' + (m.left + 8) + '" y="' + (m.top + ih - 8) + '">Lower priority</text>');
+    s.push('<text class="quad-label" x="' + (m.left + iw - 8) + '" y="' + (m.top + ih - 8) + '" text-anchor="end">Nice to have</text>');
+
+    /* axes */
+    s.push('<line x1="' + m.left + '" y1="' + (m.top + ih) + '" x2="' + (m.left + iw) + '" y2="' + (m.top + ih) + '" stroke="var(--baseline)" stroke-width="1.5"/>');
+    s.push('<line x1="' + m.left + '" y1="' + m.top + '" x2="' + m.left + '" y2="' + (m.top + ih) + '" stroke="var(--baseline)" stroke-width="1.5"/>');
+    s.push('<text class="axis-label" x="' + (m.left + iw / 2) + '" y="' + (H - 14) + '" text-anchor="middle">Satisfaction →</text>');
+    s.push('<text class="axis-label" x="18" y="' + (m.top + ih / 2) + '" text-anchor="middle" transform="rotate(-90 18 ' + (m.top + ih / 2) + ')">Importance →</text>');
+
+    /* bubbles, largest first so small ones stay clickable */
+    var sorted = diags.slice().sort(function (a, b) { return b.hrs - a.hrs; });
+    sorted.forEach(function (d) {
+      var cx = x(d.sat), cy = y(d.imp), r = rOf(d.hrs);
+      var color = "var(" + AREAS[d.unit.area].colorVar + ")";
+      s.push('<circle class="bubble" data-slu="' + d.unit.id + '" cx="' + cx + '" cy="' + cy + '" r="' + r +
+        '" fill="' + color + '" fill-opacity="0.72" stroke="var(--surface)" stroke-width="2"/>');
+    });
+
+    /* labels with width-aware vertical collision nudging */
+    var labels = diags.map(function (d) {
+      return { d: d, x: x(d.sat), y: y(d.imp) - rOf(d.hrs) - 5, w: d.unit.label.length * 6.2 };
+    }).sort(function (a, b) { return a.y - b.y; });
+    for (var pass = 0; pass < 4; pass++) {
+      var moved = false;
+      for (var i = 1; i < labels.length; i++) {
+        for (var j = 0; j < i; j++) {
+          var overlapX = Math.abs(labels[i].x - labels[j].x) < (labels[i].w + labels[j].w) / 2 + 6;
+          if (overlapX && Math.abs(labels[i].y - labels[j].y) < 15) {
+            labels[i].y = labels[j].y + 15;
+            moved = true;
+          }
+        }
+      }
+      if (!moved) break;
+    }
+    labels.forEach(function (l) {
+      var ly = Math.max(m.top + 10, l.y);
+      s.push('<text class="bubble-label" x="' + l.x + '" y="' + ly + '" text-anchor="middle">' + l.d.unit.label + "</text>");
+    });
+
+    s.push("</svg>");
+    holder.innerHTML = s.join("");
+
+    /* tooltips */
+    var tip = document.getElementById("tooltip");
+    var chartHolder = document.getElementById("chart-holder");
+    holder.querySelectorAll(".bubble").forEach(function (c) {
+      c.addEventListener("mousemove", function (ev) {
+        var d = diags.filter(function (dd) { return dd.unit.id === c.getAttribute("data-slu"); })[0];
+        if (!d) return;
+        tip.innerHTML = "<b>" + d.unit.name + "</b><br>" + AREAS[d.unit.area].name +
+          "<br>Importance " + d.imp + " · Satisfaction " + d.sat +
+          "<br>" + fmt(d.hrs) + " h/wk · " + d.quad.name;
+        var rect = chartHolder.getBoundingClientRect();
+        var tx = ev.clientX - rect.left + 14, ty = ev.clientY - rect.top + 14;
+        if (tx + 240 > rect.width) tx = ev.clientX - rect.left - 244;
+        tip.style.left = tx + "px"; tip.style.top = ty + "px"; tip.style.opacity = "1";
+      });
+      c.addEventListener("mouseleave", function () { tip.style.opacity = "0"; });
+    });
+  }
+
+  /* ---------- Table ---------- */
+  function renderTable() {
+    var body = document.getElementById("diag-body");
+    var diags = diagnostics();
+    if (diags.length === 0) {
+      body.innerHTML = '<tr><td colspan="8" style="color:var(--muted); text-align:center; padding:28px">Finish some ratings in Part 2 and the numbers show up here.</td></tr>';
+      return;
+    }
+    diags.sort(function (a, b) { return b.pressure - a.pressure; });
+    body.innerHTML = diags.map(function (d) {
+      var quadCls = d.quad.key === "gap" ? "gap-quad" : d.quad.key === "strength" ? "strength-quad" : "";
+      var gapCls = d.gap === null ? "" : (d.gap > 0.5 ? "gap-pos" : d.gap < -0.5 ? "gap-neg" : "");
+      var gapTxt = d.gap === null ? "" : (d.gap > 0 ? "+" : "") + fmt(d.gap);
+      return "<tr>" +
+        '<td><span class="chip" style="background:var(' + AREAS[d.unit.area].colorVar + ')"></span>' + d.unit.name + "</td>" +
+        '<td class="num">' + d.imp + "</td>" +
+        '<td class="num">' + d.sat + "</td>" +
+        '<td class="num">' + fmt(d.hrs) + "</td>" +
+        '<td><span class="quad-pill ' + quadCls + '">' + d.quad.name + "</span></td>" +
+        '<td class="num">' + d.pressure + "</td>" +
+        '<td class="num">' + fmt(d.target) + "</td>" +
+        '<td class="num ' + gapCls + '">' + gapTxt + "</td>" +
+        "</tr>";
+    }).join("");
+  }
+
+  /* ---------- Action plan ---------- */
+  var PLAN_FIELDS = [
+    { key: "outcome", label: "What does better look like?", kind: "textarea" },
+    { key: "start",   label: "Begin or do more of", kind: "input" },
+    { key: "stop",    label: "Reduce or stop", kind: "input" },
+    { key: "realloc", label: "Time / money / energy to shift", kind: "input" },
+    { key: "first",   label: "Your very first action", kind: "input" },
+    { key: "review",  label: "Check in date", kind: "input" },
+    { key: "measure", label: "How you'll know it's working", kind: "input" }
+  ];
+
+  function renderPlan() {
+    var grid = document.getElementById("plan-grid");
+    var diags = diagnostics().sort(function (a, b) { return b.pressure - a.pressure; }).slice(0, 3);
+    if (diags.length === 0) {
+      grid.innerHTML = '<div class="card"><div class="empty-note">Your top three priorities will appear here once your ratings are in.</div></div>';
+      return;
+    }
+    grid.innerHTML = diags.map(function (d) {
+      var plan = state.plans[d.unit.id] || {};
+      return '<div class="card plan-card" data-plan="' + d.unit.id + '">' +
+        "<h3><span class=\"chip\" style=\"background:var(" + AREAS[d.unit.area].colorVar + ")\"></span>" + d.unit.name + "</h3>" +
+        '<p class="plan-meta">Pressure ' + d.pressure + " · importance " + d.imp + ", satisfaction " + d.sat + ", " + fmt(d.hrs) + " h/wk</p>" +
+        PLAN_FIELDS.map(function (f) {
+          var val = (plan[f.key] || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+          var idAttr = ' id="plan-' + d.unit.id + "-" + f.key + '" data-field="' + f.key + '"';
+          return '<div class="plan-field"><label for="plan-' + d.unit.id + "-" + f.key + '">' + f.label + "</label>" +
+            (f.kind === "textarea"
+              ? "<textarea" + idAttr + ">" + val + "</textarea>"
+              : '<input type="text"' + idAttr + ' value="' + val + '">') +
+            "</div>";
+        }).join("") +
+        "</div>";
+    }).join("");
+
+    grid.querySelectorAll("[data-plan]").forEach(function (cardEl) {
+      var sluId = cardEl.getAttribute("data-plan");
+      cardEl.querySelectorAll("[data-field]").forEach(function (input) {
+        input.addEventListener("input", function () {
+          if (!state.plans[sluId]) state.plans[sluId] = {};
+          state.plans[sluId][input.getAttribute("data-field")] = input.value;
+          save();
+          renderSummary();
+        });
+      });
+    });
+  }
+
+  /* ---------- Part 6: the one page action plan summary ---------- */
+  function renderSummary() {
+    var locked = document.getElementById("summary-locked");
+    var holder = document.getElementById("summary-content");
+    if (!state.part5Confirmed) {
+      locked.style.display = "";
+      holder.innerHTML = "";
+      return;
+    }
+    locked.style.display = "none";
+
+    var esc = function (s) {
+      return String(s === null || s === undefined ? "" : s)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    };
+    var snip = function (s, n) {
+      s = (s || "").trim();
+      if (!s) return "";
+      return s.length > n ? esc(s.slice(0, n - 1)) + "…" : esc(s);
+    };
+    var val = function (s, fallback) {
+      return s && s.trim() ? esc(s.trim()) : "<em>" + fallback + "</em>";
+    };
+    var byDate = function (days) {
+      var MONTHS = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"];
+      var parts = (state.startDate || todayStr()).split("-");
+      var d = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+      d.setDate(d.getDate() + days);
+      var n = d.getDate(), s = n % 100, suffix;
+      if (s >= 11 && s <= 13) { suffix = "th"; }
+      else if (n % 10 === 1) { suffix = "st"; }
+      else if (n % 10 === 2) { suffix = "nd"; }
+      else if (n % 10 === 3) { suffix = "rd"; }
+      else { suffix = "th"; }
+      return "By " + MONTHS[d.getMonth()] + " " + n + suffix + ", " + d.getFullYear();
+    };
+
+    var diags = diagnostics().sort(function (a, b) { return b.pressure - a.pressure; });
+    var top3 = diags.slice(0, 3);
+    if (!top3.length) {
+      holder.innerHTML = '<div class="card"><div class="empty-note">Complete your ratings in Part 2 and your action plan builds itself here.</div></div>';
+      return;
+    }
+
+    var h = [];
+    h.push('<div class="card summary-card">');
+    h.push('<div class="sum-title">My 30, 60, 90 Day Action Plan</div>');
+    h.push('<div class="sum-date">Dated ' + esc(state.startDate || todayStr()) + "</div>");
+
+    h.push('<div class="sum-label">Where I am headed (Part 1)</div>');
+    h.push("<p><b>A great life:</b> " + (snip(state.context.great, 170) || "<em>not written yet</em>") + "</p>");
+    h.push("<p><b>My purpose:</b> " + (snip(state.context.purpose, 130) || "<em>not written yet</em>") + "</p>");
+    h.push("<p><b>In 3 to 5 years:</b> " + (snip(state.context.vision, 150) || "<em>not written yet</em>") + "</p>");
+
+    h.push('<div class="sum-label">My three priorities (Part 5)</div>');
+    h.push('<div class="table-scroll"><table class="sum-table"><thead><tr><th>Area</th><th class="num">Importance</th><th class="num">Satisfaction</th><th class="num">Hours / wk</th><th>What better looks like</th></tr></thead><tbody>');
+    top3.forEach(function (d) {
+      var plan = state.plans[d.unit.id] || {};
+      h.push('<tr><td><span class="chip" style="background:var(' + AREAS[d.unit.area].colorVar + ')"></span>' + esc(d.unit.name) +
+        '</td><td class="num">' + d.imp + '</td><td class="num">' + d.sat + '</td><td class="num">' + fmt(d.hrs) +
+        "</td><td>" + val(plan.outcome, "to be written") + "</td></tr>");
+    });
+    h.push("</tbody></table></div>");
+
+    h.push('<div class="sum-label">Timeline: benchmarks and milestones</div>');
+    h.push('<div class="sum-timeline">');
+
+    h.push('<div class="sum-phase"><h4>First 30 days <span class="sum-by">' + byDate(30) + '</span></h4><ul>');
+    top3.forEach(function (d) {
+      var plan = state.plans[d.unit.id] || {};
+      h.push("<li><b>" + esc(d.unit.label) + ":</b> " + val(plan.first, "choose a first action") + "</li>");
+    });
+    h.push('</ul><p class="sum-milestone">Milestone: all three first actions taken.</p></div>');
+
+    h.push('<div class="sum-phase"><h4>Days 31 to 60 <span class="sum-by">' + byDate(60) + '</span></h4><ul>');
+    top3.forEach(function (d) {
+      var plan = state.plans[d.unit.id] || {};
+      h.push("<li><b>" + esc(d.unit.label) + ":</b> more of " + val(plan.start, "the new habit") +
+        "; less of " + val(plan.stop, "what crowds it out") + "</li>");
+    });
+    h.push('</ul><p class="sum-milestone">Benchmark: each change is a weekly habit and its measure is moving.</p></div>');
+
+    h.push('<div class="sum-phase"><h4>Days 61 to 90 <span class="sum-by">' + byDate(90) + '</span></h4><ul>');
+    top3.forEach(function (d) {
+      var plan = state.plans[d.unit.id] || {};
+      h.push("<li><b>" + esc(d.unit.label) + ":</b> review " + val(plan.review, "set a date") +
+        "; success = " + val(plan.measure, "define a measure") + "</li>");
+    });
+    h.push('</ul><p class="sum-milestone">Milestone: 90 day review done. Retake the survey and compare maps.</p></div>');
+
+    h.push("</div>");
+
+    h.push('<p class="sum-connect">How it connects: these three changes steer my 168 hours toward my Part 1 goals' +
+      (state.context.great.trim() ? ': "' + snip(state.context.great, 110) + '"' : "") + "</p>");
+    h.push("</div>");
+    holder.innerHTML = h.join("");
+  }
+
+  /* re-render chart on theme flips so strokes and washes pick up the new tokens */
+  var mq = window.matchMedia("(prefers-color-scheme: dark)");
+  if (mq.addEventListener) mq.addEventListener("change", renderChart);
+  new MutationObserver(function () { renderChart(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+  syncInputs();
+  render();
+})();
+</script>
+<!-- Copyright 2026 George M Fournier, MBA version 7.16.2026 -->
+
+<script>
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1")) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("./sw.js");
+  });
+}
+</script>
+</body>
+</html>
