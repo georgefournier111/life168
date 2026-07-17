@@ -35,6 +35,7 @@ The app is a static site: no build step, no dependencies.
 | `manifest.webmanifest` | App identity: name, colors, icons (makes it installable) |
 | `sw.js` | Service worker that caches the app for offline use |
 | `icons/` | App icons for home screens and stores |
+| `audio/` | The Podcast Brief, a short audio overview played from the intro |
 | `HOW TO PUBLISH.txt` | Plain English hosting and installation instructions |
 
 ## Updating

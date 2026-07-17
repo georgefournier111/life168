@@ -1,6 +1,6 @@
 /* Copyright 2026 George M Fournier, MBA version 7.16.2026 */
 /* Service worker: caches the app so it opens and works with no connection. */
-var CACHE = "wlll168-v1";
+var CACHE = "wlll168-v3";
 var ASSETS = [
   "./",
   "./index.html",
@@ -8,7 +8,8 @@ var ASSETS = [
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",
-  "./icons/apple-touch-icon.png"
+  "./icons/apple-touch-icon.png",
+  "./audio/podcast-brief.m4a"
 ];
 
 self.addEventListener("install", function (e) {

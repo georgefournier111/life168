@@ -196,6 +196,17 @@
     width: 20px; height: 20px; border-radius: 50%;
     background: var(--royal); color: var(--gold); font-size: 9px; padding-left: 2px;
   }
+  .masthead .link-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 700; color: #fff;
+    border: 1px solid rgba(255,255,255,0.35); border-radius: 999px;
+    padding: 9px 18px; text-decoration: none;
+  }
+  .masthead .link-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .podcast-row { display: none; align-items: center; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
+  .podcast-row.on { display: flex; }
+  .podcast-label { font-size: 14px; font-weight: 700; color: var(--gold); white-space: nowrap; }
+  .podcast-row audio { height: 40px; width: 100%; max-width: 440px; flex: 1 1 260px; }
 
   /* ---------- 5-part stepper ---------- */
   .stepper-card {
@@ -489,7 +500,12 @@
     </p>
     <div class="toolbar">
       <a class="video-link" href="https://www.youtube.com/watch?v=dbiNhAZlXZk&amp;t=35s" target="_blank" rel="noopener noreferrer"><span class="play" aria-hidden="true">▶</span>Watch the Strategic Life Video</a>
+      <a class="link-btn" id="podcast-link" href="https://drive.google.com/file/d/1nxU925eONLxlX-glU49BqRrEdTd3DtZB/view?usp=sharing" target="_blank" rel="noopener noreferrer">Podcast Brief</a>
       <button id="btn-reset" type="button">Start over</button>
+    </div>
+    <div class="podcast-row" id="podcast-row">
+      <span class="podcast-label">Podcast Brief</span>
+      <audio id="podcast-player" controls preload="metadata" src="audio/podcast-brief.m4a">Your browser can not play this audio.</audio>
     </div>
   </header>
 
@@ -898,6 +914,15 @@
     save();
     syncInputs();
     render();
+  });
+
+  /* show the embedded podcast player when the audio file is available;
+     otherwise the Drive link button stays as the fallback */
+  var podcastPlayer = document.getElementById("podcast-player");
+  podcastPlayer.addEventListener("loadedmetadata", function () {
+    document.getElementById("podcast-row").classList.add("on");
+    var link = document.getElementById("podcast-link");
+    if (link) link.style.display = "none";
   });
 
   /* expand textareas so long answers aren't clipped when the browser prints */
