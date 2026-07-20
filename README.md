@@ -24,7 +24,7 @@ All answers stay in the respondent's own browser (local storage). Nothing is sen
 The app is a static site: no build step, no dependencies.
 
 - **Open locally:** open `index.html` in any modern browser.
-- **Host it:** upload this folder to any static host (GitHub Pages, Netlify, Vercel). With GitHub Pages: repository Settings → Pages → deploy from the main branch.
+- **Host it:** upload these files to any static host (GitHub Pages, Netlify, Vercel). All files must sit at the top level of the site, not inside a subfolder. With GitHub Pages: repository Settings → Pages → Source: "Deploy from a branch" → Branch: `main`, folder `/ (root)` → Save, then wait a minute for the address to go live.
 - **Install as an app:** once hosted at an https address, open it on a phone — Safari: Share → Add to Home Screen; Chrome on Android: menu → Add to Home screen. It opens full screen with its own icon and works offline.
 
 ## Files
@@ -34,8 +34,8 @@ The app is a static site: no build step, no dependencies.
 | `index.html` | The complete survey app in a single file |
 | `manifest.webmanifest` | App identity: name, colors, icons (makes it installable) |
 | `sw.js` | Service worker that caches the app for offline use |
-| `icons/` | App icons for home screens and stores |
-| `audio/` | The Podcast Brief, a short audio overview played from the intro |
+| `icon-192.png`, `icon-512.png`, `icon-maskable-512.png`, `apple-touch-icon.png` | App icons for home screens and stores |
+| `podcast-brief.m4a` | The Podcast Brief, a short audio overview played from the intro |
 | `HOW TO PUBLISH.txt` | Plain English hosting and installation instructions |
 
 ## Updating

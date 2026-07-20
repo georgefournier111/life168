@@ -1,22 +1,26 @@
 /* Copyright 2026 George M Fournier, MBA version 7.16.2026 */
 /* Service worker: caches the app so it opens and works with no connection. */
-var CACHE = "wlll168-v3";
+var CACHE = "wlll168-v4";
 var ASSETS = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png",
-  "./icons/icon-maskable-512.png",
-  "./icons/apple-touch-icon.png",
-  "./audio/podcast-brief.m4a"
+  "./icon-192.png",
+  "./icon-512.png",
+  "./icon-maskable-512.png",
+  "./apple-touch-icon.png",
+  "./podcast-brief.m4a"
 ];
 
+/* Cache each file on its own. If one file is missing the install still
+   succeeds, so the app is never left without a service worker. */
 self.addEventListener("install", function (e) {
   e.waitUntil(
-    caches.open(CACHE)
-      .then(function (c) { return c.addAll(ASSETS); })
-      .then(function () { return self.skipWaiting(); })
+    caches.open(CACHE).then(function (c) {
+      return Promise.all(ASSETS.map(function (url) {
+        return c.add(url)["catch"](function () { return null; });
+      }));
+    }).then(function () { return self.skipWaiting(); })
   );
 });
 
@@ -29,14 +33,20 @@ self.addEventListener("activate", function (e) {
   );
 });
 
+/* Serve from cache first, fall back to the network, and keep a copy. */
 self.addEventListener("fetch", function (e) {
   if (e.request.method !== "GET") return;
   e.respondWith(
     caches.match(e.request, { ignoreSearch: true }).then(function (hit) {
-      return hit || fetch(e.request).then(function (res) {
-        var copy = res.clone();
-        caches.open(CACHE).then(function (c) { c.put(e.request, copy); });
+      if (hit) return hit;
+      return fetch(e.request).then(function (res) {
+        if (res && res.status === 200 && res.type === "basic") {
+          var copy = res.clone();
+          caches.open(CACHE).then(function (c) { c.put(e.request, copy); });
+        }
         return res;
+      })["catch"](function () {
+        return caches.match("./index.html");
       });
     })
   );
