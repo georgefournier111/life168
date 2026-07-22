@@ -209,6 +209,17 @@
   .podcast-row.on { display: flex; }
   .podcast-label { font-size: 14px; font-weight: 700; color: var(--gold); white-space: nowrap; }
   .podcast-row audio { height: 40px; width: 100%; max-width: 440px; flex: 1 1 260px; }
+  .privacy-note {
+    margin-top: 22px;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-left: 5px solid var(--gold);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 14px; font-weight: 600; line-height: 1.5;
+    color: #fff;
+  }
+  .privacy-note a { color: var(--gold); font-weight: 700; text-decoration: underline; }
 
   /* ---------- 5-part stepper ---------- */
   .stepper-card {
@@ -539,6 +550,11 @@
     <div class="podcast-row" id="podcast-row">
       <span class="podcast-label">Podcast Brief</span>
       <audio id="podcast-player" controls preload="metadata" src="podcast-brief.m4a">Your browser can not play this audio.</audio>
+    </div>
+    <div class="privacy-note">
+      Life 168 keeps your responses on your personal device. All responses on your device remain
+      confidential. We do not collect personal information or responses. To clear your data,
+      Start over. Read our <a href="https://app.life168.org/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.
     </div>
   </header>
 
