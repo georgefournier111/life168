@@ -11,11 +11,11 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="WLLL 168">
+<meta name="apple-mobile-web-app-title" content="Life 168">
 </head>
 <body><!-- Copyright 2026 George M Fournier, MBA version 7.16.2026 -->
 <script>/* Lock the app to a light (white) background on every device. */ document.documentElement.setAttribute("data-theme", "light");</script>
-<title>Work, Life, Laugh &amp; Love | 168</title>
+<title>Life 168 | Balance 24*7</title>
 <style>
   :root {
     color-scheme: light;
@@ -276,6 +276,10 @@
     font-size: 14px; font-weight: 600; color: var(--ink-2); cursor: pointer;
   }
   .date-confirm input { width: 17px; height: 17px; accent-color: var(--accent); cursor: pointer; }
+  .date-confirm .confirm-hl {
+    background: linear-gradient(transparent 50%, var(--gold-wash) 50%);
+    font-weight: 700; color: var(--head-ink); padding: 0 3px;
+  }
 
   /* ---------- Section bars: every part is headed by a blue bar ---------- */
   .part-bar {
@@ -387,6 +391,10 @@
 
   .confirm-row { display: flex; gap: 10px; align-items: flex-start; margin-top: 4px; font-size: 14px; color: var(--ink-2); }
   .confirm-row input { margin-top: 3px; accent-color: var(--accent); }
+  .confirm-row label {
+    background: linear-gradient(transparent 55%, var(--gold-wash) 55%);
+    font-weight: 700; color: var(--head-ink);
+  }
 
   /* Validation checks */
   .checks { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
@@ -492,7 +500,7 @@
   <p class="copyright top">Copyright 2026 George M Fournier, MBA version 7.16.2026</p>
   <header class="masthead">
     <p class="eyebrow">A six part survey · about 20 minutes</p>
-    <h1>Work, Life, Laugh &amp; Love | 168</h1>
+    <h1>Life 168 | Balance 24*7</h1>
     <p class="lede">
       This survey takes an honest look at where your time and energy really go across 16 areas of life.
       In six parts, you will map your week, chart the results, decide what to change, and leave with
@@ -533,7 +541,7 @@
     <div class="date-row">
       <label for="start-date">To start, enter today's date:</label>
       <input type="date" id="start-date">
-      <label class="date-confirm"><input type="checkbox" id="date-confirm"> Click to confirm</label>
+      <label class="date-confirm"><input type="checkbox" id="date-confirm"> <span class="confirm-hl">Click to confirm</span></label>
     </div>
   </section>
 
@@ -1345,6 +1353,36 @@
   render();
 })();
 </script>
+
+<!--
+  ============================================================
+  Comments for my future self
+  ============================================================
+  Camera capture starter (prefer resolution nearest to 1280x720).
+  Not wired up yet; kept here as a note for a future version.
+
+  // Prefer camera resolution nearest to 1280x720.
+  const constraints = {
+    audio: true,
+    video: { width: 1280, height: 720 },
+  };
+
+  navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then((mediaStream) => {
+      const video = document.querySelector("video");
+      video.srcObject = mediaStream;
+      video.onloadedmetadata = () => {
+        video.play();
+      };
+    })
+    .catch((err) => {
+      // always check for errors at the end.
+      console.error(`${err.name}: ${err.message}`);
+    });
+  ============================================================
+-->
+
 <!-- Copyright 2026 George M Fournier, MBA version 7.16.2026 -->
 
 <script>

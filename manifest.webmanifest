@@ -1,6 +1,6 @@
 {
-  "name": "Work, Life, Laugh & Love | 168",
-  "short_name": "WLLL 168",
+  "name": "Life 168",
+  "short_name": "Life 168",
   "description": "A six part survey that maps where your time and energy really go across 16 areas of life, charts your life portfolio, and builds a 30, 60, 90 day action plan.",
   "start_url": "./index.html",
   "scope": "./",
@@ -12,5 +12,10 @@
     { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
     { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    { "src": "screenshot-intro.png", "sizes": "846x640", "type": "image/png", "form_factor": "wide", "label": "Before you begin: what does a great life mean to you?" },
+    { "src": "screenshot-rate.png", "sizes": "854x656", "type": "image/png", "form_factor": "wide", "label": "Part 2: rate your 16 life areas in base 168" },
+    { "src": "screenshot-portfolio.png", "sizes": "836x723", "type": "image/png", "form_factor": "wide", "label": "Your life portfolio on one chart" }
   ]
 }
