@@ -188,11 +188,15 @@
   .masthead .video-link {
     display: inline-flex; align-items: center; gap: 9px;
     font-size: 15px; font-weight: 700;
-    background: var(--gold); color: var(--royal);
-    border: 1px solid var(--gold); border-radius: 999px;
+    background: linear-gradient(180deg, #FFCF66 0%, #F7A81B 55%, #E4900E 100%);
+    color: var(--royal);
+    border: 1px solid #E4900E; border-radius: 999px;
     padding: 10px 20px; text-decoration: none;
+    box-shadow: 0 3px 0 #C07C0A, 0 5px 9px rgba(11,11,11,0.30), inset 0 1px 0 rgba(255,255,255,0.55);
+    transition: transform 80ms ease, box-shadow 80ms ease, filter 80ms ease;
   }
   .masthead .video-link:hover { filter: brightness(1.05); color: var(--royal); }
+  .masthead .video-link:active { transform: translateY(2px); box-shadow: 0 1px 0 #C07C0A, 0 2px 4px rgba(11,11,11,0.28), inset 0 1px 0 rgba(255,255,255,0.5); }
   .masthead .video-link .play {
     display: inline-flex; align-items: center; justify-content: center;
     width: 20px; height: 20px; border-radius: 50%;
@@ -220,6 +224,13 @@
     color: #fff;
   }
   .privacy-note a { color: var(--gold); font-weight: 700; text-decoration: underline; }
+  .title-row { display: flex; align-items: center; gap: 16px; margin: 4px 0 14px; }
+  .title-row h1 { margin: 0; }
+  .logo {
+    display: block; flex: none; width: 64px; height: 64px;
+    filter: drop-shadow(0 3px 4px rgba(11,11,11,0.40));
+  }
+  @media (max-width: 430px) { .logo { width: 52px; height: 52px; } }
 
   /* ---------- 5-part stepper ---------- */
   .stepper-card {
@@ -236,9 +247,11 @@
   .stepper a:hover { color: var(--accent-ink); }
   .step-dot {
     width: 28px; height: 28px; border-radius: 50%; flex: none;
-    background: var(--gold); color: var(--royal);
+    background: radial-gradient(circle at 38% 30%, #FFDD8E 0%, #F7A81B 46%, #CE830A 100%);
+    color: var(--royal);
     font-family: var(--sans); font-weight: 700; font-size: 15px;
     display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 3px rgba(11,11,11,0.28), inset 0 -2px 4px rgba(140,80,0,0.35), inset 0 1px 3px rgba(255,255,255,0.45);
   }
   .step-arrow { color: var(--muted); font-size: 13px; }
 
@@ -301,9 +314,11 @@
   }
   .part-bar .part-num {
     flex: none; width: 54px; height: 54px; border-radius: 50%;
-    background: var(--gold); color: var(--royal);
+    background: radial-gradient(circle at 38% 30%, #FFDD8E 0%, #F7A81B 46%, #CE830A 100%);
+    color: var(--royal);
     font-family: var(--sans); font-size: 28px; font-weight: 700;
     display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 3px 4px rgba(11,11,11,0.40), inset 0 -3px 6px rgba(140,80,0,0.35), inset 0 2px 4px rgba(255,255,255,0.42);
   }
   .part-bar-text { min-width: 0; }
   .part-bar .part-eyebrow {
@@ -473,17 +488,45 @@
   .remind-actions[hidden] { display: none; }
   .btn-gold {
     font: inherit; font-size: 14px; font-weight: 700;
-    background: var(--gold); color: var(--royal);
-    border: 1px solid var(--gold); border-radius: 999px;
+    background: linear-gradient(180deg, #FFCF66 0%, #F7A81B 55%, #E4900E 100%);
+    color: var(--royal);
+    border: 1px solid #E4900E; border-radius: 999px;
     padding: 9px 18px; cursor: pointer;
+    box-shadow: 0 3px 0 #C07C0A, 0 5px 9px rgba(11,11,11,0.22), inset 0 1px 0 rgba(255,255,255,0.55);
+    transition: transform 80ms ease, box-shadow 80ms ease, filter 80ms ease;
   }
-  .btn-gold:hover { filter: brightness(1.05); }
+  .btn-gold:hover { filter: brightness(1.04); }
+  .btn-gold:active { transform: translateY(2px); box-shadow: 0 1px 0 #C07C0A, 0 2px 4px rgba(11,11,11,0.20), inset 0 1px 0 rgba(255,255,255,0.5); }
+  @media (prefers-reduced-motion: reduce) {
+    .masthead .video-link, .btn-gold { transition: none; }
+  }
   .remind-status { font-size: 13px; color: var(--ink-2); margin: 10px 0 0; }
+
+  /* Print hint with keyboard-key visuals */
+  .print-hint {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 6px solid var(--gold); border-radius: 14px;
+    box-shadow: var(--shadow); padding: 18px 22px; margin-top: 40px;
+  }
+  .print-hint .ph-text { font-size: 15px; font-weight: 600; color: var(--ink); }
+  .print-hint .keys { display: inline-flex; align-items: center; gap: 8px; }
+  kbd.key {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 40px; height: 40px; padding: 0 10px;
+    background: #fff; color: var(--royal);
+    font-family: var(--sans); font-weight: 700; font-size: 15px;
+    border: 1px solid var(--baseline); border-bottom-width: 4px;
+    border-radius: 9px; box-shadow: 0 1px 2px rgba(23,69,143,0.15);
+  }
+  .print-hint .plus { font-size: 18px; font-weight: 700; color: var(--muted); }
+  .print-hint .ph-mac { font-size: 13px; color: var(--muted); width: 100%; }
+  .print-hint .ph-mac kbd { font-size: 12px; min-width: 26px; height: 24px; border-bottom-width: 3px; }
 
   @media print {
     body { padding: 0 8px; background: #fff; }
     * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .toolbar, .reminders { display: none !important; }
+    .toolbar, .reminders, .print-hint { display: none !important; }
     .meter-bar { position: static; }
     .card, .part-bar, .callout, .stepper-card { box-shadow: none; }
     .slu-row, .plan-card, .part-bar, .callout, .stepper-card, .chart-card { break-inside: avoid; }
@@ -534,7 +577,21 @@
   <p class="copyright top">Copyright 2026 George M Fournier, MBA version 7.16.2026</p>
   <header class="masthead">
     <p class="eyebrow">A six part survey · about 20 minutes</p>
-    <h1>Life 168 | Balance 24*7</h1>
+    <div class="title-row">
+      <svg class="logo" viewBox="0 0 100 100" role="img" aria-label="Life 168 logo">
+        <defs>
+          <radialGradient id="ball168" cx="38%" cy="30%" r="72%">
+            <stop offset="0%" stop-color="#FFDD8E"/>
+            <stop offset="46%" stop-color="#F7A81B"/>
+            <stop offset="100%" stop-color="#CE830A"/>
+          </radialGradient>
+        </defs>
+        <circle cx="50" cy="50" r="46" fill="url(#ball168)"/>
+        <ellipse cx="38" cy="29" rx="21" ry="11" fill="#ffffff" opacity="0.30"/>
+        <text x="50" y="53" text-anchor="middle" dominant-baseline="central" font-family="'Open Sans', 'Segoe UI', system-ui, sans-serif" font-weight="800" font-size="34" fill="#17458F">168</text>
+      </svg>
+      <h1>Life 168 | Balance 24*7</h1>
+    </div>
     <p class="lede">
       This survey takes an honest look at where your time and energy really go across 16 areas of life.
       In six parts, you will map your week, chart the results, decide what to change, and leave with
@@ -783,6 +840,16 @@
       </div>
     </div>
   </section>
+
+  <div class="print-hint">
+    <span class="ph-text">Want to keep a copy? To print, or to save as a PDF, press these two keys together:</span>
+    <span class="keys">
+      <kbd class="key">Ctrl</kbd>
+      <span class="plus" aria-hidden="true">+</span>
+      <kbd class="key">P</kbd>
+    </span>
+    <span class="ph-mac">On a Mac, press <kbd class="key">&#8984;</kbd> + <kbd class="key">P</kbd> instead.</span>
+  </div>
 
   <footer>
     <p>Based on Dr. Rainer Strack's Strategic Life Portfolio method, "Use Strategic Thinking to Create the Life You Want" (TED / Harvard Business Review). Answer for an average week over the previous 12 months.</p>
@@ -1160,6 +1227,19 @@
     var s = [];
     s.push('<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Life portfolio bubble chart: satisfaction versus importance, bubble size is weekly hours">');
 
+    /* spherical shading + drop shadow for the bubbles */
+    s.push('<defs>');
+    s.push('<radialGradient id="sphereShade" cx="35%" cy="30%" r="72%">');
+    s.push('<stop offset="0%" stop-color="#ffffff" stop-opacity="0.55"/>');
+    s.push('<stop offset="30%" stop-color="#ffffff" stop-opacity="0.15"/>');
+    s.push('<stop offset="62%" stop-color="#000000" stop-opacity="0"/>');
+    s.push('<stop offset="100%" stop-color="#000000" stop-opacity="0.30"/>');
+    s.push('</radialGradient>');
+    s.push('<filter id="bubbleShadow" x="-40%" y="-40%" width="180%" height="180%">');
+    s.push('<feDropShadow dx="0" dy="2.5" stdDeviation="2.5" flood-color="#0b0b0b" flood-opacity="0.35"/>');
+    s.push('</filter>');
+    s.push('</defs>');
+
     /* quadrant wash: the priority-gap corner */
     s.push('<rect x="' + m.left + '" y="' + m.top + '" width="' + (x(mid) - m.left) + '" height="' + (y(mid) - m.top) + '" fill="var(--quad-wash)"/>');
 
@@ -1193,7 +1273,8 @@
       var cx = x(d.sat), cy = y(d.imp), r = rOf(d.hrs);
       var color = "var(" + AREAS[d.unit.area].colorVar + ")";
       s.push('<circle class="bubble" data-slu="' + d.unit.id + '" cx="' + cx + '" cy="' + cy + '" r="' + r +
-        '" fill="' + color + '" fill-opacity="0.72" stroke="var(--surface)" stroke-width="2"/>');
+        '" fill="' + color + '" fill-opacity="0.92" stroke="var(--surface)" stroke-width="2" filter="url(#bubbleShadow)"/>');
+      s.push('<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="url(#sphereShade)" pointer-events="none"/>');
     });
 
     /* labels with width-aware vertical collision nudging */
