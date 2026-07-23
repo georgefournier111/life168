@@ -1,6 +1,6 @@
 /* Copyright 2026 George M Fournier, MBA version 7.16.2026 */
 /* Service worker: caches the app so it opens and works with no connection. */
-var CACHE = "wlll168-v14";
+var CACHE = "wlll168-v17";
 var ASSETS = [
   "./",
   "./index.html",

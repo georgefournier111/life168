@@ -2,7 +2,7 @@
 
 A six part life planning survey you can run in any browser, install on a phone like an app, and print to one page. There are 168 hours in every week. This tool shows you where yours actually go, and helps you decide where they should go next.
 
-Based on Rainer Strack's Strategic Life Portfolio method ("Use Strategic Thinking to Create the Life You Want," TED / Harvard Business Review).
+Based on Dr. Rainer Strack's Strategic Life Portfolio method ("Use Strategic Thinking to Create the Life You Want," TED / Harvard Business Review).
 
 ## What it does
 
@@ -48,6 +48,6 @@ Use the browser's print dialog (Ctrl+P, or the browser menu). The page carries p
 
 ## Credits and license
 
-Survey methodology: Rainer Strack, Strategic Life Portfolio.
+Survey methodology: Dr. Rainer Strack, Strategic Life Portfolio.
 
 Copyright 2026 George M Fournier, MBA version 7.16.2026. All rights reserved.
