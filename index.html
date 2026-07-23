@@ -437,7 +437,7 @@
   .chart-holder { position: relative; }
   .chart-holder svg { display: block; width: 100%; height: auto; }
   .quad-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; fill: var(--muted); font-family: var(--sans); }
-  .axis-label { font-size: 12px; fill: var(--ink-2); font-weight: 700; font-family: var(--sans); }
+  .axis-label { font-size: 27px; fill: var(--head-ink); font-weight: 700; letter-spacing: -0.01em; font-family: var(--sans); }
   .tick-label { font-size: 11px; fill: var(--muted); font-variant-numeric: tabular-nums; font-family: var(--sans); }
   .bubble-label { font-size: 11px; fill: var(--ink-2); font-family: var(--sans); paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round; }
   .bubble { cursor: pointer; }
@@ -1211,8 +1211,8 @@
     if (diags.length === 0) { holder.innerHTML = ""; empty.style.display = ""; return; }
     empty.style.display = "none";
 
-    var W = 860, H = 620;
-    var m = { top: 34, right: 30, bottom: 58, left: 62 };
+    var W = 860, H = 664;
+    var m = { top: 34, right: 30, bottom: 96, left: 94 };
     var iw = W - m.left - m.right, ih = H - m.top - m.bottom;
     var x = function (sat) { return m.left + sat / 10 * iw; };
     var y = function (imp) { return m.top + (1 - imp / 10) * ih; };
@@ -1238,6 +1238,8 @@
     s.push('<filter id="bubbleShadow" x="-40%" y="-40%" width="180%" height="180%">');
     s.push('<feDropShadow dx="0" dy="2.5" stdDeviation="2.5" flood-color="#0b0b0b" flood-opacity="0.35"/>');
     s.push('</filter>');
+    s.push('<linearGradient id="arrowGradX" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFCF66"/><stop offset="1" stop-color="#E4900E"/></linearGradient>');
+    s.push('<linearGradient id="arrowGradY" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#FFCF66"/><stop offset="1" stop-color="#E4900E"/></linearGradient>');
     s.push('</defs>');
 
     /* quadrant wash: the priority-gap corner */
@@ -1264,8 +1266,25 @@
     /* axes */
     s.push('<line x1="' + m.left + '" y1="' + (m.top + ih) + '" x2="' + (m.left + iw) + '" y2="' + (m.top + ih) + '" stroke="var(--baseline)" stroke-width="1.5"/>');
     s.push('<line x1="' + m.left + '" y1="' + m.top + '" x2="' + m.left + '" y2="' + (m.top + ih) + '" stroke="var(--baseline)" stroke-width="1.5"/>');
-    s.push('<text class="axis-label" x="' + (m.left + iw / 2) + '" y="' + (H - 14) + '" text-anchor="middle">Satisfaction →</text>');
-    s.push('<text class="axis-label" x="18" y="' + (m.top + ih / 2) + '" text-anchor="middle" transform="rotate(-90 18 ' + (m.top + ih / 2) + ')">Importance →</text>');
+    /* X axis: title + gradient arrow pointing right (satisfaction increases) */
+    var axCx = m.left + iw / 2;
+    s.push('<text class="axis-label" x="' + axCx + '" y="' + (m.top + ih + 46) + '" text-anchor="middle">Satisfaction</text>');
+    (function () {
+      var ay = m.top + ih + 68, L = 88, t = 8, hl = 20, hh = 12, X0 = axCx - L, X1 = axCx + L;
+      var pts = [X0 + "," + (ay - t / 2), (X1 - hl) + "," + (ay - t / 2), (X1 - hl) + "," + (ay - hh),
+                 X1 + "," + ay, (X1 - hl) + "," + (ay + hh), (X1 - hl) + "," + (ay + t / 2), X0 + "," + (ay + t / 2)];
+      s.push('<polygon points="' + pts.join(" ") + '" fill="url(#arrowGradX)"/>');
+    })();
+
+    /* Y axis: title + gradient arrow pointing up (importance increases) */
+    var ayCy = m.top + ih / 2;
+    s.push('<text class="axis-label" x="26" y="' + ayCy + '" text-anchor="middle" transform="rotate(-90 26 ' + ayCy + ')">Importance</text>');
+    (function () {
+      var ax = 54, L = 82, t = 8, hl = 20, hw = 12, Y0 = ayCy + L, Y1 = ayCy - L;
+      var pts = [(ax - t / 2) + "," + Y0, (ax - t / 2) + "," + (Y1 + hl), (ax - hw) + "," + (Y1 + hl),
+                 ax + "," + Y1, (ax + hw) + "," + (Y1 + hl), (ax + t / 2) + "," + (Y1 + hl), (ax + t / 2) + "," + Y0];
+      s.push('<polygon points="' + pts.join(" ") + '" fill="url(#arrowGradY)"/>');
+    })();
 
     /* bubbles, largest first so small ones stay clickable */
     var sorted = diags.slice().sort(function (a, b) { return b.hrs - a.hrs; });
