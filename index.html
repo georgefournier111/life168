@@ -276,6 +276,9 @@
   }
   .callout p.callout-body { font-size: 16.5px; color: var(--ink-2); margin: 0 0 14px; max-width: 66ch; }
   .callout p.callout-body:last-of-type { margin-bottom: 0; }
+  .callout-list { margin: 16px 0 0; padding-left: 24px; max-width: 66ch; }
+  .callout-list li { font-size: 16.5px; color: var(--ink); line-height: 1.5; }
+  .callout-list li::marker { color: var(--gold); font-size: 1.15em; }
   .callout .verse { color: var(--head-ink); font-style: italic; }
   .callout-close {
     font-family: var(--sans); font-size: clamp(19px, 2.6vw, 24px);
@@ -636,9 +639,11 @@
     <p class="callout-body">
       This assessment helps students of all ages to examine personal priorities, life goals, and time
       allocation across 16 strategic life factors. We can shift our priorities in bad economic weather
-      or personal tragedy. Life happens. Plan. Be prepared. Create a one-page life strategy to live
-      your best life with clarity, purpose, and joy.
+      or personal tragedy. Life happens. Plan. Be prepared.
     </p>
+    <ul class="callout-list">
+      <li><b>Complete this strategic life assessment and create a one-page life strategy to live your best life with clarity, purpose, and joy.</b></li>
+    </ul>
     <p class="callout-close">What does a great life mean to you? <span class="start">Start here.</span></p>
     <div class="date-row">
       <label for="start-date">To start, enter today's date:</label>
