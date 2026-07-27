@@ -706,8 +706,8 @@
       1) Time, 2) Importance &amp; 3) Satisfaction.
       How much time in hours per 168 hour week (X / 168) do you spend on each area?
       Sleep 8 hours a day? 8x7=56 hours per week. The bar adds your hours until you reach 168 hours.
-      Importance. How IMPORTANT is this area of your life on a scale from 1 to 10.
-      Satisfaction. How SATISFIED are you with this area of your life on a scale from 1 to 10?
+      Importance. How IMPORTANT is this area of your life on a scale from -5 to +5.
+      Satisfaction. How SATISFIED are you with this area of your life on a scale from -5 to +5? Negative means dissatisfied, 0 is neutral, positive means satisfied.
     </p>
 
     <div class="meter-bar" aria-live="polite">
@@ -765,15 +765,16 @@
       </div>
       <div class="midpoint-row">
         <label for="midpoint">Quadrant line</label>
-        <input type="number" id="midpoint" min="1" max="9" step="0.5" value="5">
-        <span>We draw the dividing line at 5 by default. Slide it if you like. Your choice is saved with your results.</span>
+        <input type="number" id="midpoint" min="-4" max="4" step="0.5" value="0">
+        <span>We draw the dividing line at 0 by default. Slide it if you like. Your choice is saved with your results.</span>
       </div>
     </div>
 
     <h3 class="sub">The numbers behind the chart</h3>
     <p class="section-note">
-      Three quick calculations to point you at what matters most. <b>Pressure</b> is importance ×
-      (10 minus satisfaction). The higher the score, the more that area is asking for your attention.
+      Three quick calculations to point you at what matters most. <b>Pressure</b> combines how
+      important an area is with how far its satisfaction falls short. The higher the score, the more
+      that area is asking for your attention.
       <b>Target hours</b> shows what your week would look like if time simply followed importance
       (a compass, not a schedule). <b>Time gap</b> is target minus current: positive means an area may
       be starved for time; negative means there may be hours to win back.
@@ -901,7 +902,7 @@
     { id: "adl",       area: 5, name: "Activities of daily living", label: "Daily living", hint: "Routine personal & household tasks" }
   ];
 
-  var STORE_KEY = "slp-survey-v1";
+  var STORE_KEY = "slp-survey-v2";
   var state = load();
 
   function todayStr() {
@@ -910,7 +911,7 @@
   }
 
   function blankState() {
-    var s = { context: { great: "", purpose: "", vision: "" }, slu: {}, noDouble: false, midpoint: 5, plans: {}, startDate: "", dateConfirmed: false, part5Confirmed: false, remindOptIn: false, remindNotified: {} };
+    var s = { context: { great: "", purpose: "", vision: "" }, slu: {}, noDouble: false, midpoint: 0, plans: {}, startDate: "", dateConfirmed: false, part5Confirmed: false, remindOptIn: false, remindNotified: {} };
     SLUS.forEach(function (u) { s.slu[u.id] = { imp: null, sat: null, hrs: null }; });
     return s;
   }
@@ -943,6 +944,11 @@
     if (n === null || n === undefined || !isFinite(n)) return "";
     var f = n.toFixed(dp === undefined ? 1 : dp);
     return f.replace(/\.0+$/, "").replace(/(\.\d*[1-9])0+$/, "$1");
+  }
+  /* signed rating on the -5..+5 scale: show a leading + on positives */
+  function sgn(n) {
+    if (n === null || n === undefined || !isFinite(n)) return "";
+    return (n > 0 ? "+" : "") + n;
   }
 
   /* ---------- Build rating UI ---------- */
@@ -978,8 +984,8 @@
     return '<div class="rating-cell">' +
       '<div class="rating-top"><span class="rating-label">' + label + '</span>' +
       '<span class="rating-value" id="val-' + kind + "-" + id + '"></span></div>' +
-      '<input type="range" min="0" max="10" step="1" value="5" id="' + kind + "-" + id + '" ' +
-      'data-slu="' + id + '" data-kind="' + kind + '" aria-label="' + label + " (0 to 10)" + '"></div>';
+      '<input type="range" min="-5" max="5" step="1" value="0" id="' + kind + "-" + id + '" ' +
+      'data-slu="' + id + '" data-kind="' + kind + '" aria-label="' + label + " (-5 to +5)" + '"></div>';
   }
 
   /* ---------- Wire inputs ---------- */
@@ -1044,7 +1050,7 @@
   var midpointEl = document.getElementById("midpoint");
   midpointEl.addEventListener("input", function () {
     var v = Number(midpointEl.value);
-    if (isFinite(v) && v >= 1 && v <= 9) { state.midpoint = v; save(); render(); }
+    if (isFinite(v) && v >= -4 && v <= 4) { state.midpoint = v; save(); render(); }
   });
 
   var resetBtn = document.getElementById("btn-reset");
@@ -1089,8 +1095,8 @@
   function syncInputs() {
     SLUS.forEach(function (u) {
       var d = state.slu[u.id];
-      document.getElementById("imp-" + u.id).value = d.imp === null ? 5 : d.imp;
-      document.getElementById("sat-" + u.id).value = d.sat === null ? 5 : d.sat;
+      document.getElementById("imp-" + u.id).value = d.imp === null ? 0 : d.imp;
+      document.getElementById("sat-" + u.id).value = d.sat === null ? 0 : d.sat;
       document.getElementById("hrs-" + u.id).value = d.hrs === null ? "" : d.hrs;
     });
     Object.keys(state.context).forEach(function (k) {
@@ -1123,16 +1129,19 @@
     if (imp < m && sat < m)   return { key: "low",      name: "Lower priority",      note: "Monitor, or let it go on purpose" };
     return                           { key: "bonus",    name: "Nice to have",        note: "Keep it deliberately, or trim it if it eats time" };
   }
+  /* ratings run -5..+5; shift to a 0..10 basis so weighting stays positive */
+  function pos(v) { return v + 5; }
   function diagnostics() {
     var units = completeUnits();
-    var sumImp = units.reduce(function (s, u) { return s + state.slu[u.id].imp; }, 0);
+    var sumImp = units.reduce(function (s, u) { return s + pos(state.slu[u.id].imp); }, 0);
     return units.map(function (u) {
       var d = state.slu[u.id];
-      var target = sumImp > 0 ? 168 * d.imp / sumImp : null;
+      var impP = pos(d.imp), satP = pos(d.sat);
+      var target = sumImp > 0 ? 168 * impP / sumImp : null;
       return {
         unit: u, imp: d.imp, sat: d.sat, hrs: d.hrs,
         quad: quadrant(d.imp, d.sat),
-        pressure: d.imp * (10 - d.sat),
+        pressure: impP * (10 - satP),
         target: target,
         gap: target === null ? null : target - d.hrs
       };
@@ -1156,7 +1165,7 @@
       ["imp", "sat"].forEach(function (kind) {
         var v = state.slu[u.id][kind];
         var el = document.getElementById("val-" + kind + "-" + u.id);
-        el.textContent = v === null ? "" : v;
+        el.textContent = v === null ? "" : sgn(v);
         el.classList.toggle("set", v !== null);
       });
     });
@@ -1191,7 +1200,7 @@
         text: "You've answered the three big picture questions in Part 1" },
       { ok: ratedAll, pending: units.length === 0,
         text: "All 16 areas have importance, satisfaction, and hours (" + units.length + "/16 so far)" },
-      { ok: true, text: "Every rating sits between 0 and 10 (the sliders keep you honest)" },
+      { ok: true, text: "Every rating sits between -5 and +5 (the sliders keep you honest)" },
       { ok: anyHours && Math.abs(total - 168) <= 2, pending: !anyHours,
         text: "Your hours add up to about 168 (currently " + fmt(total) + " h)" },
       { ok: anyHours && maxSingle <= 100, pending: !anyHours,
@@ -1224,8 +1233,8 @@
     var W = 860, H = 652;
     var m = { top: 34, right: 30, bottom: 84, left: 74 };
     var iw = W - m.left - m.right, ih = H - m.top - m.bottom;
-    var x = function (sat) { return m.left + sat / 10 * iw; };
-    var y = function (imp) { return m.top + (1 - imp / 10) * ih; };
+    var x = function (sat) { return m.left + (sat + 5) / 10 * iw; };
+    var y = function (imp) { return m.top + (1 - (imp + 5) / 10) * ih; };
     var mid = state.midpoint;
 
     var maxHrs = Math.max.apply(null, diags.map(function (d) { return d.hrs; }));
@@ -1255,12 +1264,12 @@
     /* quadrant wash: the priority-gap corner */
     s.push('<rect x="' + m.left + '" y="' + m.top + '" width="' + (x(mid) - m.left) + '" height="' + (y(mid) - m.top) + '" fill="var(--quad-wash)"/>');
 
-    /* gridlines every 2 */
-    for (var g = 0; g <= 10; g += 2) {
+    /* gridlines at every point on the -5..+5 scale */
+    for (var g = -5; g <= 5; g += 1) {
       s.push('<line x1="' + x(g) + '" y1="' + m.top + '" x2="' + x(g) + '" y2="' + (m.top + ih) + '" stroke="var(--grid)" stroke-width="1"/>');
       s.push('<line x1="' + m.left + '" y1="' + y(g) + '" x2="' + (m.left + iw) + '" y2="' + y(g) + '" stroke="var(--grid)" stroke-width="1"/>');
-      s.push('<text class="tick-label" x="' + x(g) + '" y="' + (m.top + ih + 18) + '" text-anchor="middle">' + g + "</text>");
-      s.push('<text class="tick-label" x="' + (m.left - 10) + '" y="' + (y(g) + 4) + '" text-anchor="end">' + g + "</text>");
+      s.push('<text class="tick-label" x="' + x(g) + '" y="' + (m.top + ih + 18) + '" text-anchor="middle">' + sgn(g) + "</text>");
+      s.push('<text class="tick-label" x="' + (m.left - 10) + '" y="' + (y(g) + 4) + '" text-anchor="end">' + sgn(g) + "</text>");
     }
 
     /* midpoint dividers */
@@ -1339,7 +1348,7 @@
         var d = diags.filter(function (dd) { return dd.unit.id === c.getAttribute("data-slu"); })[0];
         if (!d) return;
         tip.innerHTML = "<b>" + d.unit.name + "</b><br>" + AREAS[d.unit.area].name +
-          "<br>Importance " + d.imp + " · Satisfaction " + d.sat +
+          "<br>Importance " + sgn(d.imp) + " · Satisfaction " + sgn(d.sat) +
           "<br>" + fmt(d.hrs) + " h/wk · " + d.quad.name;
         var rect = chartHolder.getBoundingClientRect();
         var tx = ev.clientX - rect.left + 14, ty = ev.clientY - rect.top + 14;
@@ -1365,8 +1374,8 @@
       var gapTxt = d.gap === null ? "" : (d.gap > 0 ? "+" : "") + fmt(d.gap);
       return "<tr>" +
         '<td><span class="chip" style="background:var(' + AREAS[d.unit.area].colorVar + ')"></span>' + d.unit.name + "</td>" +
-        '<td class="num">' + d.imp + "</td>" +
-        '<td class="num">' + d.sat + "</td>" +
+        '<td class="num">' + sgn(d.imp) + "</td>" +
+        '<td class="num">' + sgn(d.sat) + "</td>" +
         '<td class="num">' + fmt(d.hrs) + "</td>" +
         '<td><span class="quad-pill ' + quadCls + '">' + d.quad.name + "</span></td>" +
         '<td class="num">' + d.pressure + "</td>" +
@@ -1398,7 +1407,7 @@
       var plan = state.plans[d.unit.id] || {};
       return '<div class="card plan-card" data-plan="' + d.unit.id + '">' +
         "<h3><span class=\"chip\" style=\"background:var(" + AREAS[d.unit.area].colorVar + ")\"></span>" + d.unit.name + "</h3>" +
-        '<p class="plan-meta">Pressure ' + d.pressure + " · importance " + d.imp + ", satisfaction " + d.sat + ", " + fmt(d.hrs) + " h/wk</p>" +
+        '<p class="plan-meta">Pressure ' + d.pressure + " · importance " + sgn(d.imp) + ", satisfaction " + sgn(d.sat) + ", " + fmt(d.hrs) + " h/wk</p>" +
         PLAN_FIELDS.map(function (f) {
           var val = (plan[f.key] || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
           var idAttr = ' id="plan-' + d.unit.id + "-" + f.key + '" data-field="' + f.key + '"';
@@ -1670,6 +1679,7 @@
 
 <!-- Copyright 2026 George M Fournier, MBA version 7.16.2026 -->
 
+
 <script>
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1")) {
   window.addEventListener("load", function () {
@@ -1678,4 +1688,3 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
 }
 </script>
 </body>
-</html>
