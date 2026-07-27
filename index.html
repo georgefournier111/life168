@@ -1392,7 +1392,7 @@
     { key: "stop",    label: "Reduce or stop", kind: "input" },
     { key: "realloc", label: "Time / money / energy to shift", kind: "input" },
     { key: "first",   label: "Your very first action", kind: "input" },
-    { key: "review",  label: "Check in date", kind: "input" },
+    { key: "review",  label: "Check in date", kind: "date" },
     { key: "measure", label: "How you'll know it's working", kind: "input" }
   ];
 
@@ -1414,7 +1414,9 @@
           return '<div class="plan-field"><label for="plan-' + d.unit.id + "-" + f.key + '">' + f.label + "</label>" +
             (f.kind === "textarea"
               ? "<textarea" + idAttr + ">" + val + "</textarea>"
-              : '<input type="text"' + idAttr + ' value="' + val + '">') +
+              : f.kind === "date"
+                ? '<input type="date"' + idAttr + ' value="' + val + '">'
+                : '<input type="text"' + idAttr + ' value="' + val + '">') +
             "</div>";
         }).join("") +
         "</div>";
@@ -1423,12 +1425,14 @@
     grid.querySelectorAll("[data-plan]").forEach(function (cardEl) {
       var sluId = cardEl.getAttribute("data-plan");
       cardEl.querySelectorAll("[data-field]").forEach(function (input) {
-        input.addEventListener("input", function () {
+        var onChange = function () {
           if (!state.plans[sluId]) state.plans[sluId] = {};
           state.plans[sluId][input.getAttribute("data-field")] = input.value;
           save();
           renderSummary();
-        });
+        };
+        input.addEventListener("input", onChange);
+        input.addEventListener("change", onChange);
       });
     });
   }
