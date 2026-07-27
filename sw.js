@@ -1,6 +1,6 @@
 /* Copyright 2026 George M Fournier, MBA version 7.16.2026 */
 /* Service worker: caches the app so it opens and works with no connection. */
-var CACHE = "wlll168-v35";
+var CACHE = "wlll168-v36";
 var ASSETS = [
   "./",
   "./index.html",
@@ -10,8 +10,7 @@ var ASSETS = [
   "./icon-maskable-512.png",
   "./apple-touch-icon.png",
   "./privacy.html",
-  "./support.html",
-  "./podcast-brief.m4a"
+  "./support.html"
 ];
 
 /* Cache each file on its own. If one file is missing the install still
