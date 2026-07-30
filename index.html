@@ -157,7 +157,19 @@
     border-radius: 16px; margin-top: 28px;
     padding: clamp(28px, 5vw, 52px) clamp(24px, 5vw, 56px);
     border-bottom: 6px solid var(--gold);
+    position: relative; overflow: hidden;
   }
+  /* Photo hero: fills the header, faded on the left into the royal band so the
+     text stays readable, and sits behind all header content. If header-hero.jpg
+     is absent the gradient falls back over the royal band (solid royal). */
+  header.masthead::before {
+    content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(90deg, var(--band) 0%, var(--band) 32%, rgba(23,69,143,0.80) 50%, rgba(23,69,143,0.30) 76%, rgba(23,69,143,0.08) 100%),
+      url("header-hero.jpg");
+    background-size: cover; background-position: 60% center; background-repeat: no-repeat;
+  }
+  header.masthead > * { position: relative; z-index: 1; }
   .eyebrow {
     font-size: 12px; font-weight: 700; letter-spacing: 0.16em;
     text-transform: uppercase; color: var(--gold); margin: 0 0 12px;

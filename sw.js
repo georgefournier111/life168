@@ -1,6 +1,6 @@
 /* Copyright 2026 George M Fournier, MBA version 7.16.2026 */
 /* Service worker: caches the app so it opens and works with no connection. */
-var CACHE = "wlll168-v42";
+var CACHE = "wlll168-v44";
 /* The host serves clean URLs: /privacy and /support (the .html versions
    308-redirect here). Precache the clean paths so navigations never hit a
    redirect through the service worker. */
@@ -12,6 +12,7 @@ var ASSETS = [
   "./icon-512.png",
   "./icon-maskable-512.png",
   "./apple-touch-icon.png",
+  "./header-hero.jpg",
   "./privacy",
   "./support"
 ];
