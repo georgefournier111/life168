@@ -45,8 +45,25 @@ TO UPDATE THE APP LATER
   sw.js from "wlll168-v4" to "wlll168-v5" (then v6, and so on) so
   installed copies pick up the update.
 
+PRIVACY POLICY AND SUPPORT PAGES (required by Google Play)
+  Two pages are included: privacy.html and support.html. The host serves them
+  at clean addresses (no .html). Once your site is live, use these:
+    https://app.life168.org/privacy
+    https://app.life168.org/support
+  Google Play requires a privacy policy URL. Paste the /privacy address
+  into the Play Console store listing when asked. The app footer also links
+  to both pages. (Use the clean addresses above, not the .html versions: the
+  .html links redirect, which the installed app's service worker rejects.)
+
+  IMPORTANT: both pages list support@life168.org as the contact email.
+  Either set up that address (mail forwarding on your life168.org domain)
+  so messages reach you, or change the two "support@life168.org" lines in
+  privacy.html and support.html to an email you check.
+
 THEN FOR GOOGLE PLAY
-  Once https://georgefournier111.github.io/Life-168/ is live, go to
+  Once https://app.life168.org/ is live, go to
   https://www.pwabuilder.com and enter THAT address (not the github.com
   repository address). It will find the service worker and generate the
-  Android package for the Google Play Console ($25 one time).
+  Android package for the Google Play Console ($25 one time). When the
+  listing asks for a privacy policy, use
+  https://app.life168.org/privacy

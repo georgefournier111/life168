@@ -1,6 +1,9 @@
 /* Copyright 2026 George M Fournier, MBA version 7.16.2026 */
 /* Service worker: caches the app so it opens and works with no connection. */
-var CACHE = "wlll168-v38";
+var CACHE = "wlll168-v39";
+/* The host serves clean URLs: /privacy and /support (the .html versions
+   308-redirect here). Precache the clean paths so navigations never hit a
+   redirect through the service worker. */
 var ASSETS = [
   "./",
   "./index.html",
@@ -9,8 +12,8 @@ var ASSETS = [
   "./icon-512.png",
   "./icon-maskable-512.png",
   "./apple-touch-icon.png",
-  "./privacy.html",
-  "./support.html"
+  "./privacy",
+  "./support"
 ];
 
 /* Cache each file on its own. If one file is missing the install still
@@ -41,6 +44,16 @@ self.addEventListener("fetch", function (e) {
     caches.match(e.request, { ignoreSearch: true }).then(function (hit) {
       if (hit) return hit;
       return fetch(e.request).then(function (res) {
+        /* A browser rejects a redirected response handed back from a service
+           worker for a page navigation ("this site can't be reached"). If the
+           network followed a redirect, rebuild a plain, non-redirected copy. */
+        if (res && res.redirected) {
+          return res.blob().then(function (body) {
+            return new Response(body, {
+              status: res.status, statusText: res.statusText, headers: res.headers
+            });
+          });
+        }
         if (res && res.status === 200 && res.type === "basic") {
           var copy = res.clone();
           caches.open(CACHE).then(function (c) { c.put(e.request, copy); });
