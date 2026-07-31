@@ -1,5 +1,5 @@
 WORK, LIFE, LAUGH & LOVE | 168
-Copyright 2026 George M Fournier, MBA version 7.16.2026
+Copyright 2026 George M Fournier, MBA v8.1.26
 
 IMPORTANT: every file must sit at the TOP LEVEL of the site, with no
 subfolders. The app looks for its icons and audio right beside index.html.

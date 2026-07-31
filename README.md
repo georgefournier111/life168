@@ -50,4 +50,4 @@ Use the browser's print dialog (Ctrl+P, or the browser menu). The page carries p
 
 Survey methodology: Dr. Rainer Strack, Strategic Life Portfolio.
 
-Copyright 2026 George M Fournier, MBA version 7.16.2026. All rights reserved.
+Copyright 2026 George M Fournier, MBA v8.1.26. All rights reserved.
