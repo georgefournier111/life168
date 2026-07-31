@@ -277,6 +277,68 @@
     margin: 0 0 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.14em;
     text-transform: uppercase; color: var(--accent-ink);
   }
+
+  /* ---------- Butterfly Effect lead-in ---------- */
+  .bfly-intro {
+    display: flex; align-items: center; gap: clamp(16px, 3vw, 34px);
+    background: linear-gradient(90deg, rgba(0,103,200,0.06), rgba(0,103,200,0));
+    border-left: 4px solid var(--accent);
+    border-radius: 12px;
+    padding: 16px clamp(14px, 2.5vw, 22px);
+    margin: 0 0 22px;
+  }
+  .bfly-text { min-width: 0; flex: 1 1 auto; }
+  .bfly-title {
+    margin: 0 0 6px; font-family: var(--sans); font-weight: 700;
+    font-size: clamp(17px, 2.4vw, 21px); color: var(--head-ink);
+  }
+  .bfly-text p { margin: 0; font-size: 15.5px; color: var(--ink-2); line-height: 1.5; }
+  .bfly-text .lift { color: var(--head-ink); font-weight: 700; }
+  .bfly-art { flex: none; width: clamp(104px, 16vw, 158px); }
+  /* The wings flap for real: the artwork is split down the body axis into two
+     halves, each hinged on that axis and rotated in 3D. */
+  .bfly {
+    position: relative; width: 100%; aspect-ratio: 600 / 342;
+    perspective: 520px;
+    filter: drop-shadow(0 5px 7px rgba(11,11,11,0.24));
+    animation: bflyFloat 3.4s ease-in-out infinite;
+  }
+  .bfly-half {
+    position: absolute; top: 0; height: 100%;
+    background-image: url("butterfly.png"); background-repeat: no-repeat;
+    backface-visibility: hidden;
+  }
+  /* the body sits at 55% across the artwork, so that is the hinge */
+  .bfly-l {
+    left: 0; width: 55%; background-position: left center; background-size: 181.82% 100%;
+    transform-origin: right center; animation: bflyFlapL 1.15s ease-in-out infinite;
+  }
+  .bfly-r {
+    left: 55%; width: 45%; background-position: right center; background-size: 222.22% 100%;
+    transform-origin: left center; animation: bflyFlapR 1.15s ease-in-out infinite;
+  }
+  @keyframes bflyFlapL {
+    0%, 100% { transform: rotateY(0deg); }
+    50%      { transform: rotateY(52deg); }
+  }
+  @keyframes bflyFlapR {
+    0%, 100% { transform: rotateY(0deg); }
+    50%      { transform: rotateY(-52deg); }
+  }
+  @keyframes bflyFloat {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-7px); }
+  }
+  @media (max-width: 640px) {
+    .bfly-intro { flex-direction: column-reverse; align-items: center; }
+    .bfly-art { width: 124px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bfly, .bfly-l, .bfly-r { animation: none; }
+  }
+  @media print {
+    .bfly, .bfly-l, .bfly-r { animation: none; }
+  }
   .callout-head {
     font-family: var(--sans); font-weight: 700;
     font-size: clamp(24px, 4vw, 34px); line-height: 1.15; color: var(--head-ink);
@@ -630,6 +692,25 @@
 
   <section class="callout" id="callout">
     <p class="callout-eyebrow">Before you begin</p>
+
+    <div class="bfly-intro">
+      <div class="bfly-text">
+        <p class="bfly-title">The Butterfly Effect</p>
+        <p>
+          A tiny change at the beginning can shift your entire direction later. Small actions,
+          repeated, compound into a life of meaning. Small neglect compounds into regret.
+          You may not control every outcome, but you <span class="lift">always influence direction</span>.
+          Life 168 helps you find that one small change and start it this week.
+        </p>
+      </div>
+      <div class="bfly-art">
+        <div class="bfly" role="img" aria-label="A butterfly gently flapping its wings">
+          <div class="bfly-half bfly-l"></div>
+          <div class="bfly-half bfly-r"></div>
+        </div>
+      </div>
+    </div>
+
     <h2 class="callout-head">What does a great life mean to you?</h2>
     <p class="callout-body">
       Our goals and objectives change as we age. Some of us plan to attend college, start a family,
