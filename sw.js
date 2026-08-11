@@ -1,6 +1,6 @@
 /* Copyright 2026 George M Fournier, MBA v8.1.26 */
 /* Service worker: caches the app so it opens and works with no connection. */
-var CACHE = "wlll168-v46";
+var CACHE = "wlll168-v48";
 /* The host serves clean URLs: /privacy and /support (the .html versions
    308-redirect here). Precache the clean paths so navigations never hit a
    redirect through the service worker. */

@@ -346,6 +346,17 @@
   }
   .callout p.callout-body { font-size: 16.5px; color: var(--ink-2); margin: 0 0 14px; max-width: 66ch; }
   .callout p.callout-body:last-of-type { margin-bottom: 0; }
+  /* the life-events list: short items, so run them in two columns */
+  .life-events {
+    margin: 14px 0 16px; padding-left: 24px; max-width: 62ch;
+    columns: 2; column-gap: 34px;
+  }
+  .life-events li {
+    font-size: 15.5px; color: var(--ink-2); line-height: 1.55;
+    break-inside: avoid; margin: 0 0 3px;
+  }
+  .life-events li::marker { color: var(--gold); }
+  @media (max-width: 560px) { .life-events { columns: 1; } }
   .callout-list { margin: 16px 0 0; padding-left: 24px; max-width: 66ch; }
   .callout-list li { font-size: 16.5px; color: var(--ink); line-height: 1.5; }
   .callout-list li::marker { color: var(--gold); font-size: 1.15em; }
@@ -713,23 +724,32 @@
 
     <h2 class="callout-head">What does a great life mean to you?</h2>
     <p class="callout-body">
-      Our goals and objectives change as we age. Some of us plan to attend college, start a family,
-      or launch a new business. Others focus on financial security and early retirement. Some seek a
-      relaxed family life or greater peace and tranquility. And some of us dream of owning big, shiny toys.
+      Our goals and objectives change over time. Some of us plan to attend college, start a family,
+      or launch a new business. Others focus on financial security and early retirement. Some simply
+      seek a relaxed family life or greater peace and tranquility. A few of us dream of owning big,
+      shiny toys.
     </p>
     <p class="callout-body">
-      Failing to plan is planning for failure in business and in life. If we prepare our minds and bodies
-      for a task, even a small task, we can achieve it because we practice direction. Direction becomes
-      experience.
+      Failing to plan is planning to fail in business and in life. When we prepare our minds and bodies
+      for a task, even a small one, we usually finish it. Preparation gives us direction. Direction
+      becomes experience. Some life events, we plan; sometimes life happens. Life can be stressful.
     </p>
-    <p class="callout-body">
-      This assessment helps students of all ages to examine personal priorities, life goals, and time
-      allocation across 16 strategic life factors. We can shift our priorities in bad economic weather
-      or personal tragedy. Life happens. Plan. Be prepared.
-    </p>
-    <ul class="callout-list">
-      <li><b>Complete this strategic life assessment and create a one-page life strategy to live your best life with clarity, purpose, and joy.</b></li>
+    <ul class="life-events">
+      <li>Starting a new relationship</li>
+      <li>Ending a marriage or partnership</li>
+      <li>Experiencing a traumatic event</li>
+      <li>Having a child</li>
+      <li>Learning about a health condition</li>
+      <li>Losing a loved one</li>
+      <li>Losing or starting a job</li>
+      <li>Going or not going to college</li>
+      <li>Moving to a new place</li>
     </ul>
+    <p class="callout-body">
+      We can lose focus on our ideal self or our ideal life. We refocus; one day at a time.
+      24 hours over 7 days is 168 hours. Week by week, we balance. Start by mapping one week
+      into 168 hours. Start today.
+    </p>
     <p class="callout-close">What does a great life mean to you? <span class="start">Start here.</span></p>
     <div class="date-row">
       <label for="start-date">To start, enter today's date:</label>
