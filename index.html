@@ -159,17 +159,39 @@
     border-bottom: 6px solid var(--gold);
     position: relative; overflow: hidden;
   }
-  /* Photo hero: fills the header, faded on the left into the royal band so the
-     text stays readable, and sits behind all header content. If header-hero.jpg
-     is absent the gradient falls back over the royal band (solid royal). */
-  header.masthead::before {
-    content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-    background-image:
-      linear-gradient(90deg, var(--band) 0%, var(--band) 32%, rgba(23,69,143,0.80) 50%, rgba(23,69,143,0.30) 76%, rgba(23,69,143,0.08) 100%),
-      url("header-hero.jpg");
-    background-size: cover; background-position: 60% center; background-repeat: no-repeat;
+  /* Photo montage: six images cross-fading on a 72 second loop (same set and
+     timing as the life168.org site), sitting behind all header content. */
+  .hero-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+  .hero-bg .hs {
+    position: absolute; inset: 0; opacity: 0;
+    background-size: cover; background-position: 50% 58%; background-repeat: no-repeat;
+    animation: heroFade 72s ease-in-out infinite; will-change: opacity;
   }
-  header.masthead > * { position: relative; z-index: 1; }
+  .hero-bg .hs1 { background-image: url("hero-1.jpg"); animation-delay: 0s; }
+  .hero-bg .hs2 { background-image: url("hero-2.jpg"); animation-delay: -12s; }
+  .hero-bg .hs3 { background-image: url("hero-3.jpg"); animation-delay: -24s; }
+  .hero-bg .hs4 { background-image: url("hero-4.jpg"); animation-delay: -36s; }
+  .hero-bg .hs5 { background-image: url("hero-5.jpg"); animation-delay: -48s; }
+  .hero-bg .hs6 { background-image: url("hero-6.jpg"); animation-delay: -60s; }
+  @keyframes heroFade {
+    0%, 100%       { opacity: 0; }
+    13.89%, 16.67% { opacity: 1; }
+    30.56%         { opacity: 0; }
+  }
+  /* left fade into the royal band, over the photos, so the copy stays readable */
+  header.masthead::before {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: linear-gradient(90deg, var(--band) 0%, var(--band) 32%, rgba(23,69,143,0.80) 50%, rgba(23,69,143,0.30) 76%, rgba(23,69,143,0.08) 100%);
+  }
+  header.masthead > *:not(.hero-bg) { position: relative; z-index: 2; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-bg .hs { animation: none; }
+    .hero-bg .hs1 { opacity: 1; }
+  }
+  @media print {
+    .hero-bg .hs { animation: none; }
+    .hero-bg .hs1 { opacity: 1; }
+  }
   .eyebrow {
     font-size: 12px; font-weight: 700; letter-spacing: 0.16em;
     text-transform: uppercase; color: var(--gold); margin: 0 0 12px;
@@ -665,6 +687,10 @@
 <div class="wrap">
   <p class="copyright top">Copyright 2026 George M Fournier, MBA v8.1.26</p>
   <header class="masthead">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hs hs1"></div><div class="hs hs2"></div><div class="hs hs3"></div>
+      <div class="hs hs4"></div><div class="hs hs5"></div><div class="hs hs6"></div>
+    </div>
     <p class="eyebrow">A six part survey · about 20 minutes</p>
     <div class="title-row">
       <svg class="logo" viewBox="0 0 100 100" role="img" aria-label="Life 168 logo">
