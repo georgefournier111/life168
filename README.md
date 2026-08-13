@@ -1,4 +1,4 @@
-# Work, Life, Laugh & Love | 168
+#Life 168 | Balance 24*7
 
 A six part life planning survey you can run in any browser, install on a phone like an app, and print to one page. There are 168 hours in every week. This tool shows you where yours actually go, and helps you decide where they should go next.
 
