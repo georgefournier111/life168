@@ -6,12 +6,17 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
+  "orientation": "any",
   "background_color": "#f8f9fb",
   "theme_color": "#17458F",
   "icons": [
     { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
     { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    { "src": "screenshot-intro.jpg", "sizes": "1200x1652", "type": "image/jpeg", "form_factor": "narrow", "label": "Before you begin: what does a great life mean to you?" },
+    { "src": "screenshot-rate.jpg", "sizes": "1200x1700", "type": "image/jpeg", "form_factor": "narrow", "label": "Part 2: rate your 16 life areas in base 168" },
+    { "src": "screenshot-portfolio.jpg", "sizes": "1200x1493", "type": "image/jpeg", "form_factor": "narrow", "label": "Your life portfolio on one chart" }
   ]
 }
