@@ -613,6 +613,26 @@
   }
   .remind-status { font-size: 13px; color: var(--ink-2); margin: 10px 0 0; }
 
+  /* ---------- Take the plan with you (inside the keep-a-copy callout) ---------- */
+  .keep-tools {
+    width: 100%; margin-top: 6px; padding-top: 16px; border-top: 1px solid var(--grid);
+  }
+  .ai-head {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--head-ink); margin-bottom: 8px;
+  }
+  .ai-lead { font-size: 14px; color: var(--ink-2); margin: 0 0 12px; max-width: 66ch; }
+  .ai-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .ai-row select {
+    font: inherit; font-size: 14px; color: var(--ink); background: var(--page);
+    border: 1px solid var(--border); border-radius: 8px; padding: 9px 10px;
+  }
+  .ai-status { font-size: 13px; font-weight: 700; color: var(--good-text); margin: 10px 0 0; min-height: 18px; }
+  .ai-status.warn { color: var(--critical); }
+  .ai-fallback { width: 100%; min-height: 120px; margin-top: 10px; font-size: 12.5px; }
+  .ai-fallback[hidden] { display: none; }
+  .ai-note { font-size: 12.5px; color: var(--muted); margin: 10px 0 0; max-width: 70ch; line-height: 1.5; }
+
   /* Print hint with keyboard-key visuals */
   .print-hint {
     display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;
@@ -982,6 +1002,7 @@
         <p class="remind-status" id="remind-status"></p>
       </div>
     </div>
+
   </section>
 
   <div class="print-hint">
@@ -992,6 +1013,31 @@
       <kbd class="key">P</kbd>
     </span>
     <span class="ph-mac">On a Mac, press <kbd class="key">&#8984;</kbd> + <kbd class="key">P</kbd> instead.</span>
+
+    <div class="keep-tools">
+      <div class="ai-head">Take your plan with you</div>
+      <p class="ai-lead">
+        Copy your plan into Claude, ChatGPT, or any AI assistant to talk it through, or save it as a
+        file you can keep and reuse.
+      </p>
+      <div class="ai-row">
+        <select id="ai-mode" aria-label="What do you want the AI assistant to help you with?">
+          <option value="coach">Coach me through it</option>
+          <option value="stress">Stress test my plan</option>
+          <option value="specific">Make my first actions specific</option>
+          <option value="checkin">Run my 30 day check in</option>
+        </select>
+        <button type="button" id="btn-ai-copy" class="btn-gold">Copy my plan for AI</button>
+        <button type="button" id="btn-plan-json" class="btn-gold">Save my plan as a file</button>
+      </div>
+      <p class="ai-status" id="ai-status" aria-live="polite"></p>
+      <textarea class="ai-fallback" id="ai-fallback" hidden readonly
+        aria-label="Your plan, ready to copy"></textarea>
+      <p class="ai-note">
+        Copying puts your plan on your clipboard so you can paste it somewhere else. If you paste it
+        into an AI assistant, it goes to that company. Only paste what you are comfortable sharing.
+      </p>
+    </div>
   </div>
 
   <footer>
@@ -1667,6 +1713,256 @@
   }
 
   /* ---------- Part 6: the one page action plan summary ---------- */
+  /* ---------- Take the plan into an AI assistant ---------- */
+  var AI_PROMPTS = {
+    coach: "You are my accountability coach. Read my Life 168 action plan below, then help me follow " +
+           "through on it. Start by telling me the one thing you would focus on first and why. Then ask " +
+           "me one question at a time. Keep it practical and encouraging, and do not rewrite my whole " +
+           "plan unless I ask you to.",
+    stress: "Read my Life 168 action plan below and stress test it. Where is it unrealistic, vague, or " +
+            "likely to fail? Check whether my hours add up, whether my three priorities match where my " +
+            "pressure scores actually are, and whether my first actions are small enough to start this " +
+            "week. Be direct and specific.",
+    specific: "Read my Life 168 action plan below. For each of my three priorities, turn my first action " +
+              "into something specific I can actually do this week: what exactly I will do, on which day, " +
+              "for how long, and how I will know it happened. Keep my intent, just make it concrete.",
+    checkin: "Read my Life 168 action plan below, then run my 30 day check in. Ask me, one priority at a " +
+             "time, what actually happened, what got in the way, and what I want to change. At the end, " +
+             "give me a short revised plan for days 31 to 60."
+  };
+  /* The on-screen field labels are written as prompts ("Begin or do more of"), which
+     read badly followed by a value, so the export uses its own plain labels. */
+  var AI_FIELD_LABELS = [
+    { key: "outcome", label: "Better looks like" },
+    { key: "start",   label: "Begin or do more of" },
+    { key: "stop",    label: "Reduce or stop" },
+    { key: "realloc", label: "Time, money or energy to shift" },
+    { key: "first",   label: "First action" },
+    { key: "review",  label: "Check in date" },
+    { key: "measure", label: "How I will know it is working" }
+  ];
+  var AI_MONTHS = ["January", "February", "March", "April", "May", "June",
+                   "July", "August", "September", "October", "November", "December"];
+  function aiDate(days) {
+    var d = milestoneDate(days);
+    return AI_MONTHS[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
+  }
+
+  function buildAiText(mode) {
+    var diags = diagnostics().sort(function (a, b) { return b.pressure - a.pressure; });
+    if (!diags.length) return null;
+    var top3 = diags.slice(0, 3);
+    var pick = function (s, fallback) { return (s || "").trim() || fallback; };
+    var L = [];
+
+    L.push(AI_PROMPTS[mode] || AI_PROMPTS.coach);
+    L.push("");
+    L.push("Here is my plan.");
+    L.push("");
+    L.push("=== MY LIFE 168 ACTION PLAN ===");
+    L.push("Dated " + (state.startDate || todayStr()));
+    L.push("");
+    L.push("--- HOW TO READ THIS ---");
+    L.push("Life 168 maps one typical week: 24 hours x 7 days = 168 hours, spread across 16 areas of life.");
+    L.push("Importance and Satisfaction use an 11 point scale from -5 to +5, where 0 is neutral.");
+    L.push("Pressure combines how important an area is with how far its satisfaction falls short. Higher means it is asking for more attention.");
+    L.push("Target hours is the share of my 168 hours an area would get if my time simply followed importance. It is a compass, not a schedule.");
+    L.push("Time gap is target hours minus the hours I actually spend. Positive means the area may be starved for time; negative means there may be hours to win back.");
+    L.push("");
+    L.push("--- WHERE I AM HEADED (PART 1) ---");
+    L.push("A great life means: " + pick(state.context.great, "(not answered)"));
+    L.push("My life purpose: " + pick(state.context.purpose, "(not answered)"));
+    L.push("In 3 to 5 years: " + pick(state.context.vision, "(not answered)"));
+    L.push("");
+    L.push("--- MY WEEK, ALL RATED AREAS ---");
+    L.push("Area | Importance | Satisfaction | Hours/wk | Quadrant | Pressure | Target h | Time gap");
+    diags.forEach(function (d) {
+      L.push([d.unit.name, sgn(d.imp), sgn(d.sat), fmt(d.hrs), d.quad.name,
+              d.pressure, fmt(d.target), (d.gap > 0 ? "+" : "") + fmt(d.gap)].join(" | "));
+    });
+    L.push("Total hours placed: " + fmt(totalHours()) + " of 168");
+    L.push("");
+    L.push("--- MY TOP 3 PRIORITIES (PART 5) ---");
+    top3.forEach(function (d, i) {
+      var p = state.plans[d.unit.id] || {};
+      L.push((i + 1) + ". " + d.unit.name + "  (pressure " + d.pressure + ", importance " + sgn(d.imp) +
+             ", satisfaction " + sgn(d.sat) + ", " + fmt(d.hrs) + " h/wk)");
+      AI_FIELD_LABELS.forEach(function (f) {
+        L.push("   " + f.label + ": " + pick(p[f.key], "(not filled in)"));
+      });
+      L.push("");
+    });
+    L.push("--- MY 30, 60, 90 DAY PLAN ---");
+    L.push("Days 1 to 30, by " + aiDate(30));
+    top3.forEach(function (d) {
+      L.push("   " + d.unit.label + ": " + pick((state.plans[d.unit.id] || {}).first, "(choose a first action)"));
+    });
+    L.push("   Milestone: all three first actions taken.");
+    L.push("Days 31 to 60, by " + aiDate(60));
+    top3.forEach(function (d) {
+      var p = state.plans[d.unit.id] || {};
+      L.push("   " + d.unit.label + ": more of " + pick(p.start, "(the new habit)") +
+             "; less of " + pick(p.stop, "(what crowds it out)"));
+    });
+    L.push("   Benchmark: each change is a weekly habit.");
+    L.push("Days 61 to 90, by " + aiDate(90));
+    top3.forEach(function (d) {
+      L.push("   " + d.unit.label + ": " + pick((state.plans[d.unit.id] || {}).measure, "(how I will know it is working)"));
+    });
+    L.push("   Milestone: a full 90 day cycle finished, ready to re-map my week.");
+    return L.join("\n");
+  }
+
+  /* Clipboard API where it is allowed, with a manual-select fallback. */
+  function copyToClipboard(txt) {
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(txt);
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement("textarea");
+      ta.value = txt; ta.setAttribute("readonly", "");
+      ta.style.position = "fixed"; ta.style.top = "-1000px"; ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      if (ok) { resolve(); } else { reject(new Error("copy blocked")); }
+    });
+  }
+
+  var aiStatusTimer = null;
+  document.getElementById("btn-ai-copy").addEventListener("click", function () {
+    var statusEl = document.getElementById("ai-status");
+    var fb = document.getElementById("ai-fallback");
+    var txt = buildAiText(document.getElementById("ai-mode").value);
+    clearTimeout(aiStatusTimer);
+    if (!txt) {
+      statusEl.className = "ai-status warn";
+      statusEl.textContent = "Finish your ratings in Part 2 first, then your plan can be copied.";
+      return;
+    }
+    copyToClipboard(txt).then(function () {
+      fb.hidden = true;
+      statusEl.className = "ai-status";
+      statusEl.textContent = "Copied. Now paste it into Claude, ChatGPT, or your AI assistant.";
+      aiStatusTimer = setTimeout(function () { statusEl.textContent = ""; }, 9000);
+    })["catch"](function () {
+      fb.value = txt; fb.hidden = false; fb.focus(); fb.select();
+      statusEl.className = "ai-status warn";
+      statusEl.textContent = "Your browser blocked the copy. The text is selected below, copy it by hand.";
+    });
+  });
+
+  /* Structured export. This is the stable shape the Life 168 Coach skill reads,
+     so keep "format" and "version" in step with any change to the fields. */
+  function buildPlanJson() {
+    var diags = diagnostics().sort(function (a, b) { return b.pressure - a.pressure; });
+    if (!diags.length) return null;
+    var top3 = diags.slice(0, 3);
+    var txt = function (s) { return (s || "").trim(); };
+    var planOf = function (d) { return state.plans[d.unit.id] || {}; };
+
+    return {
+      format: "life168.plan",
+      version: 1,
+      exported: todayStr(),
+      plan_date: state.startDate || todayStr(),
+      method: {
+        source: "Dr. Rainer Strack, Strategic Life Portfolio",
+        week_hours: 168,
+        rating_scale: { min: -5, max: 5, neutral: 0,
+          note: "Importance and satisfaction are rated on an 11 point scale from -5 to +5, where 0 is neutral." },
+        quadrant_line: state.midpoint,
+        definitions: {
+          pressure: "How important an area is combined with how far its satisfaction falls short. Higher means it is asking for more attention.",
+          target_hours: "The share of the 168 hour week this area would get if time simply followed importance. A compass, not a schedule.",
+          time_gap: "Target hours minus actual hours. Positive means the area may be starved for time; negative means there may be hours to win back."
+        }
+      },
+      context: {
+        great_life: txt(state.context.great),
+        purpose: txt(state.context.purpose),
+        vision_3_to_5_years: txt(state.context.vision)
+      },
+      week: {
+        hours_available: 168,
+        hours_placed: totalHours(),
+        areas: diags.map(function (d) {
+          return {
+            id: d.unit.id,
+            name: d.unit.name,
+            group: AREAS[d.unit.area].name,
+            importance: d.imp,
+            satisfaction: d.sat,
+            hours_per_week: d.hrs,
+            quadrant: d.quad.name,
+            pressure: d.pressure,
+            target_hours: d.target === null ? null : Number(d.target.toFixed(1)),
+            time_gap: d.gap === null ? null : Number(d.gap.toFixed(1))
+          };
+        })
+      },
+      priorities: top3.map(function (d, i) {
+        var p = planOf(d);
+        return {
+          rank: i + 1,
+          id: d.unit.id,
+          name: d.unit.name,
+          pressure: d.pressure,
+          importance: d.imp,
+          satisfaction: d.sat,
+          hours_per_week: d.hrs,
+          better_looks_like: txt(p.outcome),
+          begin_or_do_more_of: txt(p.start),
+          reduce_or_stop: txt(p.stop),
+          shift: txt(p.realloc),
+          first_action: txt(p.first),
+          check_in_date: txt(p.review),
+          how_i_will_know: txt(p.measure)
+        };
+      }),
+      timeline: [30, 60, 90].map(function (days) {
+        return {
+          milestone_days: days,
+          by_date: isoDate(milestoneDate(days)),
+          focus: top3.map(function (d) {
+            var p = planOf(d);
+            return {
+              area: d.unit.name,
+              action: days === 30 ? txt(p.first)
+                    : days === 60 ? (txt(p.start) ? "More of " + txt(p.start) : "") +
+                                    (txt(p.stop) ? "; less of " + txt(p.stop) : "")
+                    : txt(p.measure)
+            };
+          })
+        };
+      })
+    };
+  }
+
+  function downloadFile(name, mime, text) {
+    var blob = new Blob([text], { type: mime });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  document.getElementById("btn-plan-json").addEventListener("click", function () {
+    var statusEl = document.getElementById("ai-status");
+    clearTimeout(aiStatusTimer);
+    var data = buildPlanJson();
+    if (!data) {
+      statusEl.className = "ai-status warn";
+      statusEl.textContent = "Finish your ratings in Part 2 first, then your plan can be saved.";
+      return;
+    }
+    downloadFile("life168-plan.json", "application/json", JSON.stringify(data, null, 2));
+    statusEl.className = "ai-status";
+    statusEl.textContent = "Saved as life168-plan.json. Attach it to an AI chat, or keep it to compare next time.";
+    aiStatusTimer = setTimeout(function () { statusEl.textContent = ""; }, 9000);
+  });
+
   function renderSummary() {
     var locked = document.getElementById("summary-locked");
     var holder = document.getElementById("summary-content");
