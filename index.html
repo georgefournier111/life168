@@ -613,6 +613,46 @@
   }
   .remind-status { font-size: 13px; color: var(--ink-2); margin: 10px 0 0; }
 
+  /* ---------- PERMA-V practices ---------- */
+  .perma { margin-top: 26px; }
+  .perma-intro { font-size: 15px; color: var(--ink-2); max-width: 68ch; margin: 10px 0 18px; }
+  .perma-intro b { color: var(--ink); }
+  .perma-grid { display: grid; gap: 14px; }
+  @media (min-width: 700px)  { .perma-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .perma-grid { grid-template-columns: 1fr 1fr 1fr; } }
+  .perma-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    box-shadow: var(--shadow); padding: 16px 18px; border-top: 5px solid var(--pill);
+  }
+  .perma-top { display: flex; align-items: center; gap: 10px; margin-bottom: 2px; }
+  .perma-letter {
+    flex: none; width: 34px; height: 34px; border-radius: 50%;
+    background: radial-gradient(circle at 36% 28%, rgba(255,255,255,0.55) 0%, var(--pill) 55%, rgba(0,0,0,0.22) 100%);
+    color: #fff; font-weight: 800; font-size: 17px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 3px rgba(11,11,11,0.26), inset 0 1px 2px rgba(255,255,255,0.4);
+  }
+  .perma-name { font-size: 16.5px; font-weight: 700; color: var(--head-ink); }
+  .perma-def { font-size: 13px; color: var(--muted); margin: 0 0 10px; }
+  .perma-card ul { margin: 0; padding-left: 18px; }
+  .perma-card li { font-size: 13.5px; color: var(--ink-2); line-height: 1.5; margin-bottom: 5px; }
+  .perma-card li b { color: var(--ink); }
+  .perma-card li::marker { color: var(--pill); }
+  .perma-match {
+    display: inline-block; margin-top: 2px; font-size: 10.5px; font-weight: 800;
+    letter-spacing: 0.07em; text-transform: uppercase; color: var(--good-text);
+    background: rgba(0,151,57,0.10); border: 1px solid rgba(0,151,57,0.30);
+    border-radius: 999px; padding: 2px 9px;
+  }
+  .perma-match[hidden] { display: none; }
+  .perma-why { font-size: 12.5px; color: var(--muted); margin: 10px 0 0; font-style: italic; }
+  .perma-start {
+    margin-top: 16px; background: var(--surface); border: 1px solid var(--border);
+    border-left: 6px solid var(--gold); border-radius: 12px; padding: 14px 18px;
+    font-size: 14px; color: var(--ink-2); box-shadow: var(--shadow);
+  }
+  .perma-start b { color: var(--head-ink); }
+
   /* ---------- Take the plan with you (inside the keep-a-copy callout) ---------- */
   .keep-tools {
     width: 100%; margin-top: 6px; padding-top: 16px; border-top: 1px solid var(--grid);
@@ -1003,6 +1043,22 @@
       </div>
     </div>
 
+    <div class="perma" id="perma">
+      <h3 class="sub">PERMA-V: practices that make a plan stick</h3>
+      <p class="perma-intro">
+        Your plan says <b>where</b> to act. PERMA-V says <b>how</b>. It is a positive psychology
+        framework of six building blocks for a flourishing life, and each one carries small
+        practices you can do on your own or with your family. When a first action feels too vague
+        to start, borrow one of these. The pillars marked
+        <span class="perma-match" style="margin:0">Matches your priorities</span>
+        line up with the three areas you chose in Part 5.
+      </p>
+      <div class="perma-grid" id="perma-grid"></div>
+      <p class="perma-start">
+        <b>Start with one.</b> Pick a single practice, get comfortable and consistent with it, then
+        add another as your capacity grows. Adding six at once is how good intentions collapse.
+      </p>
+    </div>
   </section>
 
   <div class="print-hint">
@@ -1328,6 +1384,7 @@
     renderPlan();
     renderSummary();
     renderReminders();
+    renderPerma();
   }
 
   function renderValues() {
@@ -1713,6 +1770,96 @@
   }
 
   /* ---------- Part 6: the one page action plan summary ---------- */
+  /* ---------- PERMA-V: six building blocks of flourishing ---------- */
+  var PERMA = [
+    { key: "P", name: "Positivity", colorVar: "--s2",
+      def: "The regular experience of positive emotions.",
+      practices: [
+        "<b>Three good things.</b> Each night, write down three things that went well.",
+        "<b>Savour for ten seconds.</b> When something good happens, stop and take it in.",
+        "<b>Gratitude ping pong.</b> Pass an object around the table; whoever holds it names something they are grateful for.",
+        "<b>Reframe the self talk.</b> Swap \"I am not good at this\" for \"I am working on this\", or \"I cannot do it yet\"."
+      ] },
+    { key: "E", name: "Engagement", colorVar: "--s1",
+      def: "Reaching flow, fully absorbed in what you are doing.",
+      practices: [
+        "<b>Find your flow activity.</b> Puzzles, games, sport, music: anything that makes you lose track of time.",
+        "<b>Anchor the mind.</b> Count backwards from 100 by sevens, or name animals alphabetically.",
+        "<b>Five senses pause.</b> Name what you can hear, see, smell, taste and feel right now.",
+        "<b>Breathe on a pattern.</b> 5:5:5 (in and out for five counts, five times), or square breathing (in, hold, out, hold, four counts each)."
+      ] },
+    { key: "R", name: "Relationships", colorVar: "--s3",
+      def: "Nurturing high quality connections with other people.",
+      practices: [
+        "<b>Speak their love language.</b> Learn how each person best receives care, then use it.",
+        "<b>Affirm out loud.</b> Specific, positive, present tense: say the good thing you noticed.",
+        "<b>Unplug on purpose.</b> Put the screens away to make room for conversation and play.",
+        "<b>Hug.</b> Physical connection builds trust and empathy faster than words do."
+      ] },
+    { key: "M", name: "Meaning", colorVar: "--s5",
+      def: "Serving a purpose that reaches beyond yourself.",
+      practices: [
+        "<b>Big P and little p.</b> Hold the large purpose, then apply your strengths to something small today.",
+        "<b>Know your strengths.</b> Take a character strengths assessment, then use your top strength deliberately.",
+        "<b>Cultivate awe.</b> Break the rut of sameness: watch a sunset, study the clouds, take the scenic route home."
+      ] },
+    { key: "A", name: "Achievement", colorVar: "--s4",
+      def: "A sense of accomplishment, progress and mastery.",
+      practices: [
+        "<b>Vision by horizon.</b> Picture each life area one year, five years and ten years out.",
+        "<b>Make it SMART.</b> Specific, measurable, attainable, realistic, time bound.",
+        "<b>Find the gap.</b> Use a Wheel of Life to see which area sits furthest from where you want it.",
+        "<b>Keep the lists.</b> A wants list for now, a bucket list for later."
+      ] },
+    { key: "V", name: "Vitality", colorVar: "--s6",
+      def: "Looking after the physical health of body and mind.",
+      practices: [
+        "<b>Protect sleep.</b> A steady wind down routine is what makes rest restorative.",
+        "<b>Move ten minutes.</b> Walk, swim, dance. Ten minutes a day lowers stress and lifts energy.",
+        "<b>Drink enough.</b> A common rule of thumb: your weight in pounds, divided by two, in ounces of water a day.",
+        "<b>Food as fuel.</b> Treat eating as fuelling, and get the family into the cooking."
+      ] }
+  ];
+
+  /* which pillars each of the 16 life areas leans on */
+  var SLU_PILLARS = {
+    partner: ["R"], family: ["R"], friends: ["R"],
+    mental: ["P", "V"], spirit: ["M"], physical: ["V"],
+    society: ["M"], community: ["M", "R"],
+    finances: ["A"], learning: ["A", "E"], job: ["A", "E"],
+    offline: ["E", "P"], online: ["E"], hobbies: ["E", "P"],
+    adl: ["V"], physio: ["V"]
+  };
+
+  /* top three priorities -> { pillarKey: [area labels] } */
+  function permaMatches() {
+    var top3 = diagnostics().sort(function (a, b) { return b.pressure - a.pressure; }).slice(0, 3);
+    var m = {};
+    top3.forEach(function (d) {
+      (SLU_PILLARS[d.unit.id] || []).forEach(function (k) {
+        if (!m[k]) m[k] = [];
+        if (m[k].indexOf(d.unit.label) === -1) m[k].push(d.unit.label);
+      });
+    });
+    return m;
+  }
+
+  function renderPerma() {
+    var grid = document.getElementById("perma-grid");
+    var matched = permaMatches();
+    grid.innerHTML = PERMA.map(function (p) {
+      var names = matched[p.key];
+      return '<div class="perma-card" style="--pill: var(' + p.colorVar + ')">' +
+        '<div class="perma-top"><span class="perma-letter" aria-hidden="true">' + p.key + "</span>" +
+        '<span class="perma-name">' + p.name + "</span></div>" +
+        (names ? '<span class="perma-match">Matches your priorities</span>' : "") +
+        '<p class="perma-def">' + p.def + "</p>" +
+        "<ul>" + p.practices.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul>" +
+        (names ? '<p class="perma-why">Because you chose ' + names.join(" and ") + ".</p>" : "") +
+        "</div>";
+    }).join("");
+  }
+
   /* ---------- Take the plan into an AI assistant ---------- */
   var AI_PROMPTS = {
     coach: "You are my accountability coach. Read my Life 168 action plan below, then help me follow " +
@@ -1792,6 +1939,17 @@
       });
       L.push("");
     });
+    var matched = permaMatches();
+    var matchedKeys = PERMA.filter(function (p) { return matched[p.key]; });
+    if (matchedKeys.length) {
+      L.push("--- PERMA-V PILLARS BEHIND MY PRIORITIES ---");
+      L.push("PERMA-V is six building blocks of a flourishing life: Positivity, Engagement, Relationships, Meaning, Achievement, Vitality. These are the ones my three priorities lean on:");
+      matchedKeys.forEach(function (p) {
+        L.push("- " + p.name + " (" + p.def.replace(/\.$/, "") + ") because I chose " + matched[p.key].join(" and "));
+      });
+      L.push("If my first actions are vague, suggest a small, concrete practice from these pillars.");
+      L.push("");
+    }
     L.push("--- MY 30, 60, 90 DAY PLAN ---");
     L.push("Days 1 to 30, by " + aiDate(30));
     top3.forEach(function (d) {
@@ -1861,9 +2019,10 @@
     var txt = function (s) { return (s || "").trim(); };
     var planOf = function (d) { return state.plans[d.unit.id] || {}; };
 
+    var matched = permaMatches();
     return {
       format: "life168.plan",
-      version: 1,
+      version: 2,
       exported: todayStr(),
       plan_date: state.startDate || todayStr(),
       method: {
@@ -1917,9 +2076,23 @@
           shift: txt(p.realloc),
           first_action: txt(p.first),
           check_in_date: txt(p.review),
-          how_i_will_know: txt(p.measure)
+          how_i_will_know: txt(p.measure),
+          perma_v_pillars: SLU_PILLARS[d.unit.id] || []
         };
       }),
+      perma_v: {
+        note: "Six building blocks of a flourishing life. Use them to turn a vague first action into a concrete practice.",
+        pillars: PERMA.map(function (p) {
+          return {
+            key: p.key,
+            name: p.name,
+            definition: p.def,
+            matches_my_priorities: !!matched[p.key],
+            because_i_chose: matched[p.key] || [],
+            practices: p.practices.map(function (x) { return x.replace(/<\/?b>/g, ""); })
+          };
+        })
+      },
       timeline: [30, 60, 90].map(function (days) {
         return {
           milestone_days: days,
