@@ -1,8 +1,10 @@
 #Life 168 | Balance 24*7
 
-A six part life planning survey you can run in any browser, install on a phone like an app, and print to one page. There are 168 hours in every week. This tool shows you where yours actually go, and helps you decide where they should go next.
+Strategize your life.  Failing to plan is planning to fail in business and life.  Some life events, we plan; sometimes life happens.  You have 168 hours in every week. Most of us never step back to see where those hours truly go or whether they match what matters most.  The Life168 app helps you to map your time across 16 strategic life factors. 1) Find your focus.  2) Chart your time.  3) Create a a 30, 60 and 90 day action plan.  4) Place check points on your calendar.  5) Use AI & PREMV-A life skills to manage what's most important to you.  
 
-Based on Dr. Rainer Strack's Strategic Life Portfolio method ("Use Strategic Thinking to Create the Life You Want," TED / Harvard Business Review).
+Life 168 is based on Dr. Rainer Strack's Strategic Life Portfolio method ("Use Strategic Thinking to Create the Life You Want," TED / Harvard Business Review). Create your one-page life strategy to live your best life with clarity, purpose, and joy   
+
+Start today. 
 
 ## What it does
 
