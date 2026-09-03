@@ -3,6 +3,6 @@
       "target": {
         "namespace": "android_app",
         "package_name": "org.life168.app.twa",
-        "sha256_cert_fingerprints": ["2E:70:EA:94:60:CC:17:6E:E7:DB:89:9E:AE:72:93:A7:8E:EE:B6:A5:E5:15:FA:3C:8B:6F:04:B5:82:D2:FF:27"]
+        "sha256_cert_fingerprints": ["AE:EF:90:12:F1:AD:EE:E8:09:B2:7C:FC:73:18:2F:55:7A:0D:6D:C4:C2:5C:CE:AD:4E:18:7F:E9:DC:30:FF:DC"]
       }
     }]
