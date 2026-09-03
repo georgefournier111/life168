@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "org.life168.app.twa",
+        "sha256_cert_fingerprints": ["2E:70:EA:94:60:CC:17:6E:E7:DB:89:9E:AE:72:93:A7:8E:EE:B6:A5:E5:15:FA:3C:8B:6F:04:B5:82:D2:FF:27"]
+      }
+    }]
