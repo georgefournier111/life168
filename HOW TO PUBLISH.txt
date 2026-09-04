@@ -67,3 +67,32 @@ THEN FOR GOOGLE PLAY
   Android package for the Google Play Console ($25 one time). When the
   listing asks for a privacy policy, use
   https://app.life168.org/privacy
+
+  IMPORTANT: back up the signing.keystore file and its passwords that
+  PWABuilder gives you. Lose them and you can never update the app.
+
+THE assetlinks.json STEP (do not skip this)
+  A file already exists at:
+    WLLL 168 App\.well-known\assetlinks.json
+  It is a TEMPLATE. It will NOT work until you replace the two
+  PLACEHOLDER lines with real fingerprints. Until then the installed app
+  opens with a browser address bar across the top.
+
+  1. In PWABuilder, note the package ID you enter. It must EXACTLY match
+     "package_name" in the file. The template currently says:
+       org.life168.app
+  2. Upload the .aab to Play Console.
+  3. Go to: Play Console > Setup > App integrity > App signing
+     Copy the SHA-256 from "App signing key certificate" (this is
+     Google's key, NOT the one PWABuilder made) and paste it over
+     PLACEHOLDER_PLAY_APP_SIGNING_SHA256_FROM_PLAY_CONSOLE
+  4. Copy the SHA-256 from "Upload key certificate" and paste it over
+     PLACEHOLDER_UPLOAD_KEY_SHA256_FROM_PWABUILDER
+  5. Upload the whole .well-known folder to the site root, then check:
+       https://app.life168.org/.well-known/assetlinks.json
+     It must return the JSON, not a 404.
+
+  WATCH OUT: folders starting with a dot are hidden by Windows Explorer
+  and are skipped by some drag-and-drop uploaders. If the address above
+  404s after you upload, the folder did not make it. In Explorer turn on
+  View > Show > Hidden items so you can see it.

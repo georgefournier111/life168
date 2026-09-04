@@ -29,7 +29,7 @@
     --surface: #ffffff;
     --ink: #1c1f26;
     --ink-2: #4d5566;
-    --muted: #808898;
+    --muted: #667085;
     --grid: #e3e6ec;
     --baseline: #c4c9d4;
     --border: rgba(23,69,143,0.14);
@@ -117,7 +117,7 @@
     --surface: #ffffff;
     --ink: #1c1f26;
     --ink-2: #4d5566;
-    --muted: #808898;
+    --muted: #667085;
     --grid: #e3e6ec;
     --baseline: #c4c9d4;
     --border: rgba(23,69,143,0.14);
@@ -165,18 +165,24 @@
   .hero-bg .hs {
     position: absolute; inset: 0; opacity: 0;
     background-size: cover; background-position: 50% 58%; background-repeat: no-repeat;
-    animation: heroFade 72s ease-in-out infinite; will-change: opacity;
+    animation: heroFade 120s ease-in-out infinite; will-change: opacity;
   }
-  .hero-bg .hs1 { background-image: url("hero-1.jpg"); animation-delay: 0s; }
-  .hero-bg .hs2 { background-image: url("hero-2.jpg"); animation-delay: -12s; }
-  .hero-bg .hs3 { background-image: url("hero-3.jpg"); animation-delay: -24s; }
-  .hero-bg .hs4 { background-image: url("hero-4.jpg"); animation-delay: -36s; }
-  .hero-bg .hs5 { background-image: url("hero-5.jpg"); animation-delay: -48s; }
-  .hero-bg .hs6 { background-image: url("hero-6.jpg"); animation-delay: -60s; }
+  .hero-bg .hs1  { background-image: url("hero-1.jpg");  animation-delay:    0s; }
+  .hero-bg .hs2  { background-image: url("hero-2.jpg");  animation-delay:  -12s; }
+  .hero-bg .hs3  { background-image: url("hero-3.jpg");  animation-delay:  -24s; }
+  .hero-bg .hs4  { background-image: url("hero-4.jpg");  animation-delay:  -36s; }
+  .hero-bg .hs5  { background-image: url("hero-5.jpg");  animation-delay:  -48s; }
+  .hero-bg .hs6  { background-image: url("hero-6.jpg");  animation-delay:  -60s; }
+  .hero-bg .hs7  { background-image: url("hero-7.jpg");  animation-delay:  -72s; }
+  .hero-bg .hs8  { background-image: url("hero-8.jpg");  animation-delay:  -84s; }
+  .hero-bg .hs9  { background-image: url("hero-9.jpg");  animation-delay:  -96s; }
+  .hero-bg .hs10 { background-image: url("hero-10.jpg"); animation-delay: -108s; }
+  /* 10 slides, 12s apart, 120s loop. Percentages keep the original cadence:
+     10s fade in, 2s at full, 10s fade out (10/120, 12/120, 22/120). */
   @keyframes heroFade {
-    0%, 100%       { opacity: 0; }
-    13.89%, 16.67% { opacity: 1; }
-    30.56%         { opacity: 0; }
+    0%, 100%        { opacity: 0; }
+    8.333%, 10%     { opacity: 1; }
+    18.333%         { opacity: 0; }
   }
   /* left fade into the royal band, over the photos, so the copy stays readable */
   header.masthead::before {
@@ -615,7 +621,14 @@
 
   /* ---------- PERMA-V practices ---------- */
   .perma { margin-top: 26px; }
-  .perma-intro { font-size: 15px; color: var(--ink-2); max-width: 68ch; margin: 10px 0 18px; }
+  /* intro block: white card with a gold edge, like "Take your plan with you" */
+  .perma-head {
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 6px solid var(--gold); border-radius: 14px;
+    box-shadow: var(--shadow); padding: 18px 22px; margin-bottom: 18px;
+  }
+  .perma-head .sub { margin-top: 0; }
+  .perma-intro { font-size: 15px; color: var(--ink-2); max-width: 68ch; margin: 8px 0 0; }
   .perma-intro b { color: var(--ink); }
   .perma-grid { display: grid; gap: 14px; }
   @media (min-width: 700px)  { .perma-grid { grid-template-columns: 1fr 1fr; } }
@@ -653,14 +666,15 @@
   }
   .perma-start b { color: var(--head-ink); }
 
-  /* ---------- Take the plan with you (inside the keep-a-copy callout) ---------- */
+  /* ---------- Take the plan with you (its own callout) ---------- */
   .keep-tools {
-    width: 100%; margin-top: 6px; padding-top: 16px; border-top: 1px solid var(--grid);
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 6px solid var(--gold); border-radius: 14px;
+    box-shadow: var(--shadow); padding: 18px 22px; margin-top: 40px;
   }
-  .ai-head {
-    font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--head-ink); margin-bottom: 8px;
-  }
+  .keep-tools .sub { margin-top: 0; }
+  /* royal-blue section headlines */
+  .perma .sub, .keep-tools .sub { color: var(--royal); }
   .ai-lead { font-size: 14px; color: var(--ink-2); margin: 0 0 12px; max-width: 66ch; }
   .ai-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
   .ai-row select {
@@ -697,7 +711,7 @@
   @media print {
     body { padding: 0 8px; background: #fff; }
     * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .toolbar, .reminders, .print-hint { display: none !important; }
+    .toolbar, .reminders, .print-hint, .keep-tools { display: none !important; }
     .meter-bar { position: static; }
     .card, .part-bar, .callout, .stepper-card { box-shadow: none; }
     .slu-row, .plan-card, .part-bar, .callout, .stepper-card, .chart-card { break-inside: avoid; }
@@ -750,6 +764,8 @@
     <div class="hero-bg" aria-hidden="true">
       <div class="hs hs1"></div><div class="hs hs2"></div><div class="hs hs3"></div>
       <div class="hs hs4"></div><div class="hs hs5"></div><div class="hs hs6"></div>
+      <div class="hs hs7"></div><div class="hs hs8"></div><div class="hs hs9"></div>
+      <div class="hs hs10"></div>
     </div>
     <p class="eyebrow">A six part survey · about 20 minutes</p>
     <div class="title-row">
@@ -1044,15 +1060,17 @@
     </div>
 
     <div class="perma" id="perma">
-      <h3 class="sub">PERMA-V: practices that make a plan stick</h3>
-      <p class="perma-intro">
-        Your plan says <b>where</b> to act. PERMA-V says <b>how</b>. It is a positive psychology
-        framework of six building blocks for a flourishing life, and each one carries small
-        practices you can do on your own or with your family. When a first action feels too vague
-        to start, borrow one of these. The pillars marked
-        <span class="perma-match" style="margin:0">Matches your priorities</span>
-        line up with the three areas you chose in Part 5.
-      </p>
+      <div class="perma-head">
+        <h3 class="sub">PERMA-V: practices that make a plan stick</h3>
+        <p class="perma-intro">
+          Your plan says <b>where</b> to act. PERMA-V says <b>how</b>. It is a positive psychology
+          framework of six building blocks for a flourishing life, and each one carries small
+          practices you can do on your own or with your family. When a first action feels too vague
+          to start, borrow one of these. The pillars marked
+          <span class="perma-match" style="margin:0">Matches your priorities</span>
+          line up with the three areas you chose in Part 5.
+        </p>
+      </div>
       <div class="perma-grid" id="perma-grid"></div>
       <p class="perma-start">
         <b>Start with one.</b> Pick a single practice, get comfortable and consistent with it, then
@@ -1060,6 +1078,31 @@
       </p>
     </div>
   </section>
+
+  <div class="keep-tools">
+    <h3 class="sub">Take your plan with you</h3>
+    <p class="ai-lead">
+      Copy your plan into Claude, ChatGPT, or any AI assistant to talk it through, or save it as a
+      file you can keep and reuse.
+    </p>
+    <div class="ai-row">
+      <select id="ai-mode" aria-label="What do you want the AI assistant to help you with?">
+        <option value="coach">Coach me through it</option>
+        <option value="stress">Stress test my plan</option>
+        <option value="specific">Make my first actions specific</option>
+        <option value="checkin">Run my 30 day check in</option>
+      </select>
+      <button type="button" id="btn-ai-copy" class="btn-gold">Copy my plan for AI</button>
+      <button type="button" id="btn-plan-json" class="btn-gold">Save my plan as a file</button>
+    </div>
+    <p class="ai-status" id="ai-status" aria-live="polite"></p>
+    <textarea class="ai-fallback" id="ai-fallback" hidden readonly
+      aria-label="Your plan, ready to copy"></textarea>
+    <p class="ai-note">
+      Copying puts your plan on your clipboard so you can paste it somewhere else. If you paste it
+      into an AI assistant, it goes to that company. Only paste what you are comfortable sharing.
+    </p>
+  </div>
 
   <div class="print-hint">
     <span class="ph-text">Want to keep a copy? To print, or to save as a PDF, press these two keys together:</span>
@@ -1069,31 +1112,6 @@
       <kbd class="key">P</kbd>
     </span>
     <span class="ph-mac">On a Mac, press <kbd class="key">&#8984;</kbd> + <kbd class="key">P</kbd> instead.</span>
-
-    <div class="keep-tools">
-      <div class="ai-head">Take your plan with you</div>
-      <p class="ai-lead">
-        Copy your plan into Claude, ChatGPT, or any AI assistant to talk it through, or save it as a
-        file you can keep and reuse.
-      </p>
-      <div class="ai-row">
-        <select id="ai-mode" aria-label="What do you want the AI assistant to help you with?">
-          <option value="coach">Coach me through it</option>
-          <option value="stress">Stress test my plan</option>
-          <option value="specific">Make my first actions specific</option>
-          <option value="checkin">Run my 30 day check in</option>
-        </select>
-        <button type="button" id="btn-ai-copy" class="btn-gold">Copy my plan for AI</button>
-        <button type="button" id="btn-plan-json" class="btn-gold">Save my plan as a file</button>
-      </div>
-      <p class="ai-status" id="ai-status" aria-live="polite"></p>
-      <textarea class="ai-fallback" id="ai-fallback" hidden readonly
-        aria-label="Your plan, ready to copy"></textarea>
-      <p class="ai-note">
-        Copying puts your plan on your clipboard so you can paste it somewhere else. If you paste it
-        into an AI assistant, it goes to that company. Only paste what you are comfortable sharing.
-      </p>
-    </div>
   </div>
 
   <footer>

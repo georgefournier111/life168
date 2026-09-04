@@ -1,6 +1,6 @@
 /* Copyright 2026 George M Fournier, MBA v8.1.26 */
 /* Service worker: caches the app so it opens and works with no connection. */
-var CACHE = "wlll168-v54";
+var CACHE = "wlll168-v58";
 /* The host serves clean URLs: /privacy and /support (the .html versions
    308-redirect here). Precache the clean paths so navigations never hit a
    redirect through the service worker. */
@@ -18,6 +18,10 @@ var ASSETS = [
   "./hero-4.jpg",
   "./hero-5.jpg",
   "./hero-6.jpg",
+  "./hero-7.jpg",
+  "./hero-8.jpg",
+  "./hero-9.jpg",
+  "./hero-10.jpg",
   "./butterfly.png",
   "./privacy",
   "./support"
