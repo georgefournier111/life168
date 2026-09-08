@@ -566,9 +566,63 @@
   }
   @media (prefers-reduced-motion: reduce) { .tooltip { transition: none; } }
   .tooltip b { font-size: 13px; color: var(--gold); }
-  .midpoint-row { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--ink-2); margin-top: 10px; flex-wrap: wrap; }
-  .midpoint-row input { width: 58px; }
-  .midpoint-row label { font-weight: 700; }
+  /* ---------- Quadrant slicers: one vertical, one horizontal ---------- */
+  .slicers {
+    margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--grid);
+  }
+  .slicers-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 12px; flex-wrap: wrap; margin-bottom: 10px;
+  }
+  .slicers-title {
+    font-size: 11.5px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+    color: var(--head-ink); margin: 0;
+  }
+  .slicers-grid { display: grid; gap: 12px 26px; }
+  @media (min-width: 720px) { .slicers-grid { grid-template-columns: 1fr 1fr; } }
+  .slicer { display: flex; flex-direction: column; gap: 3px; }
+  .slicer-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+  .slicer-name {
+    font-size: 12.5px; font-weight: 700; color: var(--head-ink);
+    display: flex; align-items: center; gap: 7px;
+  }
+  /* the little glyph shows which line on the chart this slider moves */
+  .slicer-glyph { flex: none; width: 15px; height: 15px; }
+  .slicer-glyph line { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 3 2.5; }
+  .slicer-value {
+    font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums;
+    color: var(--accent-ink); min-width: 34px; text-align: right;
+  }
+  .slicer input[type="range"] { width: 100%; }
+  .slicer-scale {
+    display: flex; justify-content: space-between;
+    font-size: 10.5px; color: var(--muted); font-variant-numeric: tabular-nums;
+  }
+  .slicer-note { font-size: 12.5px; color: var(--muted); margin: 10px 0 0; max-width: 74ch; line-height: 1.5; }
+  .slicer-reset {
+    font-size: 12px; font-weight: 700; padding: 5px 13px;
+    background: var(--surface); color: var(--accent-ink);
+  }
+  .slicer-counts {
+    display: flex; flex-wrap: wrap; gap: 6px 8px; margin: 12px 0 0; padding: 0; list-style: none;
+  }
+  .slicer-count {
+    display: inline-flex; align-items: baseline; gap: 6px;
+    font-size: 11.5px; font-weight: 700; color: var(--ink-2);
+    border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px;
+  }
+  .slicer-count b { font-variant-numeric: tabular-nums; color: var(--head-ink); font-size: 12.5px; }
+  .slicer-count.gap-quad { border-color: var(--critical); color: var(--critical); }
+  .slicer-count.gap-quad b { color: var(--critical); }
+  .slicer-count.strength-quad { border-color: var(--good); color: var(--good-text); }
+  .slicer-count.strength-quad b { color: var(--good-text); }
+  /* drag handles on the chart's two divider lines */
+  .divider-hit { cursor: grab; }
+  .divider-hit:active { cursor: grabbing; }
+  .divider-grip { cursor: grab; }
+  .divider-grip:active { cursor: grabbing; }
+  .chart-holder.dragging { user-select: none; -webkit-user-select: none; }
+  @media print { .divider-grip, .divider-hit { display: none; } }
   /* Part 6 summary */
   .summary-card { font-size: 13.5px; }
   .sum-title { font-size: 20px; font-weight: 700; color: var(--head-ink); }
@@ -962,7 +1016,9 @@
       the X-axis, the greater your <u>SATISFACTION</u>. The higher it appears on the Y-axis, the greater its
       <u>IMPORTANCE</u>. The size of each bubble represents the number of hours you spend on that activity.
       The upper left quadrant is where factors matter the most, but aren't getting the attention
-      they deserve.
+      they deserve. Two dashed lines slice the chart: a <b>horizontal line for importance</b> and a
+      <b>vertical line for satisfaction</b>. Move each one on its own, with the sliders below the
+      chart or by dragging the handles on the chart, until your bubbles separate cleanly.
     </p>
     <div class="card chart-card">
       <div class="legend" id="legend"></div>
@@ -971,10 +1027,44 @@
         <div id="chart-svg"></div>
         <div class="tooltip" id="tooltip"></div>
       </div>
-      <div class="midpoint-row">
-        <label for="midpoint">Quadrant line</label>
-        <input type="number" id="midpoint" min="-4" max="4" step="0.5" value="0">
-        <span>We draw the dividing line at 0 by default. Slide it if you like. Your choice is saved with your results.</span>
+      <div class="slicers">
+        <div class="slicers-head">
+          <p class="slicers-title">Slice the chart: importance and satisfaction</p>
+          <button type="button" id="slicer-reset" class="slicer-reset">Reset both to 0</button>
+        </div>
+        <div class="slicers-grid">
+          <div class="slicer">
+            <div class="slicer-top">
+              <span class="slicer-name">
+                <svg class="slicer-glyph" viewBox="0 0 16 16" aria-hidden="true"><line x1="1" y1="8" x2="15" y2="8"/></svg>
+                Importance line (horizontal)
+              </span>
+              <span class="slicer-value" id="slicer-imp-val">0</span>
+            </div>
+            <input type="range" id="slicer-imp" min="-4" max="4" step="0.5" value="0"
+                   aria-label="Importance divider, horizontal line, -4 to +4">
+            <div class="slicer-scale"><span>−4</span><span>0</span><span>+4</span></div>
+          </div>
+          <div class="slicer">
+            <div class="slicer-top">
+              <span class="slicer-name">
+                <svg class="slicer-glyph" viewBox="0 0 16 16" aria-hidden="true"><line x1="8" y1="1" x2="8" y2="15"/></svg>
+                Satisfaction line (vertical)
+              </span>
+              <span class="slicer-value" id="slicer-sat-val">0</span>
+            </div>
+            <input type="range" id="slicer-sat" min="-4" max="4" step="0.5" value="0"
+                   aria-label="Satisfaction divider, vertical line, -4 to +4">
+            <div class="slicer-scale"><span>−4</span><span>0</span><span>+4</span></div>
+          </div>
+        </div>
+        <ul class="slicer-counts" id="slicer-counts"></ul>
+        <p class="slicer-note">
+          Both lines start at 0. Move them with these sliders, or drag the dashed lines on the chart
+          itself using the handles at the edges. Setting each line separately lets you pull a tight
+          cluster apart and see which areas really sit in the priority gap. Your choices are saved
+          with your results.
+        </p>
       </div>
     </div>
 
@@ -1164,7 +1254,9 @@
   }
 
   function blankState() {
-    var s = { context: { great: "", purpose: "", vision: "" }, slu: {}, noDouble: false, midpoint: 0, plans: {}, startDate: "", dateConfirmed: false, part5Confirmed: false, remindOptIn: false, remindNotified: {} };
+    /* midImp is the horizontal cut on the importance axis, midSat the vertical
+       cut on the satisfaction axis. They used to be one shared "midpoint". */
+    var s = { context: { great: "", purpose: "", vision: "" }, slu: {}, noDouble: false, midImp: 0, midSat: 0, plans: {}, startDate: "", dateConfirmed: false, part5Confirmed: false, remindOptIn: false, remindNotified: {} };
     SLUS.forEach(function (u) { s.slu[u.id] = { imp: null, sat: null, hrs: null }; });
     return s;
   }
@@ -1180,7 +1272,10 @@
         if (p) s.slu[u.id] = { imp: numOrNull(p.imp), sat: numOrNull(p.sat), hrs: numOrNull(p.hrs) };
       });
       s.noDouble = !!parsed.noDouble;
-      if (typeof parsed.midpoint === "number") s.midpoint = parsed.midpoint;
+      /* a saved file from before the split carries one "midpoint" for both axes */
+      if (typeof parsed.midpoint === "number") { s.midImp = parsed.midpoint; s.midSat = parsed.midpoint; }
+      if (typeof parsed.midImp === "number") s.midImp = clampMid(parsed.midImp);
+      if (typeof parsed.midSat === "number") s.midSat = clampMid(parsed.midSat);
       if (parsed.plans && typeof parsed.plans === "object") s.plans = parsed.plans;
       if (typeof parsed.startDate === "string") s.startDate = parsed.startDate;
       s.dateConfirmed = !!parsed.dateConfirmed;
@@ -1191,6 +1286,11 @@
     } catch (e) { return blankState(); }
   }
   function numOrNull(v) { return (typeof v === "number" && isFinite(v)) ? v : null; }
+  /* both cut lines live on the -4..+4 range, snapped to half points */
+  function clampMid(v) {
+    if (!isFinite(v)) return 0;
+    return Math.round(Math.min(4, Math.max(-4, v)) * 2) / 2;
+  }
   function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {} }
 
   function fmt(n, dp) {
@@ -1300,11 +1400,45 @@
   });
   document.getElementById("btn-ics").addEventListener("click", downloadIcs);
 
-  var midpointEl = document.getElementById("midpoint");
-  midpointEl.addEventListener("input", function () {
-    var v = Number(midpointEl.value);
-    if (isFinite(v) && v >= -4 && v <= 4) { state.midpoint = v; save(); render(); }
+  var slicerImpEl = document.getElementById("slicer-imp");
+  var slicerSatEl = document.getElementById("slicer-sat");
+  slicerImpEl.addEventListener("input", function () {
+    state.midImp = clampMid(Number(slicerImpEl.value));
+    save(); render();
   });
+  slicerSatEl.addEventListener("input", function () {
+    state.midSat = clampMid(Number(slicerSatEl.value));
+    save(); render();
+  });
+  document.getElementById("slicer-reset").addEventListener("click", function () {
+    state.midImp = 0; state.midSat = 0;
+    slicerImpEl.value = 0; slicerSatEl.value = 0;
+    save(); render();
+  });
+
+  /* keeps the sliders, their readouts and the per-quadrant tallies in step,
+     whether the change came from a slider or from dragging a line on the chart */
+  function renderSlicers() {
+    slicerImpEl.value = state.midImp;
+    slicerSatEl.value = state.midSat;
+    document.getElementById("slicer-imp-val").textContent = sgn(state.midImp);
+    document.getElementById("slicer-sat-val").textContent = sgn(state.midSat);
+
+    var counts = { gap: 0, strength: 0, low: 0, bonus: 0 };
+    completeUnits().forEach(function (u) {
+      var d = state.slu[u.id];
+      counts[quadrant(d.imp, d.sat).key]++;
+    });
+    var order = [
+      { key: "gap",      name: "Priority gap",       cls: "gap-quad" },
+      { key: "strength", name: "Strategic strength", cls: "strength-quad" },
+      { key: "bonus",    name: "Nice to have",       cls: "" },
+      { key: "low",      name: "Lower priority",     cls: "" }
+    ];
+    document.getElementById("slicer-counts").innerHTML = order.map(function (q) {
+      return '<li class="slicer-count ' + q.cls + '"><b>' + counts[q.key] + "</b>" + q.name + "</li>";
+    }).join("");
+  }
 
   var resetBtn = document.getElementById("btn-reset");
   var resetArmed = false, resetTimer = null;
@@ -1347,7 +1481,8 @@
       document.querySelector('textarea[data-ctx="' + k + '"]').value = state.context[k];
     });
     noDouble.checked = state.noDouble;
-    midpointEl.value = state.midpoint;
+    slicerImpEl.value = state.midImp;
+    slicerSatEl.value = state.midSat;
     if (!state.startDate) { state.startDate = todayStr(); save(); }
     startDateEl.value = state.startDate;
     dateConfirmEl.checked = state.dateConfirmed;
@@ -1366,12 +1501,13 @@
   function totalHours() {
     return SLUS.reduce(function (sum, u) { return sum + (state.slu[u.id].hrs || 0); }, 0);
   }
+  /* two independent cuts: importance above/below midImp, satisfaction left/right of midSat */
   function quadrant(imp, sat) {
-    var m = state.midpoint;
-    if (imp >= m && sat < m)  return { key: "gap",      name: "Priority gap",        note: "Dig into why, then act" };
-    if (imp >= m && sat >= m) return { key: "strength", name: "Strategic strength",  note: "Protect and sustain" };
-    if (imp < m && sat < m)   return { key: "low",      name: "Lower priority",      note: "Monitor, or let it go on purpose" };
-    return                           { key: "bonus",    name: "Nice to have",        note: "Keep it deliberately, or trim it if it eats time" };
+    var mi = state.midImp, ms = state.midSat;
+    if (imp >= mi && sat < ms)  return { key: "gap",      name: "Priority gap",        note: "Dig into why, then act" };
+    if (imp >= mi && sat >= ms) return { key: "strength", name: "Strategic strength",  note: "Protect and sustain" };
+    if (imp < mi && sat < ms)   return { key: "low",      name: "Lower priority",      note: "Monitor, or let it go on purpose" };
+    return                             { key: "bonus",    name: "Nice to have",        note: "Keep it deliberately, or trim it if it eats time" };
   }
   /* ratings run -5..+5; shift to a 0..10 basis so weighting stays positive */
   function pos(v) { return v + 5; }
@@ -1397,6 +1533,7 @@
     renderValues();
     renderMeter();
     renderChecks();
+    renderSlicers();
     renderChart();
     renderTable();
     renderPlan();
@@ -1476,11 +1613,15 @@
     empty.style.display = "none";
 
     var W = 860, H = 652;
-    var m = { top: 34, right: 30, bottom: 84, left: 74 };
+    /* right margin leaves room for the importance line's drag handle */
+    var m = { top: 34, right: 54, bottom: 84, left: 74 };
     var iw = W - m.left - m.right, ih = H - m.top - m.bottom;
     var x = function (sat) { return m.left + (sat + 5) / 10 * iw; };
     var y = function (imp) { return m.top + (1 - (imp + 5) / 10) * ih; };
-    var mid = state.midpoint;
+    /* inverse of x and y, so a drag in pixels reads back as a rating */
+    var satAt = function (px) { return (px - m.left) / iw * 10 - 5; };
+    var impAt = function (py) { return (1 - (py - m.top) / ih) * 10 - 5; };
+    var midImp = state.midImp, midSat = state.midSat;
 
     var maxHrs = Math.max.apply(null, diags.map(function (d) { return d.hrs; }));
     var rOf = function (hrs) {
@@ -1506,8 +1647,8 @@
     s.push('<linearGradient id="arrowGradY" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#FFCF66" stop-opacity="0.16"/><stop offset="0.55" stop-color="#F7A81B" stop-opacity="0.72"/><stop offset="1" stop-color="#E4900E" stop-opacity="1"/></linearGradient>');
     s.push('</defs>');
 
-    /* quadrant wash: the priority-gap corner */
-    s.push('<rect x="' + m.left + '" y="' + m.top + '" width="' + (x(mid) - m.left) + '" height="' + (y(mid) - m.top) + '" fill="var(--quad-wash)"/>');
+    /* quadrant wash: the priority-gap corner, bounded by both cut lines */
+    s.push('<rect id="quad-wash" x="' + m.left + '" y="' + m.top + '" width="' + Math.max(0, x(midSat) - m.left) + '" height="' + Math.max(0, y(midImp) - m.top) + '" fill="var(--quad-wash)"/>');
 
     /* gridlines at every point on the -5..+5 scale */
     for (var g = -5; g <= 5; g += 1) {
@@ -1517,9 +1658,9 @@
       s.push('<text class="tick-label" x="' + (m.left - 10) + '" y="' + (y(g) + 4) + '" text-anchor="end">' + sgn(g) + "</text>");
     }
 
-    /* midpoint dividers */
-    s.push('<line x1="' + x(mid) + '" y1="' + m.top + '" x2="' + x(mid) + '" y2="' + (m.top + ih) + '" stroke="var(--baseline)" stroke-width="1.5" stroke-dasharray="5 4"/>');
-    s.push('<line x1="' + m.left + '" y1="' + y(mid) + '" x2="' + (m.left + iw) + '" y2="' + y(mid) + '" stroke="var(--baseline)" stroke-width="1.5" stroke-dasharray="5 4"/>');
+    /* the two slicer lines: vertical cuts satisfaction, horizontal cuts importance */
+    s.push('<line id="div-line-sat" x1="' + x(midSat) + '" y1="' + m.top + '" x2="' + x(midSat) + '" y2="' + (m.top + ih) + '" stroke="var(--accent)" stroke-width="1.75" stroke-dasharray="5 4"/>');
+    s.push('<line id="div-line-imp" x1="' + m.left + '" y1="' + y(midImp) + '" x2="' + (m.left + iw) + '" y2="' + y(midImp) + '" stroke="var(--accent)" stroke-width="1.75" stroke-dasharray="5 4"/>');
 
     /* quadrant labels */
     s.push('<text class="quad-label" x="' + (m.left + 8) + '" y="' + (m.top + 16) + '">Priority gap</text>');
@@ -1582,8 +1723,127 @@
       s.push('<text class="bubble-label" x="' + l.x + '" y="' + ly + '" text-anchor="middle">' + l.d.unit.label + "</text>");
     });
 
+    /* ---- drag handles, drawn last so they sit above the bubbles ---- */
+    var gw = 46, gh = 20;                 /* grip pill size */
+    var gripSatY = m.top - gh - 5;        /* sits just above the plot */
+    var gripImpX = m.left + iw + 3;       /* sits just right of the plot */
+    /* fat invisible lines: the whole divider is grabbable, not just the pill */
+    s.push('<line id="div-hit-sat" class="divider-hit" x1="' + x(midSat) + '" y1="' + m.top +
+           '" x2="' + x(midSat) + '" y2="' + (m.top + ih) + '" stroke="transparent" stroke-width="16"/>');
+    s.push('<line id="div-hit-imp" class="divider-hit" x1="' + m.left + '" y1="' + y(midImp) +
+           '" x2="' + (m.left + iw) + '" y2="' + y(midImp) + '" stroke="transparent" stroke-width="16"/>');
+    s.push('<g id="div-grip-sat" class="divider-grip" tabindex="0" role="slider" aria-label="Satisfaction divider" ' +
+           'aria-valuemin="-4" aria-valuemax="4" aria-valuenow="' + midSat + '">');
+    s.push("<title>Drag to move the satisfaction line</title>");
+    s.push('<rect id="div-grip-sat-rect" x="' + (x(midSat) - gw / 2) + '" y="' + gripSatY + '" width="' + gw +
+           '" height="' + gh + '" rx="9" fill="var(--accent)"/>');
+    s.push('<text id="div-grip-sat-text" x="' + x(midSat) + '" y="' + (gripSatY + gh / 2) +
+           '" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="700" fill="#ffffff" ' +
+           'pointer-events="none">' + sgn(midSat) + "</text>");
+    s.push("</g>");
+    s.push('<g id="div-grip-imp" class="divider-grip" tabindex="0" role="slider" aria-label="Importance divider" ' +
+           'aria-valuemin="-4" aria-valuemax="4" aria-valuenow="' + midImp + '">');
+    s.push("<title>Drag to move the importance line</title>");
+    s.push('<rect id="div-grip-imp-rect" x="' + gripImpX + '" y="' + (y(midImp) - gh / 2) + '" width="' + gw +
+           '" height="' + gh + '" rx="9" fill="var(--accent)"/>');
+    s.push('<text id="div-grip-imp-text" x="' + (gripImpX + gw / 2) + '" y="' + y(midImp) +
+           '" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="700" fill="#ffffff" ' +
+           'pointer-events="none">' + sgn(midImp) + "</text>");
+    s.push("</g>");
+
     s.push("</svg>");
     holder.innerHTML = s.join("");
+
+    /* ---- move the two lines without rebuilding the whole chart ---- */
+    var svgEl = holder.querySelector("svg");
+    var els = {
+      wash:    holder.querySelector("#quad-wash"),
+      lineSat: holder.querySelector("#div-line-sat"),
+      lineImp: holder.querySelector("#div-line-imp"),
+      hitSat:  holder.querySelector("#div-hit-sat"),
+      hitImp:  holder.querySelector("#div-hit-imp"),
+      gripSat: holder.querySelector("#div-grip-sat"),
+      gripImp: holder.querySelector("#div-grip-imp"),
+      rectSat: holder.querySelector("#div-grip-sat-rect"),
+      rectImp: holder.querySelector("#div-grip-imp-rect"),
+      textSat: holder.querySelector("#div-grip-sat-text"),
+      textImp: holder.querySelector("#div-grip-imp-text")
+    };
+    function moveDividers() {
+      var px = x(state.midSat), py = y(state.midImp);
+      els.lineSat.setAttribute("x1", px); els.lineSat.setAttribute("x2", px);
+      els.hitSat.setAttribute("x1", px);  els.hitSat.setAttribute("x2", px);
+      els.rectSat.setAttribute("x", px - gw / 2);
+      els.textSat.setAttribute("x", px);
+      els.textSat.textContent = sgn(state.midSat);
+      els.gripSat.setAttribute("aria-valuenow", state.midSat);
+
+      els.lineImp.setAttribute("y1", py); els.lineImp.setAttribute("y2", py);
+      els.hitImp.setAttribute("y1", py);  els.hitImp.setAttribute("y2", py);
+      els.rectImp.setAttribute("y", py - gh / 2);
+      els.textImp.setAttribute("y", py);
+      els.textImp.textContent = sgn(state.midImp);
+      els.gripImp.setAttribute("aria-valuenow", state.midImp);
+
+      els.wash.setAttribute("width", Math.max(0, px - m.left));
+      els.wash.setAttribute("height", Math.max(0, py - m.top));
+    }
+
+    /* ---- dragging: pointer events, so mouse, pen and touch all work ---- */
+    function svgPoint(ev) {
+      var r = svgEl.getBoundingClientRect();
+      if (!r.width || !r.height) return { x: 0, y: 0 };
+      return { x: (ev.clientX - r.left) * (W / r.width), y: (ev.clientY - r.top) * (H / r.height) };
+    }
+    function dragger(axis) {
+      return function (ev) {
+        if (ev.button !== undefined && ev.button !== 0) return;
+        ev.preventDefault();
+        document.getElementById("chart-holder").classList.add("dragging");
+        var onMove = function (e) {
+          var p = svgPoint(e);
+          if (axis === "sat") state.midSat = clampMid(satAt(p.x));
+          else state.midImp = clampMid(impAt(p.y));
+          moveDividers();
+          renderSlicers();
+          renderTable();
+        };
+        var onUp = function () {
+          window.removeEventListener("pointermove", onMove);
+          window.removeEventListener("pointerup", onUp);
+          window.removeEventListener("pointercancel", onUp);
+          document.getElementById("chart-holder").classList.remove("dragging");
+          save();
+          render();
+        };
+        window.addEventListener("pointermove", onMove);
+        window.addEventListener("pointerup", onUp);
+        window.addEventListener("pointercancel", onUp);
+        onMove(ev);
+      };
+    }
+    /* arrow keys nudge a focused handle by half a point */
+    function keyer(axis) {
+      return function (ev) {
+        var step = 0;
+        if (ev.key === "ArrowLeft" || ev.key === "ArrowDown") step = -0.5;
+        else if (ev.key === "ArrowRight" || ev.key === "ArrowUp") step = 0.5;
+        else return;
+        ev.preventDefault();
+        if (axis === "sat") state.midSat = clampMid(state.midSat + step);
+        else state.midImp = clampMid(state.midImp + step);
+        save(); render();
+        var again = document.getElementById(axis === "sat" ? "div-grip-sat" : "div-grip-imp");
+        if (again) again.focus();
+      };
+    }
+    [["#div-hit-sat", "sat"], ["#div-grip-sat", "sat"],
+     ["#div-hit-imp", "imp"], ["#div-grip-imp", "imp"]].forEach(function (pair) {
+      var el = holder.querySelector(pair[0]);
+      if (el) el.addEventListener("pointerdown", dragger(pair[1]));
+    });
+    els.gripSat.addEventListener("keydown", keyer("sat"));
+    els.gripImp.addEventListener("keydown", keyer("imp"));
 
     /* tooltips */
     var tip = document.getElementById("tooltip");
@@ -1930,6 +2190,9 @@
     L.push("--- HOW TO READ THIS ---");
     L.push("Life 168 maps one typical week: 24 hours x 7 days = 168 hours, spread across 16 areas of life.");
     L.push("Importance and Satisfaction use an 11 point scale from -5 to +5, where 0 is neutral.");
+    L.push("Quadrants come from two lines I set myself: the importance line sits at " + sgn(state.midImp) +
+           " and the satisfaction line at " + sgn(state.midSat) +
+           ". An area counts as high when its rating is at or above that line.");
     L.push("Pressure combines how important an area is with how far its satisfaction falls short. Higher means it is asking for more attention.");
     L.push("Target hours is the share of my 168 hours an area would get if my time simply followed importance. It is a compass, not a schedule.");
     L.push("Time gap is target hours minus the hours I actually spend. Positive means the area may be starved for time; negative means there may be hours to win back.");
@@ -2029,7 +2292,8 @@
   });
 
   /* Structured export. This is the stable shape the Life 168 Coach skill reads,
-     so keep "format" and "version" in step with any change to the fields. */
+     so keep "format" and "version" in step with any change to the fields.
+     v3: the single "quadrant_line" became "quadrant_lines" (importance + satisfaction). */
   function buildPlanJson() {
     var diags = diagnostics().sort(function (a, b) { return b.pressure - a.pressure; });
     if (!diags.length) return null;
@@ -2040,7 +2304,7 @@
     var matched = permaMatches();
     return {
       format: "life168.plan",
-      version: 2,
+      version: 3,
       exported: todayStr(),
       plan_date: state.startDate || todayStr(),
       method: {
@@ -2048,7 +2312,11 @@
         week_hours: 168,
         rating_scale: { min: -5, max: 5, neutral: 0,
           note: "Importance and satisfaction are rated on an 11 point scale from -5 to +5, where 0 is neutral." },
-        quadrant_line: state.midpoint,
+        quadrant_lines: {
+          importance: state.midImp,
+          satisfaction: state.midSat,
+          note: "The chart is sliced by two independent lines: a horizontal cut on importance and a vertical cut on satisfaction. An area is above the line when its rating is greater than or equal to that cut."
+        },
         definitions: {
           pressure: "How important an area is combined with how far its satisfaction falls short. Higher means it is asking for more attention.",
           target_hours: "The share of the 168 hour week this area would get if time simply followed importance. A compass, not a schedule.",
@@ -2294,7 +2562,6 @@
 
 <!-- Copyright 2026 George M Fournier, MBA v8.1.26 -->
 
-
 <script>
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1")) {
   window.addEventListener("load", function () {
@@ -2303,3 +2570,4 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
 }
 </script>
 </body>
+</html>
