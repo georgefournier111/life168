@@ -617,9 +617,10 @@
   .slicer-count.strength-quad { border-color: var(--good); color: var(--good-text); }
   .slicer-count.strength-quad b { color: var(--good-text); }
   /* drag handles on the chart's two divider lines */
-  .divider-hit { cursor: grab; }
+  /* touch-action: none stops the browser turning a finger drag into a page scroll */
+  .divider-hit { cursor: grab; touch-action: none; }
   .divider-hit:active { cursor: grabbing; }
-  .divider-grip { cursor: grab; }
+  .divider-grip { cursor: grab; touch-action: none; }
   .divider-grip:active { cursor: grabbing; }
   .chart-holder.dragging { user-select: none; -webkit-user-select: none; }
   @media print { .divider-grip, .divider-hit { display: none; } }
@@ -1172,8 +1173,8 @@
   <div class="keep-tools">
     <h3 class="sub">Take your plan with you</h3>
     <p class="ai-lead">
-      Copy your plan into Claude, ChatGPT, or any AI assistant to talk it through, or save it as a
-      file you can keep and reuse.
+      Copy your plan into Claude, ChatGPT, or any AI assistant to talk it through, save it as a
+      file you can keep and compare next time, or restore a saved file to pick up where you left off.
     </p>
     <div class="ai-row">
       <select id="ai-mode" aria-label="What do you want the AI assistant to help you with?">
@@ -1184,6 +1185,9 @@
       </select>
       <button type="button" id="btn-ai-copy" class="btn-gold">Copy my plan for AI</button>
       <button type="button" id="btn-plan-json" class="btn-gold">Save my plan as a file</button>
+      <button type="button" id="btn-plan-import" class="btn-gold">Restore my plan from a file</button>
+      <input type="file" id="plan-import-file" accept=".json,application/json" hidden
+        aria-label="Choose a saved life168-plan.json file">
     </div>
     <p class="ai-status" id="ai-status" aria-live="polite"></p>
     <textarea class="ai-fallback" id="ai-fallback" hidden readonly
@@ -1799,6 +1803,11 @@
       return function (ev) {
         if (ev.button !== undefined && ev.button !== 0) return;
         ev.preventDefault();
+        /* capture the pointer so a finger that slips off the small handle keeps
+           driving the drag instead of dropping it; captured events still bubble
+           to the window listeners below */
+        var target = ev.currentTarget, pid = ev.pointerId;
+        try { if (target && target.setPointerCapture) target.setPointerCapture(pid); } catch (e) {}
         document.getElementById("chart-holder").classList.add("dragging");
         var onMove = function (e) {
           var p = svgPoint(e);
@@ -1812,6 +1821,7 @@
           window.removeEventListener("pointermove", onMove);
           window.removeEventListener("pointerup", onUp);
           window.removeEventListener("pointercancel", onUp);
+          try { if (target && target.releasePointerCapture) target.releasePointerCapture(pid); } catch (e) {}
           document.getElementById("chart-holder").classList.remove("dragging");
           save();
           render();
@@ -2420,6 +2430,107 @@
     statusEl.className = "ai-status";
     statusEl.textContent = "Saved as life168-plan.json. Attach it to an AI chat, or keep it to compare next time.";
     aiStatusTimer = setTimeout(function () { statusEl.textContent = ""; }, 9000);
+  });
+
+  /* ---------- Restore a saved plan: the round trip of buildPlanJson ----------
+     Accepts v1, v2 and v3 files. Unknown area ids are ignored; ratings are clamped
+     back onto the -5..+5 scale; a v1/v2 single quadrant_line seeds both axes. */
+  function planFromJson(data) {
+    if (!data || data.format !== "life168.plan") throw new Error("not a Life 168 plan file");
+    var s = blankState();
+    var str = function (x) { return typeof x === "string" ? x : ""; };
+    var num = function (x) { return (typeof x === "number" && isFinite(x)) ? x : null; };
+    var clamp = function (v, lo, hi) { return Math.max(lo, Math.min(hi, v)); };
+
+    if (data.context) {
+      s.context.great   = str(data.context.great_life);
+      s.context.purpose = str(data.context.purpose);
+      s.context.vision  = str(data.context.vision_3_to_5_years);
+    }
+    var known = {};
+    SLUS.forEach(function (u) { known[u.id] = true; });
+
+    var restored = 0;
+    ((data.week && Array.isArray(data.week.areas)) ? data.week.areas : []).forEach(function (a) {
+      if (!a || !known[a.id]) return;
+      var imp = num(a.importance), sat = num(a.satisfaction), hrs = num(a.hours_per_week);
+      s.slu[a.id] = {
+        imp: imp === null ? null : clamp(Math.round(imp), -5, 5),
+        sat: sat === null ? null : clamp(Math.round(sat), -5, 5),
+        hrs: hrs === null ? null : clamp(hrs, 0, 168)
+      };
+      restored++;
+    });
+
+    var pri = Array.isArray(data.priorities) ? data.priorities : [];
+    pri.forEach(function (p) {
+      if (!p || !known[p.id]) return;
+      s.plans[p.id] = {
+        outcome: str(p.better_looks_like),
+        start:   str(p.begin_or_do_more_of),
+        stop:    str(p.reduce_or_stop),
+        realloc: str(p.shift),
+        first:   str(p.first_action),
+        review:  str(p.check_in_date),
+        measure: str(p.how_i_will_know)
+      };
+    });
+
+    var q = data.method && data.method.quadrant_lines;
+    if (q && typeof q === "object") {
+      if (num(q.importance)   !== null) s.midImp = clampMid(q.importance);
+      if (num(q.satisfaction) !== null) s.midSat = clampMid(q.satisfaction);
+    } else if (data.method && num(data.method.quadrant_line) !== null) {
+      s.midImp = clampMid(data.method.quadrant_line);
+      s.midSat = clampMid(data.method.quadrant_line);
+    }
+    if (/^\d{4}-\d{2}-\d{2}$/.test(str(data.plan_date))) s.startDate = data.plan_date;
+
+    /* the file was a confirmed plan when it was saved, so bring it back usable */
+    if (restored > 0) { s.dateConfirmed = true; s.noDouble = true; }
+    if (pri.length > 0) s.part5Confirmed = true;
+    return { state: s, restored: restored, priorities: pri.length };
+  }
+
+  var importBtn  = document.getElementById("btn-plan-import");
+  var importFile = document.getElementById("plan-import-file");
+  importBtn.addEventListener("click", function () { importFile.value = ""; importFile.click(); });
+  importFile.addEventListener("change", function () {
+    var statusEl = document.getElementById("ai-status");
+    var file = importFile.files && importFile.files[0];
+    if (!file) return;
+    clearTimeout(aiStatusTimer);
+    var reader = new FileReader();
+    reader.onerror = function () {
+      statusEl.className = "ai-status warn";
+      statusEl.textContent = "That file could not be read.";
+    };
+    reader.onload = function () {
+      var result;
+      try { result = planFromJson(JSON.parse(String(reader.result))); }
+      catch (e) {
+        statusEl.className = "ai-status warn";
+        statusEl.textContent = "That is not a Life 168 plan file. Choose the life168-plan.json the app saved.";
+        return;
+      }
+      if (completeUnits().length > 0 &&
+          !window.confirm("Replace the answers on this device with the saved plan? This cannot be undone.")) {
+        statusEl.className = "ai-status";
+        statusEl.textContent = "Restore cancelled. Your current answers are unchanged.";
+        aiStatusTimer = setTimeout(function () { statusEl.textContent = ""; }, 6000);
+        return;
+      }
+      state = result.state;
+      save();
+      syncInputs();
+      render();
+      statusEl.className = "ai-status";
+      statusEl.textContent = "Restored " + result.restored + " of 16 areas" +
+        (result.priorities ? " and " + result.priorities + " priorities" : "") + " from your saved plan.";
+      aiStatusTimer = setTimeout(function () { statusEl.textContent = ""; }, 9000);
+      document.getElementById("part6").scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    reader.readAsText(file);
   });
 
   function renderSummary() {
