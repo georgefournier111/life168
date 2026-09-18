@@ -1380,7 +1380,11 @@
     state.startDate = startDateEl.value;
     state.dateConfirmed = false;
     dateConfirmEl.checked = false;
-    save(); renderChecks(); renderSummary();
+    /* the start date moves all three milestones, so clear the fired flags and
+       re-arm the schedule against the new dates */
+    state.remindNotified = {};
+    save(); renderChecks(); renderSummary(); renderReminders();
+    syncReminderSchedule();
   });
   dateConfirmEl.addEventListener("change", function () {
     state.dateConfirmed = dateConfirmEl.checked;
@@ -1398,9 +1402,12 @@
     state.remindOptIn = remindOptinEl.checked;
     save();
     if (remindOptinEl.checked && "Notification" in window && Notification.permission === "default") {
-      Notification.requestPermission().then(function () { renderReminders(); maybeNotify(); });
+      Notification.requestPermission().then(function () {
+        renderReminders(); maybeNotify(); syncReminderSchedule();
+      });
     }
     renderReminders();
+    syncReminderSchedule();
   });
   document.getElementById("btn-ics").addEventListener("click", downloadIcs);
 
@@ -1464,6 +1471,8 @@
     save();
     syncInputs();
     render();
+    /* reminders are off in a blank state, so this also drops the periodic sync */
+    syncReminderSchedule();
   });
 
   /* expand textareas so long answers aren't clipped when the browser prints */
@@ -2038,6 +2047,101 @@
     });
   }
 
+  /* ---------- Background reminders (closed-app delivery) ----------
+     The service worker cannot read localStorage, so mirror the three dates into
+     IndexedDB and let Periodic Background Sync wake the worker to check them.
+     Chrome on Android, installed only; elsewhere this quietly does nothing and
+     the calendar file remains the reliable route. */
+  var RM_DB = "life168", RM_STORE = "reminders", RM_KEY = "schedule";
+  var RM_TAG = "life168-milestones";
+
+  function rmOpen() {
+    return new Promise(function (resolve, reject) {
+      if (!("indexedDB" in window)) { reject(new Error("no indexedDB")); return; }
+      var req = indexedDB.open(RM_DB, 1);
+      req.onupgradeneeded = function () {
+        var db = req.result;
+        if (!db.objectStoreNames.contains(RM_STORE)) db.createObjectStore(RM_STORE);
+      };
+      req.onsuccess = function () { resolve(req.result); };
+      req.onerror = function () { reject(req.error); };
+    });
+  }
+  function rmPut(value) {
+    return rmOpen().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(RM_STORE, "readwrite");
+        tx.objectStore(RM_STORE).put(value, RM_KEY);
+        tx.oncomplete = function () { resolve(); };
+        tx.onerror = function () { reject(tx.error); };
+      });
+    });
+  }
+  function rmGet() {
+    return rmOpen().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(RM_STORE, "readonly");
+        var r = tx.objectStore(RM_STORE).get(RM_KEY);
+        r.onsuccess = function () { resolve(r.result || null); };
+        r.onerror = function () { reject(r.error); };
+      });
+    });
+  }
+
+  /* Write the current dates and fired-flags to IndexedDB, then register or drop
+     the periodic sync depending on whether reminders are switched on. */
+  function syncReminderSchedule() {
+    var dates = {}, fired = {};
+    MILESTONES.forEach(function (m) {
+      dates[m.days] = isoDate(milestoneDate(m.days));
+      fired[m.days] = !!state.remindNotified["d" + m.days];
+    });
+    var record = {
+      optIn: !!state.remindOptIn,
+      startDate: state.startDate || todayStr(),
+      dates: dates,
+      fired: fired
+    };
+    rmPut(record)["catch"](function () {});
+
+    if (!("serviceWorker" in navigator)) return;
+    navigator.serviceWorker.ready.then(function (reg) {
+      if (!reg || !("periodicSync" in reg)) return;
+      if (!state.remindOptIn || !("Notification" in window) || Notification.permission !== "granted") {
+        reg.periodicSync.unregister(RM_TAG)["catch"](function () {});
+        return;
+      }
+      /* minInterval is a floor, not a promise: the browser decides when to run.
+         Once a day is ample for a 30 day check in. */
+      reg.periodicSync.register(RM_TAG, { minInterval: 24 * 60 * 60 * 1000 })
+        ["catch"](function () {});
+    })["catch"](function () {});
+  }
+
+  /* If the worker fired a reminder while the app was closed, carry that back
+     into localStorage so the on-open path does not repeat it. */
+  function adoptBackgroundFired() {
+    return rmGet().then(function (sched) {
+      if (!sched || !sched.fired) return false;
+      var changed = false;
+      MILESTONES.forEach(function (m) {
+        var key = "d" + m.days;
+        if (sched.fired[m.days] && !state.remindNotified[key]) {
+          state.remindNotified[key] = true;
+          changed = true;
+        }
+      });
+      if (changed) save();
+      return changed;
+    })["catch"](function () { return false; });
+  }
+
+  /* Is background delivery actually available here? */
+  function backgroundCapable() {
+    return ("serviceWorker" in navigator) && ("indexedDB" in window) &&
+           ("PeriodicSyncManager" in window);
+  }
+
   function renderReminders() {
     var actions = document.getElementById("remind-actions");
     var status = document.getElementById("remind-status");
@@ -2047,8 +2151,13 @@
     var dates = "Your dates: " + isoDate(d30) + ", " + isoDate(d60) + ", and " + isoDate(d90) + ".";
     var perm = ("Notification" in window) ? Notification.permission : "unsupported";
     var note;
-    if (perm === "granted") {
-      note = " Notifications are on. We will nudge you the next time you open the app after a date is due.";
+    if (perm === "granted" && backgroundCapable()) {
+      note = " Notifications are on. If you installed Life 168 to your home screen, a reminder can" +
+             " arrive on its own around each date. Add the calendar file below as well, so the" +
+             " reminder still reaches you on any device.";
+    } else if (perm === "granted") {
+      note = " Notifications are on. We will nudge you the next time you open the app after a date" +
+             " is due. Add the calendar file below so the reminder arrives on the day itself.";
     } else if (perm === "denied") {
       note = " Notifications are blocked in your browser, so use the calendar file below.";
     } else {
@@ -2524,6 +2633,8 @@
       save();
       syncInputs();
       render();
+      /* a restored plan carries its own start date, so re-arm against it */
+      syncReminderSchedule();
       statusEl.className = "ai-status";
       statusEl.textContent = "Restored " + result.restored + " of 16 areas" +
         (result.priorities ? " and " + result.priorities + " priorities" : "") + " from your saved plan.";
@@ -2638,7 +2749,13 @@
 
   syncInputs();
   render();
-  maybeNotify();
+  /* adopt anything the worker already showed in the background, so the on-open
+     nudge never repeats it, then catch up on anything still due and re-arm */
+  adoptBackgroundFired().then(function () {
+    maybeNotify();
+    syncReminderSchedule();
+    renderReminders();
+  });
 })();
 </script>
 
