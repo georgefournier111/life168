@@ -1,7 +1,7 @@
 /* Copyright 2026 George M Fournier, MBA v8.1.26 */
 /* Service worker: caches the app so it opens and works with no connection,
    and delivers the 30/60/90 day reminders even when the app is closed. */
-var CACHE = "wlll168-v61";
+var CACHE = "wlll168-v62";
 /* The host serves clean URLs: /privacy and /support (the .html versions
    308-redirect here). Precache the clean paths so navigations never hit a
    redirect through the service worker. */
