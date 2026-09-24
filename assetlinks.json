@@ -1,8 +1,12 @@
-[{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "org.life168.app.twa",
-        "sha256_cert_fingerprints": ["AE:EF:90:12:F1:AD:EE:E8:09:B2:7C:FC:73:18:2F:55:7A:0D:6D:C4:C2:5C:CE:AD:4E:18:7F:E9:DC:30:FF:DC"]
-      }
-    }]
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "org.life168.app.twa",
+      "sha256_cert_fingerprints": [
+        "25:77:2B:6F:E4:D8:3A:0B:F7:49:9F:BA:99:87:0F:12:CD:F1:C0:3A:B7:96:22:BF:CC:14:0A:9B:04:53:AA:5B"
+      ]
+    }
+  }
+]

@@ -72,25 +72,42 @@ THEN FOR GOOGLE PLAY
   PWABuilder gives you. Lose them and you can never update the app.
 
 THE assetlinks.json STEP (do not skip this)
-  A file already exists at:
+  The file at
     WLLL 168 App\.well-known\assetlinks.json
-  It is a TEMPLATE. It will NOT work until you replace the two
-  PLACEHOLDER lines with real fingerprints. Until then the installed app
-  opens with a browser address bar across the top.
+  is now REAL, not a template. It holds the actual upload key fingerprint
+  and the correct package id. Verified 24 Sep 2026.
 
-  1. In PWABuilder, note the package ID you enter. It must EXACTLY match
-     "package_name" in the file. The template currently says:
-       org.life168.app
-  2. Upload the .aab to Play Console.
-  3. Go to: Play Console > Setup > App integrity > App signing
-     Copy the SHA-256 from "App signing key certificate" (this is
-     Google's key, NOT the one PWABuilder made) and paste it over
-     PLACEHOLDER_PLAY_APP_SIGNING_SHA256_FROM_PLAY_CONSOLE
-  4. Copy the SHA-256 from "Upload key certificate" and paste it over
-     PLACEHOLDER_UPLOAD_KEY_SHA256_FROM_PWABUILDER
-  5. Upload the whole .well-known folder to the site root, then check:
+    package_name: org.life168.app.twa
+    upload key  : 25:77:2B:6F:E4:D8:3A:0B:F7:49:9F:BA:99:87:0F:12:
+                  CD:F1:C0:3A:B7:96:22:BF:CC:14:0A:9B:04:53:AA:5B
+
+  As it stands it verifies a SIDELOADED apk (the one in Life 168 Google).
+  It will NOT yet verify the app once Play installs it, because Play
+  re-signs your upload with Google's own key. One more fingerprint has to
+  be added after your first upload:
+
+  1. Upload the .aab to Play Console.
+  2. Go to: Play Console > Setup > App integrity > App signing
+  3. Copy the SHA-256 under "App signing key certificate". This is
+     GOOGLE'S key, not the one PWABuilder made.
+  4. Add it as a SECOND entry in the sha256_cert_fingerprints array,
+     keeping the upload key that is already there. Two entries, comma
+     separated, each in quotes:
+
+       "sha256_cert_fingerprints": [
+         "25:77:2B:...:AA:5B",
+         "PASTE GOOGLE'S APP SIGNING SHA-256 HERE"
+       ]
+
+  5. Re-upload the .well-known folder to the site root, then check:
        https://app.life168.org/.well-known/assetlinks.json
      It must return the JSON, not a 404.
+
+  THE KEYSTORE IS IRREPLACEABLE
+  Life 168 Google\signing.keystore plus signing-key-info.txt are the only
+  way to ever publish an update. signing-key-info.txt holds the password
+  in plain text and currently sits in OneDrive, so copy the folder to
+  offline storage as well.
 
   WATCH OUT: folders starting with a dot are hidden by Windows Explorer
   and are skipped by some drag-and-drop uploaders. If the address above
