@@ -1,4 +1,4 @@
-/* Copyright 2026 George M Fournier, MBA v8.1.26 */
+/* Copyright 2026 George M Fournier, MBA v9.24.26 */
 /* Service worker: caches the app so it opens and works with no connection,
    and delivers the 30/60/90 day reminders even when the app is closed. */
 var CACHE = "wlll168-v62";
