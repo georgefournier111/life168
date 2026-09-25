@@ -1,0 +1,7 @@
+# Cloudflare Pages rewrite rules.
+# Pages strips dot-prefixed folders from direct uploads, so .well-known never
+# makes it onto the host. The 200 status makes this an internal rewrite, not a
+# redirect: the file is served AT /.well-known/assetlinks.json.
+# This matters because Google's Digital Asset Links verifier does not follow
+# 301/302 redirects, but a 200 rewrite is indistinguishable from a real file.
+/.well-known/assetlinks.json  /assetlinks.json  200
