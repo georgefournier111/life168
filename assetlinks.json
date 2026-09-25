@@ -4,8 +4,10 @@
     "target": {
       "namespace": "android_app",
       "package_name": "org.life168.app.twa",
+      "package_name": "app.life168.org",
       "sha256_cert_fingerprints": [
-        "25:77:2B:6F:E4:D8:3A:0B:F7:49:9F:BA:99:87:0F:12:CD:F1:C0:3A:B7:96:22:BF:CC:14:0A:9B:04:53:AA:5B"
+        "25:77:2B:6F:E4:D8:3A:0B:F7:49:9F:BA:99:87:0F:12:CD:F1:C0:3A:B7:96:22:BF:CC:14:0A:9B:04:53:AA:5B",
+        "CD:CB:DB:E2:B8:A8:38:06:C8:A7:3B:C7:60:7C:D8:C7:6B:38:05:99:83:C5:EF:88:BF:23:C6:C2:51:E9:35:67"
       ]
     }
   }
