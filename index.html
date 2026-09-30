@@ -471,6 +471,28 @@
     padding: 10px 12px;
   }
 
+  /* "You can speak instead of typing" hint under Part 1 */
+  .mic-hint {
+    display: flex; gap: 12px; align-items: flex-start; max-width: 68ch;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 16px; margin: 16px 0 0;
+  }
+  .mic-hint .mic-ico { flex: none; width: 20px; height: 20px; margin-top: 1px; color: var(--royal); }
+  .mic-hint p { margin: 0; font-size: 14px; color: var(--ink-2); }
+  .mic-keys {
+    list-style: none; margin: 10px 0 0; padding: 0;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;
+    font-size: 13px; color: var(--ink-2);
+  }
+  .mic-keys + .mic-keys { margin-top: 8px; }
+  .mic-keys li { display: inline-flex; align-items: center; gap: 6px; }
+  .mic-keys .plat { font-weight: 700; color: var(--head-ink); white-space: nowrap; }
+  .mic-hint kbd.key {
+    min-width: 26px; height: 24px; padding: 0 7px;
+    font-size: 12px; border-bottom-width: 3px;
+  }
+  .mic-hint .plus { font-size: 13px; font-weight: 700; color: var(--muted); }
+
   /* Sticky hours meter */
   .meter-bar {
     position: sticky; top: 0; z-index: 30;
@@ -766,7 +788,7 @@
   @media print {
     body { padding: 0 8px; background: #fff; }
     * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .toolbar, .reminders, .print-hint, .keep-tools { display: none !important; }
+    .toolbar, .reminders, .print-hint, .keep-tools, .mic-hint { display: none !important; }
     .meter-bar { position: static; }
     .card, .part-bar, .callout, .stepper-card { box-shadow: none; }
     .slu-row, .plan-card, .part-bar, .callout, .stepper-card, .chart-card { break-inside: avoid; }
@@ -952,6 +974,32 @@
       <div>
         <label for="ctx-vision">What should life look like in 3 to 5 years?</label>
         <textarea id="ctx-vision" data-ctx="vision" placeholder="Paint the picture…"></textarea>
+      </div>
+    </div>
+
+    <div class="mic-hint">
+      <svg class="mic-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="9" y="2" width="6" height="11" rx="3"></rect>
+        <path d="M5 10v1a7 7 0 0 0 14 0v-1"></path>
+        <line x1="12" y1="18" x2="12" y2="22"></line>
+      </svg>
+      <div>
+        <p>
+          Easier to say it out loud than to write it? Click into any box above, start your
+          keyboard's dictation, and talk. Life 168 never handles the audio &mdash; your own phone
+          or computer does the listening, under whatever settings you have chosen for it.
+        </p>
+        <ul class="mic-keys">
+          <li><span class="plat">Phone or tablet</span> tap the microphone key on the on&#8209;screen keyboard</li>
+        </ul>
+        <ul class="mic-keys">
+          <li><span class="plat">Windows</span>
+            <kbd class="key">Win</kbd><span class="plus" aria-hidden="true">+</span><kbd class="key">H</kbd></li>
+          <li><span class="plat">Mac</span> press <kbd class="key">Fn</kbd> twice</li>
+          <li><span class="plat">Chromebook</span>
+            <kbd class="key">Search</kbd><span class="plus" aria-hidden="true">+</span><kbd class="key">D</kbd></li>
+        </ul>
       </div>
     </div>
   </section>
